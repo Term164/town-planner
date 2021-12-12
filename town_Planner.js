@@ -1,49 +1,50 @@
 import { GUI } from '../lib/dat.gui.module.js';
 
 import { Application } from './engine/Application.js';
-
 import { Renderer } from './engine/Renderer.js';
 import { Physics } from './engine/Physics.js';
-import { Camera } from '../Geometry/Camera.js';
-import { SceneLoader } from '../Geometry/SceneLoader.js';
-import { SceneBuilder } from '../Geometry/SceneBuilder.js';
+import { GLTFLoader } from './Geometry/GLTFLoader.js';
 
 class App extends Application {
 
-    start() {
-        const gl = this.gl;
-
-        this.renderer = new Renderer(gl);
+    async start() {
         this.time = Date.now();
         this.startTime = this.time;
         this.aspect = 1;
-
         this.pointerlockchangeHandler = this.pointerlockchangeHandler.bind(this);
         document.addEventListener('pointerlockchange', this.pointerlockchangeHandler);
 
-        this.load('scene.json');
-    }
 
-    async load(uri) {
-        const scene = await new SceneLoader().loadScene(uri);
-        const builder = new SceneBuilder(scene);
-        this.scene = builder.build();
+        // ==================== Loading Blender models =====================
+        this.loader = new GLTFLoader();
+        await this.loader.load('./assets/models/land/land.gltf');
+
+        this.scene = await this.loader.loadScene(this.loader.defaultScene);
+        this.camera = await this.loader.loadNode('Camera');
+
+        if (!this.scene) {
+            throw new Error('Scene or camera.camera not present in glTF');
+        }
+
+        if (!this.camera) {
+            throw new Error('camera.camera node does not contain a camera.camera reference');
+        }
+
+        console.log(this.camera);
+
+
+        await this.loader.load('./assets/models/testCircle/krog.gltf');
+        this.sphere = await this.loader.loadNode('Icosphere');
+        this.scene.addNode(this.sphere);
+
         this.physics = new Physics(this.scene);
 
-        // Find first camera.
-        this.camera = null;
-        this.scene.traverse(node => {
-            if (node instanceof Camera) {
-                this.camera = node;
-            }
-        });
-        
-        this.camera.aspect = this.aspect;
-        this.camera.updateProjection();
-        this.renderer.prepare(this.scene);
+        this.renderer = new Renderer(this.gl);
+        this.renderer.prepareScene(this.scene);
+        this.resize();
     }
 
-    enableCamera() {
+    enablecamera() {
         this.canvas.requestPointerLock();
     }
 
@@ -53,9 +54,9 @@ class App extends Application {
         }
 
         if (document.pointerLockElement === this.canvas) {
-            this.camera.enable();
+            this.camera.camera.enable();
         } else {
-            this.camera.disable();
+            this.camera.camera.disable();
         }
     }
 
@@ -65,7 +66,8 @@ class App extends Application {
         this.startTime = this.time;
 
         if (this.camera) {
-            this.camera.update(dt);
+            //console.log(this.camera.camera.translation);
+            this.camera.camera.update(dt);
         }
 
         if (this.physics) {
@@ -74,7 +76,7 @@ class App extends Application {
     }
 
     render() {
-        if (this.scene) {
+        if (this.renderer) {
             this.renderer.render(this.scene, this.camera);
         }
     }
@@ -82,10 +84,11 @@ class App extends Application {
     resize() {
         const w = this.canvas.clientWidth;
         const h = this.canvas.clientHeight;
-        this.aspect = w / h;
+        const aspectRatio = w / h
+
         if (this.camera) {
-            this.camera.aspect = this.aspect;
-            this.camera.updateProjection();
+            this.camera.camera.aspect = aspectRatio;
+            this.camera.camera.updateProjection();
         }
     }
 
@@ -95,5 +98,5 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.querySelector('canvas');
     const app = new App(canvas);
     const gui = new GUI();
-    gui.add(app, 'enableCamera');
+    gui.add(app, 'enablecamera');
 });

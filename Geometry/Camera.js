@@ -1,16 +1,18 @@
 import { vec3, mat4 } from '../lib/gl-matrix-module.js';
 
-import { Utils } from './Utils.js';
 import { Node } from './Node.js';
 
-export class Camera extends Node {
-
+export class Camera extends Node{
+   
     constructor(options) {
         super(options);
-        Utils.init(this, this.constructor.defaults, options);
+        Object.assign(this, Camera.defaults, Camera.defaults);
+
+        this.matrix = options.matrix ? mat4.clone(options.matrix) : mat4.create();
 
         this.rotation[0] = -Math.PI/4;
-        this.projection = mat4.create();
+        //this.node = options.node || null;
+        //this.matrix = options.matrix ? mat4.clone(options.matrix) : mat4.create();
         this.updateProjection();
 
         this.mousemoveHandler = this.mousemoveHandler.bind(this);
@@ -25,8 +27,9 @@ export class Camera extends Node {
         this.zoomSpeed = 100;
     }
 
+    
     updateProjection() {
-        mat4.perspective(this.projection, this.fov, this.aspect, this.near, this.far);
+        mat4.perspective(this.matrix, this.fov, this.aspect, this.near, this.far);
     }
 
     update(dt) {
@@ -186,12 +189,22 @@ export class Camera extends Node {
     }
 
 }
-
+/*
 Camera.defaults = {
     aspect           : 1,
     fov              : 1.5,
     near             : 0.01,
     far              : 100,
+    velocity         : [0, 0, 0],
+    mouseSensitivity : 0.002,
+    maxSpeed         : 100,
+    friction         : 0.2,
+    acceleration     : 100
+};
+*/
+
+
+Camera.defaults = {
     velocity         : [0, 0, 0],
     mouseSensitivity : 0.002,
     maxSpeed         : 100,

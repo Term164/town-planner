@@ -9,6 +9,7 @@ export class Physics {
     update(dt) {
         this.scene.traverse(node => {
             if (node.velocity) {
+                //console.log(node);
                 vec3.scaleAndAdd(node.translation, node.translation, node.velocity, dt);
                 node.updateTransform();
                 this.scene.traverse(other => {
@@ -16,6 +17,7 @@ export class Physics {
                         this.resolveCollision(node, other);
                     }
                 });
+                
             }
         });
     }
