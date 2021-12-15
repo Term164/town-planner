@@ -32,6 +32,15 @@ export class Node {
         this.parent = null;
     }
 
+
+    updateTransformMovement(){
+        const degrees = this.rotation.map(x => x * 180 / Math.PI);
+        const q = quat.fromEuler(quat.create(), ...degrees);
+        const v = vec3.clone(this.translation);
+        const s = vec3.clone(this.scale);
+        mat4.fromRotationTranslationScale(this.matrix, q, v, s);
+    }
+
     updateTransform() {
         mat4.getRotation(this.rotation, this.matrix);
         mat4.getTranslation(this.translation, this.matrix);

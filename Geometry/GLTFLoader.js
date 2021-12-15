@@ -6,7 +6,6 @@ import { Material } from './Material.js';
 import { Primitive } from './Primitive.js';
 import { Mesh } from './Mesh.js';
 import { PerspectiveCamera } from './PerspectiveCamera.js';
-import { OrthographicCamera } from './OrthographicCamera.js';
 import { Node } from './Node.js';
 import { Scene } from './Scene.js';
 
@@ -257,23 +256,12 @@ export class GLTFLoader {
             });
             this.cache.set(gltfSpec, camera);
             return camera;
-        } else if (gltfSpec.type === 'orthographic') {
-            const ortho = gltfSpec.orthographic;
-            const camera = new OrthographicCamera({
-                left   : -ortho.xmag,
-                right  : ortho.xmag,
-                bottom : -ortho.ymag,
-                top    : ortho.ymag,
-                near   : ortho.znear,
-                far    : ortho.zfar,
-            });
-            this.cache.set(gltfSpec, camera);
-            return camera;
         }
     }
 
     async loadNode(nameOrIndex) {
         const gltfSpec = this.findByNameOrIndex(this.gltf.nodes, nameOrIndex);
+        
         if (this.cache.has(gltfSpec)) {
             return this.cache.get(gltfSpec);
         }
@@ -292,7 +280,10 @@ export class GLTFLoader {
             options.mesh = await this.loadMesh(gltfSpec.mesh);
         }
 
+
+
         const node = new Node(options);
+        //console.log(node);
         this.cache.set(gltfSpec, node);
         return node;
     }
@@ -307,9 +298,12 @@ export class GLTFLoader {
         if (gltfSpec.nodes) {
             for (const nodeIndex of gltfSpec.nodes) {
                 const node = await this.loadNode(nodeIndex);
+                //console.log(node);
                 options.nodes.push(node);
             }
         }
+
+        //console.log(options);
 
         const scene = new Scene(options);
         this.cache.set(gltfSpec, scene);

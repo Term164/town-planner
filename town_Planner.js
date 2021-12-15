@@ -4,6 +4,7 @@ import { Application } from './engine/Application.js';
 import { Renderer } from './engine/Renderer.js';
 import { Physics } from './engine/Physics.js';
 import { GLTFLoader } from './Geometry/GLTFLoader.js';
+import { PerspectiveCamera } from './Geometry/PerspectiveCamera.js';
 
 class App extends Application {
 
@@ -20,18 +21,18 @@ class App extends Application {
         await this.loader.load('./assets/models/land/land.gltf');
 
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
-        this.camera = await this.loader.loadNode('Camera');
+        this.camera = new PerspectiveCamera();
+        this.scene.nodes[1] = this.camera;
+
 
         if (!this.scene) {
             throw new Error('Scene or camera.camera not present in glTF');
         }
 
         if (!this.camera) {
-            throw new Error('camera.camera node does not contain a camera.camera reference');
+            throw new Error('camera node does not contain a camera reference');
         }
-
-        console.log(this.camera);
-
+    
 
         await this.loader.load('./assets/models/testCircle/krog.gltf');
         this.sphere = await this.loader.loadNode('Icosphere');
@@ -54,9 +55,9 @@ class App extends Application {
         }
 
         if (document.pointerLockElement === this.canvas) {
-            this.camera.camera.enable();
+            this.camera.enable();
         } else {
-            this.camera.camera.disable();
+            this.camera.disable();
         }
     }
 
@@ -66,13 +67,13 @@ class App extends Application {
         this.startTime = this.time;
 
         if (this.camera) {
-            //console.log(this.camera.camera.translation);
-            this.camera.camera.update(dt);
+            this.camera.update(dt);
         }
 
         if (this.physics) {
             this.physics.update(dt);
         }
+
     }
 
     render() {
@@ -87,8 +88,8 @@ class App extends Application {
         const aspectRatio = w / h
 
         if (this.camera) {
-            this.camera.camera.aspect = aspectRatio;
-            this.camera.camera.updateProjection();
+            this.camera.aspect = aspectRatio;
+            this.camera.updateProjection();
         }
     }
 

@@ -170,7 +170,7 @@ export class Renderer {
             parent = parent.parent;
         }
         mat4.invert(mvpMatrix, mvpMatrix);
-        mat4.mul(mvpMatrix, camera.camera.matrix, mvpMatrix);
+        mat4.mul(mvpMatrix, camera.projectionMatrix, mvpMatrix);
         return mvpMatrix;
     }
 
