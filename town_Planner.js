@@ -5,6 +5,7 @@ import { Renderer } from './engine/Renderer.js';
 import { Physics } from './engine/Physics.js';
 import { GLTFLoader } from './Geometry/GLTFLoader.js';
 import { PerspectiveCamera } from './Geometry/PerspectiveCamera.js';
+import { ModelManager } from './Geometry/ModelManager.js';
 
 class App extends Application {
 
@@ -19,11 +20,12 @@ class App extends Application {
         // ==================== Loading Blender models =====================
         this.loader = new GLTFLoader();
         await this.loader.load('./assets/models/land/land.gltf');
-
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
         this.camera = new PerspectiveCamera();
         this.scene.nodes[1] = this.camera;
 
+        this.modelManager = new ModelManager();
+        await this.modelManager.loadAllModels();
 
         if (!this.scene) {
             throw new Error('Scene or camera.camera not present in glTF');
@@ -34,9 +36,19 @@ class App extends Application {
         }
     
 
-        await this.loader.load('./assets/models/testCircle/krog.gltf');
-        this.sphere = await this.loader.loadNode('Icosphere');
-        this.scene.addNode(this.sphere);
+        let ico1 = this.modelManager.getModel("Icosphere");
+        let ico2 = this.modelManager.getModel("Icosphere");
+        ico2.translation = [10,0,10];
+        ico2.updateMatrix();
+        let ico3 = this.modelManager.getModel("Icosphere");
+        ico3.translation = [20,0,20];
+        ico3.updateMatrix();
+
+        this.scene.addNode(ico1);
+        this.scene.addNode(ico2);
+        this.scene.addNode(ico3);
+
+        console.log(this.scene);
 
         this.physics = new Physics(this.scene);
 
