@@ -9,10 +9,65 @@
     <script type="text/javascript" src="../lib/gl-matrix-min.js"></script>
     <script type="text/javascript" src="../lib/dat.gui.min.js"></script>
     <script type="module" src="town_Planner.js"></script>
+
+    <script type="module" src="GUIController.js"></script>
 </head>
 <body>
     <div class="fullscreen">
         <canvas></canvas>
+
     </div>
+    
+
+    <div id="score_div">
+        <p id="score_text">Score:</p>
+        <div id="score_data_div">
+            <p id="score_data"></p>
+        </div>
+        
+    </div>
+
+    <div id="datetime_div">
+        <p id="datetime_day_data">MON</p>
+        <!-- <p id="datetime_dash">-</p> -->
+        <p id="datetime_time_data"></p>
+        <p id="datetime_time_zeroes">:00</p>
+    </div>
+
+    <div id="controls_div">
+        <img id="pause_icon" src="/assets/images/GUI/pause.png">
+        <img id="play_icon" src="/assets/images/GUI/play.png">
+        <img id="ff_icon" src="/assets/images/GUI/fastforward.png">
+    </div>
+
+    
+    <div id="toolbar_div">
+        <div id=toolbar_house_div>
+            <img id="house_icon" src="/assets/images/GUI/house.png">
+        </div>
+        <div id=toolbar_shop_div>
+            <img id="shop_icon" src="/assets/images/GUI/shop.png">
+        </div>
+        <div id=toolbar_factory_div>
+            <img id="factory_icon" src="/assets/images/GUI/factory.png">
+        </div>
+        <div id=toolbar_road_div>
+            <img id="road_icon" src="/assets/images/GUI/road.png">
+        </div>
+        <div id=toolbar_bulldoze_div>
+            <img id="bulldoze_icon" src="/assets/images/GUI/bulldozer.png">
+        </div>
+        <div id="toolbar_arrow_div">
+            <img id="arrow_down_icon" src="/assets/images/GUI/arrow_down.png">
+        </div>
+
+
+    </div> 
+    
+    <div id="toolbar_show_div">
+        <img id="arrow_up_icon" src="/assets/images/GUI/arrow_up.png">
+    </div>
+
+
 </body>
 </html>
