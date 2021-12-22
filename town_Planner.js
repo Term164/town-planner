@@ -6,6 +6,7 @@ import { Physics } from './engine/Physics.js';
 import { GLTFLoader } from './Geometry/GLTFLoader.js';
 import { PerspectiveCamera } from './Geometry/PerspectiveCamera.js';
 import { ModelManager } from './Geometry/ModelManager.js';
+import { quat } from './lib/gl-matrix-module.js';
 
 class App extends Application {
 
@@ -36,17 +37,31 @@ class App extends Application {
         }
     
 
-        let ico1 = this.modelManager.getModel("Icosphere");
-        let ico2 = this.modelManager.getModel("Icosphere");
-        ico2.translation = [10,0,10];
+        
+        
+       
+        let ico1 = this.modelManager.getModel("house");
+        ico1.translation = [0,0,0];
+        ico1.updateMatrix();
+        
+        let ico2 = this.modelManager.getModel("townhall");
+        ico2.scale = [0.5, 0.1, 0.5];
+        ico2.translation = [20, 10, 0];
         ico2.updateMatrix();
-        let ico3 = this.modelManager.getModel("Icosphere");
-        ico3.translation = [20,0,20];
+        
+        let ico3 = this.modelManager.getModel("shop");
+        ico3.translation = [20,10,20];
+        //ico3.rotation = [Math.PI/2,0,0];
+        //ico3.updateTransformMovement();
         ico3.updateMatrix();
+        let ico4 = this.modelManager.getModel("factory");
+        ico4.translation = [-10,8,-20];
+        ico4.updateMatrix();
 
         this.scene.addNode(ico1);
         this.scene.addNode(ico2);
         this.scene.addNode(ico3);
+        this.scene.addNode(ico4);
 
         console.log(this.scene);
 
