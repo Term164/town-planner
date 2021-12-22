@@ -7,6 +7,7 @@ import { GLTFLoader } from './Geometry/GLTFLoader.js';
 import { PerspectiveCamera } from './Geometry/PerspectiveCamera.js';
 import { ModelManager } from './Geometry/ModelManager.js';
 import { GameManager } from './engine/GameManager.js';
+import { quat } from './lib/gl-matrix-module.js';
 
 class App extends Application {
 

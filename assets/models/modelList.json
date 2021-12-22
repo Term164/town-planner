@@ -1,6 +1,15 @@
 {
     "models":[
         {"name":"Icosphere", "location":"../assets/models/testCircle/krog.gltf"},
-        {"name":"selectedTile", "location":"../assets/models/selectedTile/selectedTile.gltf"}
-    ]
+        {"name":"selectedTile", "location":"../assets/models/selectedTile/selectedTile.gltf"},
+        {"name":"townhall", "location":"../assets/models/townhall/townhall.gltf"},
+		{"name":"factory", "location":"../assets/models/factory/factory.gltf"},
+		{"name":"house", "location":"../assets/models/house/house.gltf"},
+		{"name":"shop", "location":"../assets/models/shop/shop.gltf"},
+		{"name":"road", "location":"../assets/models/roads/road/road.gltf"},
+		{"name":"bend", "location":"../assets/models/roads/bend/bend.gltf"},
+		{"name":"tcrossroad", "location":"../assets/models/roads/tcrossroad/tcrossroad.gltf"},
+		{"name":"crossroad", "location":"../assets/models/roads/crossroad/crossroad.gltf"}
+	
+	]
 }

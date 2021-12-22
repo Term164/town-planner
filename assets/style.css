@@ -37,3 +37,365 @@ a.back {
 a.back:hover {
     background: #ddd;
 }
+
+
+/* ======= HUD ========= */
+
+/*
+ Cobalt blue: za borders
+    #0047AB    rgba(0, 71, 171)
+noranjost (skoraj bela, pomemben opacity)
+    (204, 204, 255, 0.5)
+
+*/
+
+
+/* ---- SCORE ----- */
+#score_div {
+    position: absolute;
+    top:1rem;
+    left: 1rem;
+    height: 3rem;
+    width: 15rem;
+    
+    background-color: rgba(204, 204, 255, 0.6);
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+}
+
+#score_text {
+    position: absolute;
+    top: -28%;
+    left: 5%;
+    line-height: 2rem;
+    font-size: 140%;
+   
+}
+
+#score_data_div {
+    position: absolute;
+    left: 5rem;
+    height: 3rem;
+    width: 10rem;
+    
+}
+
+#score_data {
+    position: relative;
+    top: -28%;
+    line-height: 2rem;
+    font-size: 140%;
+    text-align: center;
+    
+}
+
+/* --- DATETIME --- */
+
+#datetime_div {
+    position: absolute;
+    top: 4rem;
+    right: 1rem;
+    height: 3rem;
+    width: 12rem;
+    
+    background-color: rgba(204, 204, 255, 0.5);
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+}
+
+#datetime_day_data {
+    position: absolute;
+    top: -28%;
+    left: 5%;
+    line-height: 2rem;
+    font-size: 140%;
+}
+
+#datetime_dash {
+    position: absolute;
+    top: -28%;
+    left: 54%;
+    line-height: 2rem;
+    font-size: 140%;
+}
+
+
+#datetime_time_data {
+    position: absolute;
+    top: -28%;
+    right: 3.5rem;
+    line-height: 2rem;
+    font-size: 140%;
+}
+
+#datetime_time_zeroes {
+    position: absolute;
+    top: -28%;
+    right: 1.5rem;
+    line-height: 2rem;
+    font-size: 140%;
+}
+
+/* ---- CONTROLS ---- */
+
+#controls_div {
+    position: absolute;
+    top: 8rem;
+    right: 2.3rem;
+    width: 9.5rem;
+    height: 2.5rem;
+   
+    
+    background-color: rgba(204, 204, 255, 0.5);
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+}
+
+#pause_icon {
+    position: absolute;
+    width: 2.5rem;
+    height: 2.2rem;
+    left: 0.5rem;
+    top: 0.2rem;
+
+    transition: 0.1s;
+}
+#pause_icon:hover {
+    transform: scale(1.1);
+}
+
+#play_icon {
+    position: absolute;
+    width: 2.5rem;
+    height: 2.2rem;
+    left: 3.4rem;
+    top: 0.2rem;
+}
+#play_icon:hover {
+    transform: scale(1.1);
+}
+
+#ff_icon {
+    position: absolute;
+    width: 2.5rem;
+    height: 2.2rem;
+    left: 6.45rem;
+    top: 0.2rem;
+}
+#ff_icon:hover {
+    transform: scale(1.1);
+}
+
+
+
+/* ---- TOOLBAR ---- */
+
+
+
+#toolbar_div {
+    position: absolute;
+    bottom: 1rem;
+    left: 35%;
+    width: 33rem;
+    height: 8rem;
+    padding: 0;
+    background-color: rgba(204, 204, 255, 0.5);
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+    display: block;
+    
+}
+
+
+#toolbar_house_div {
+    position: absolute;
+    top: 0.8rem;
+    left: 1rem;
+    width: 5rem;
+    height: 6rem;
+    
+    background-color: rgba(204, 204, 255, 0.8);
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+}
+
+#house_icon {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+
+    transition: 0.1s;
+}
+#house_icon:hover {
+    transform: scale(1.15);
+}
+
+
+#toolbar_shop_div {
+    position: absolute;
+    top: 0.8rem;
+    left: 7.3rem;
+    width: 5rem;
+    height: 6rem;
+   
+    background-color: rgba(204, 204, 255, 0.8);
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+}
+
+#shop_icon {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    left: 5%;
+    top: 5%;
+
+    transition: 0.1s;
+}
+#shop_icon:hover {
+    transform: scale(1.15);
+}
+
+#toolbar_factory_div {
+    position: absolute;
+    top: 0.8rem;
+    left: 13.8rem;
+    width: 5rem;
+    height: 6rem;
+   
+    background-color: rgba(204, 204, 255, 0.8);
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+}
+
+#factory_icon {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    left: 5%;
+    top: 5%;
+
+    transition: 0.1s;
+}
+#factory_icon:hover {
+    transform: scale(1.15);
+}
+
+
+#toolbar_road_div {
+    position: absolute;
+    top: 0.8rem;
+    right: 7.3rem;
+    width: 5rem;
+    height: 6rem;
+   
+    background-color: rgba(204, 204, 255, 0.8);
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+}
+
+#road_icon {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    left: 5%;
+    top: 5%;
+
+    transition: 0.1s;
+}
+#road_icon:hover {
+    transform: scale(1.15);
+}
+
+
+#toolbar_bulldoze_div {
+    position: absolute;
+    top: 0.8rem;
+    right: 1rem;
+    width: 5rem;
+    height: 6rem;
+   
+    background-color: rgba(204, 204, 255, 0.8);
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+}
+
+#bulldoze_icon {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    left: 5%;
+    top: 5%;
+
+    transition: 0.1s;
+}
+#bulldoze_icon:hover {
+    transform: scale(1.15);
+}
+
+
+#toolbar_arrow_div {
+    position: absolute;
+    bottom: 8.5rem;
+    left: 14.6rem;
+    width: 3rem;
+    height: 1.4rem;
+   
+    background-color: rgba(172, 172, 218, 0.8);
+    border-style: solid;
+    border-radius: 0.5rem;
+    border-color:  #0047AB;
+}
+
+#arrow_down_icon {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    top: 5%;
+    left: 5%;
+    transition: 0.1s;
+}
+#arrow_down_icon:hover {
+    transform:translateY(0.1rem);
+}
+
+
+#toolbar_show_div {
+    position: absolute;
+    bottom: 1rem;
+    left: 51.55rem;
+    width: 3rem;
+    height: 1.4rem;
+   
+    background-color: rgba(172, 172, 218, 0.8);
+    border-style: solid;
+    border-radius: 0.5rem;
+    border-color:  #0047AB;
+    display: none;
+}
+
+#arrow_up_icon {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    top: 5%;
+    left: 5%;
+    transition: 0.1s;
+}
+#arrow_up_icon:hover {
+    transform: translateY(-0.1rem);
+}
+
+
+
