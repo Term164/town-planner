@@ -17,7 +17,7 @@ export class ModelManager{
             await this.loader.load(model.location);
             this.models.set(model.name, await this.loader.loadNode(model.name));
         }
-        return this.models;
+        //console.log(this.models);
     }
 
     getModel(modelName){

@@ -1,5 +1,6 @@
 {
     "models":[
-        {"name":"Icosphere", "location":"../assets/models/testCircle/krog.gltf"}
+        {"name":"Icosphere", "location":"../assets/models/testCircle/krog.gltf"},
+        {"name":"selectedTile", "location":"../assets/models/selectedTile/selectedTile.gltf"}
     ]
 }
