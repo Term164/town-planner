@@ -8,36 +8,41 @@
         {
             "name" : "Scene",
             "nodes" : [
-                0
+                1
             ]
         }
     ],
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "shop",
-            "rotation" : [
-                1,
-                0,
-                0,
-                0
-            ],
+            "name" : "Cube",
             "scale" : [
-                4,
                 1,
-                4
+                0.05000000074505806,
+                1
             ],
             "translation" : [
-                -5,
-                8.5,
-                -0.8999999761581421
+                0,
+                0.05999999865889549,
+                0
+            ]
+        },
+        {
+            "children" : [
+                0
+            ],
+            "name" : "shop",
+            "scale" : [
+                10,
+                1,
+                10
             ]
         }
     ],
     "materials" : [
         {
             "doubleSided" : true,
-            "name" : "Material.003",
+            "name" : "Material.005",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 0
@@ -48,7 +53,7 @@
         },
         {
             "doubleSided" : true,
-            "name" : "Material.026",
+            "name" : "Material.006",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 1
@@ -60,7 +65,7 @@
     ],
     "meshes" : [
         {
-            "name" : "Text.187",
+            "name" : "Cube",
             "primitives" : [
                 {
                     "attributes" : {
@@ -96,125 +101,125 @@
     "images" : [
         {
             "mimeType" : "image/png",
-            "name" : "shop_text",
-            "uri" : "shop_text.png"
+            "name" : "shop_text_new",
+            "uri" : "shop_text_new.png"
         },
         {
             "mimeType" : "image/png",
-            "name" : "shop",
-            "uri" : "shop.png"
+            "name" : "Untitled",
+            "uri" : "Untitled.png"
         }
     ],
     "accessors" : [
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 376,
+            "count" : 1016,
             "max" : [
-                2.509999990463257,
-                0,
-                0.009000031277537346
+                1,
+                189.1999053955078,
+                1
             ],
             "min" : [
-                0.04000000283122063,
-                0,
-                -0.6910000443458557
+                -1,
+                -1,
+                -1
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 376,
+            "count" : 1016,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 376,
+            "count" : 1016,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 846,
+            "count" : 1734,
             "type" : "SCALAR"
         },
         {
             "bufferView" : 4,
             "componentType" : 5126,
-            "count" : 1152,
+            "count" : 748,
             "max" : [
-                3.75,
-                10.90000057220459,
-                2.125
+                0.3949998915195465,
+                174.65994262695312,
+                0.03299999609589577
             ],
             "min" : [
-                -1.25,
-                -9.09999942779541,
-                -0.9500000476837158
+                -0.34599995613098145,
+                132.6599578857422,
+                0.03299998864531517
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 5,
             "componentType" : 5126,
-            "count" : 1152,
+            "count" : 748,
             "type" : "VEC3"
         },
         {
             "bufferView" : 6,
             "componentType" : 5126,
-            "count" : 1152,
+            "count" : 748,
             "type" : "VEC2"
         },
         {
             "bufferView" : 7,
             "componentType" : 5123,
-            "count" : 1668,
+            "count" : 846,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 4512,
+            "byteLength" : 12192,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 4512,
-            "byteOffset" : 4512
+            "byteLength" : 12192,
+            "byteOffset" : 12192
         },
         {
             "buffer" : 0,
-            "byteLength" : 3008,
-            "byteOffset" : 9024
+            "byteLength" : 8128,
+            "byteOffset" : 24384
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 3468,
+            "byteOffset" : 32512
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 8976,
+            "byteOffset" : 35980
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 8976,
+            "byteOffset" : 44956
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 5984,
+            "byteOffset" : 53932
         },
         {
             "buffer" : 0,
             "byteLength" : 1692,
-            "byteOffset" : 12032
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 13824,
-            "byteOffset" : 13724
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 13824,
-            "byteOffset" : 27548
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 9216,
-            "byteOffset" : 41372
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 3336,
-            "byteOffset" : 50588
+            "byteOffset" : 59916
         }
     ],
     "samplers" : [
@@ -225,7 +230,7 @@
     ],
     "buffers" : [
         {
-            "byteLength" : 53924,
+            "byteLength" : 61608,
             "uri" : "shop.bin"
         }
     ]

@@ -8,39 +8,50 @@
         {
             "name" : "Scene",
             "nodes" : [
-                0
+                1
             ]
         }
     ],
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "factory",
-            "rotation" : [
-                0.7071068286895752,
-                0,
-                -0.7071068286895752,
-                -3.090862321641907e-08
-            ],
+            "name" : "Cube",
             "scale" : [
-                2,
-                1,
-                3
+                10,
+                0.05000000074505806,
+                10
             ],
             "translation" : [
-                -3,
-                5,
-                -5.7077250480651855
+                0,
+                0.05999999865889549,
+                0
             ]
+        },
+        {
+            "children" : [
+                0
+            ],
+            "name" : "factory"
         }
     ],
     "materials" : [
         {
             "doubleSided" : true,
-            "name" : "Material.001",
+            "name" : "Material",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 0
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
+            }
+        },
+        {
+            "doubleSided" : true,
+            "name" : "Material.001",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 1
                 },
                 "metallicFactor" : 0,
                 "roughnessFactor" : 0.5
@@ -49,7 +60,7 @@
     ],
     "meshes" : [
         {
-            "name" : "Cube.008",
+            "name" : "Cube",
             "primitives" : [
                 {
                     "attributes" : {
@@ -59,6 +70,15 @@
                     },
                     "indices" : 3,
                     "material" : 0
+                },
+                {
+                    "attributes" : {
+                        "POSITION" : 4,
+                        "NORMAL" : 5,
+                        "TEXCOORD_0" : 6
+                    },
+                    "indices" : 7,
+                    "material" : 1
                 }
             ]
         }
@@ -67,9 +87,18 @@
         {
             "sampler" : 0,
             "source" : 0
+        },
+        {
+            "sampler" : 0,
+            "source" : 1
         }
     ],
     "images" : [
+        {
+            "mimeType" : "image/png",
+            "name" : "Untitled",
+            "uri" : "Untitled.png"
+        },
         {
             "mimeType" : "image/png",
             "name" : "factory",
@@ -80,58 +109,112 @@
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 1036,
+            "count" : 24,
             "max" : [
-                2.146137237548828,
-                5.000000476837158,
-                2.3333334922790527
+                1,
+                1,
+                1
             ],
             "min" : [
-                -7.853862762451172,
-                -7.000001430511475,
-                -4.333333969116211
+                -1,
+                -1,
+                -1
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 1036,
+            "count" : 24,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 1036,
+            "count" : 24,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 1734,
+            "count" : 36,
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 4,
+            "componentType" : 5126,
+            "count" : 900,
+            "max" : [
+                0.8000000715255737,
+                240.40000915527344,
+                0.5039149522781372
+            ],
+            "min" : [
+                -0.8999999761581421,
+                -1.3709068298339844e-05,
+                -0.8500000834465027
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 5,
+            "componentType" : 5126,
+            "count" : 900,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 6,
+            "componentType" : 5126,
+            "count" : 900,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 7,
+            "componentType" : 5123,
+            "count" : 1488,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 12432,
+            "byteLength" : 288,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 12432,
-            "byteOffset" : 12432
+            "byteLength" : 288,
+            "byteOffset" : 288
         },
         {
             "buffer" : 0,
-            "byteLength" : 8288,
-            "byteOffset" : 24864
+            "byteLength" : 192,
+            "byteOffset" : 576
         },
         {
             "buffer" : 0,
-            "byteLength" : 3468,
-            "byteOffset" : 33152
+            "byteLength" : 72,
+            "byteOffset" : 768
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 10800,
+            "byteOffset" : 840
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 10800,
+            "byteOffset" : 11640
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 7200,
+            "byteOffset" : 22440
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 2976,
+            "byteOffset" : 29640
         }
     ],
     "samplers" : [
@@ -142,7 +225,7 @@
     ],
     "buffers" : [
         {
-            "byteLength" : 36620,
+            "byteLength" : 32616,
             "uri" : "factory.bin"
         }
     ]

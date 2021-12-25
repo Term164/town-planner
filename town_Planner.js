@@ -41,27 +41,78 @@ class App extends Application {
         
        
         let ico1 = this.modelManager.getModel("house");
-        ico1.translation = [0,0,0];
+        ico1.translation = -[20,0,0];
         ico1.updateMatrix();
         
         let ico2 = this.modelManager.getModel("townhall");
-        ico2.scale = [0.5, 0.1, 0.5];
-        ico2.translation = [20, 10, 0];
+        
+        ico2.translation = [20, 0, 0];
         ico2.updateMatrix();
         
         let ico3 = this.modelManager.getModel("shop");
-        ico3.translation = [20,10,20];
+        ico3.translation = [20,0,20];
         //ico3.rotation = [Math.PI/2,0,0];
         //ico3.updateTransformMovement();
         ico3.updateMatrix();
+
         let ico4 = this.modelManager.getModel("factory");
-        ico4.translation = [-10,8,-20];
+        ico4.translation = [0,0,20];
         ico4.updateMatrix();
+        this.scene.addNode(ico4);
+
+        let ico5 = this.modelManager.getModel("road");
+        ico5.translation = [60,0,20];
+        ico5.updateMatrix();
+        this.scene.addNode(ico5);
+
+        let ico12 = this.modelManager.getModel("road");
+        ico12.translation = [60,0,40];
+        ico12.updateMatrix();
+        this.scene.addNode(ico12);
+
+        let ico6 = this.modelManager.getModel("bend");
+        ico6.translation = [40,0,20];
+        ico6.updateMatrix();
+        this.scene.addNode(ico6);
+
+        let ico7 = this.modelManager.getModel("tcrossroad");
+        ico7.translation = [80,0,20];
+        ico7.updateMatrix();
+        this.scene.addNode(ico7);
+        
+        let ico8 = this.modelManager.getModel("crossroad");
+        ico8.translation = [40,0,40];
+        ico8.updateMatrix();
+        this.scene.addNode(ico8);        
+
+        let ico9 = this.modelManager.getModel("car1_red");
+        ico9.translation = [60,0,20];
+        ico9.updateMatrix();
+        this.scene.addNode(ico9);
+
+        let ico10 = this.modelManager.getModel("car1_blue");
+        ico10.translation = [-5,0,0];
+        ico10.updateMatrix();
+        this.scene.addNode(ico10);
+
+        let ico11 = this.modelManager.getModel("car1_green");
+        ico11.translation = [-10,0,0];
+        ico11.updateMatrix();
+        this.scene.addNode(ico11);
 
         this.scene.addNode(ico1);
         this.scene.addNode(ico2);
         this.scene.addNode(ico3);
-        this.scene.addNode(ico4);
+        
+        
+        
+        
+     
+       
+    
+      
+
+
 
         console.log(this.scene);
 

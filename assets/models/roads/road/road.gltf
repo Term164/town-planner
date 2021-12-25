@@ -8,14 +8,14 @@
         {
             "name" : "Scene",
             "nodes" : [
-                0
+                1
             ]
         }
     ],
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "road",
+            "name" : "Cube",
             "scale" : [
                 10,
                 0.10000000149011612,
@@ -23,9 +23,15 @@
             ],
             "translation" : [
                 0,
-                0.10000000149011612,
+                0.15000000596046448,
                 0
             ]
+        },
+        {
+            "children" : [
+                0
+            ],
+            "name" : "road"
         }
     ],
     "materials" : [
@@ -74,7 +80,7 @@
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 192,
+            "count" : 64,
             "max" : [
                 1,
                 5,
@@ -90,42 +96,42 @@
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 192,
+            "count" : 64,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 192,
+            "count" : 64,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 288,
+            "count" : 96,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 2304,
+            "byteLength" : 768,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 2304,
-            "byteOffset" : 2304
+            "byteLength" : 768,
+            "byteOffset" : 768
         },
         {
             "buffer" : 0,
-            "byteLength" : 1536,
-            "byteOffset" : 4608
+            "byteLength" : 512,
+            "byteOffset" : 1536
         },
         {
             "buffer" : 0,
-            "byteLength" : 576,
-            "byteOffset" : 6144
+            "byteLength" : 192,
+            "byteOffset" : 2048
         }
     ],
     "samplers" : [
@@ -136,7 +142,7 @@
     ],
     "buffers" : [
         {
-            "byteLength" : 6720,
+            "byteLength" : 2240,
             "uri" : "road.bin"
         }
     ]

@@ -8,14 +8,14 @@
         {
             "name" : "Scene",
             "nodes" : [
-                0
+                1
             ]
         }
     ],
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "tcrossroad",
+            "name" : "Cube.007",
             "scale" : [
                 10,
                 0.20000000298023224,
@@ -23,8 +23,20 @@
             ],
             "translation" : [
                 0,
-                0.4000000059604645,
+                0.44999998807907104,
                 6.5
+            ]
+        },
+        {
+            "children" : [
+                0
+            ],
+            "name" : "tcrossroad",
+            "rotation" : [
+                0,
+                1,
+                0,
+                -4.371138828673793e-08
             ]
         }
     ],
@@ -43,7 +55,7 @@
     ],
     "meshes" : [
         {
-            "name" : "Cube.021",
+            "name" : "Cube.006",
             "primitives" : [
                 {
                     "attributes" : {
@@ -74,58 +86,58 @@
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 360,
+            "count" : 148,
             "max" : [
-                1.0000001192092896,
+                1.000000238418579,
                 1,
-                1
+                0.9999995231628418
             ],
             "min" : [
-                -1.0000001192092896,
+                -1.000000238418579,
                 -2,
-                -11.000000953674316
+                -11.000001907348633
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 360,
+            "count" : 148,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 360,
+            "count" : 148,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 540,
+            "count" : 222,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 4320,
+            "byteLength" : 1776,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 4320,
-            "byteOffset" : 4320
+            "byteLength" : 1776,
+            "byteOffset" : 1776
         },
         {
             "buffer" : 0,
-            "byteLength" : 2880,
-            "byteOffset" : 8640
+            "byteLength" : 1184,
+            "byteOffset" : 3552
         },
         {
             "buffer" : 0,
-            "byteLength" : 1080,
-            "byteOffset" : 11520
+            "byteLength" : 444,
+            "byteOffset" : 4736
         }
     ],
     "samplers" : [
@@ -136,7 +148,7 @@
     ],
     "buffers" : [
         {
-            "byteLength" : 12600,
+            "byteLength" : 5180,
             "uri" : "tcrossroad.bin"
         }
     ]
