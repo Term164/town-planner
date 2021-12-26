@@ -2,7 +2,7 @@
 
 let score = 100;
 let nday = 0;
-let day = "Monday";
+let day = "MON";
 let time = 8;
 
 let timespeed = 1;
@@ -106,25 +106,25 @@ function povecaj_dan(){
     let dan;
     switch(nday){
         case 0:
-            dan="Monday";
+            dan="MON";
             break;
         case 1:
-            dan="Tuesday";
+            dan="TUE";
             break;
         case 2:
-            dan="Wednesday";
+            dan="WED";
             break;
         case 3:
-            dan="Thursday";
+            dan="THU";
             break;
         case 4:
-            dan="Friday";
+            dan="FRI";
             break;
         case 5:
-            dan="Saturday";
+            dan="SAT";
             break;
         case 6:
-            dan="Sunday";
+            dan="SUN";
             break;
     }
 
@@ -135,7 +135,7 @@ function povecaj_dan(){
 
 
 setInterval(povecaj_score, 1000);
-setInterval(povecaj_dan, 3000);
+setInterval(povecaj_dan, 300);
 
 
 

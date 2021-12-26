@@ -8,6 +8,9 @@
 		{"name":"road", "location":"../assets/models/roads/road/road.gltf"},
 		{"name":"bend", "location":"../assets/models/roads/bend/bend.gltf"},
 		{"name":"tcrossroad", "location":"../assets/models/roads/tcrossroad/tcrossroad.gltf"},
-		{"name":"crossroad", "location":"../assets/models/roads/crossroad/crossroad.gltf"}
+		{"name":"crossroad", "location":"../assets/models/roads/crossroad/crossroad.gltf"},
+		{"name":"car1_red", "location":"../assets/models/cars/car1_red/car1_red.gltf"},
+		{"name":"car1_blue", "location":"../assets/models/cars/car1_blue/car1_blue.gltf"},
+		{"name":"car1_green", "location":"../assets/models/cars/car1_green/car1_green.gltf"}
 	]
 }

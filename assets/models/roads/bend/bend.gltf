@@ -8,14 +8,14 @@
         {
             "name" : "Scene",
             "nodes" : [
-                0
+                1
             ]
         }
     ],
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "bend",
+            "name" : "Cube.004",
             "scale" : [
                 9,
                 0.20000000298023224,
@@ -23,9 +23,15 @@
             ],
             "translation" : [
                 1,
-                0.4000000059604645,
+                0.44999998807907104,
                 -6.5
             ]
+        },
+        {
+            "children" : [
+                0
+            ],
+            "name" : "bend"
         }
     ],
     "materials" : [
@@ -43,7 +49,7 @@
     ],
     "meshes" : [
         {
-            "name" : "Cube.045",
+            "name" : "Cube.004",
             "primitives" : [
                 {
                     "attributes" : {
@@ -74,7 +80,7 @@
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 288,
+            "count" : 120,
             "max" : [
                 1,
                 1,
@@ -90,42 +96,42 @@
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 288,
+            "count" : 120,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 288,
+            "count" : 120,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 432,
+            "count" : 180,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 3456,
+            "byteLength" : 1440,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 3456,
-            "byteOffset" : 3456
+            "byteLength" : 1440,
+            "byteOffset" : 1440
         },
         {
             "buffer" : 0,
-            "byteLength" : 2304,
-            "byteOffset" : 6912
+            "byteLength" : 960,
+            "byteOffset" : 2880
         },
         {
             "buffer" : 0,
-            "byteLength" : 864,
-            "byteOffset" : 9216
+            "byteLength" : 360,
+            "byteOffset" : 3840
         }
     ],
     "samplers" : [
@@ -136,7 +142,7 @@
     ],
     "buffers" : [
         {
-            "byteLength" : 10080,
+            "byteLength" : 4200,
             "uri" : "bend.bin"
         }
     ]

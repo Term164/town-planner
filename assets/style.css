@@ -108,7 +108,7 @@ noranjost (skoraj bela, pomemben opacity)
 #datetime_day_data {
     position: absolute;
     top: -28%;
-    left: 5%;
+    left: 10%;
     line-height: 2rem;
     font-size: 140%;
 }
@@ -116,7 +116,7 @@ noranjost (skoraj bela, pomemben opacity)
 #datetime_dash {
     position: absolute;
     top: -28%;
-    left: 54%;
+    left: 45%;
     line-height: 2rem;
     font-size: 140%;
 }
@@ -374,7 +374,7 @@ noranjost (skoraj bela, pomemben opacity)
 #toolbar_show_div {
     position: absolute;
     bottom: 1rem;
-    left: 51.55rem;
+    left: 47.5%;
     width: 3rem;
     height: 1.4rem;
    
