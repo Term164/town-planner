@@ -28,7 +28,6 @@ const arrow_up_element = document.getElementById("arrow_up_icon");
 pause_element.addEventListener("click", pauseClick);
 play_element.addEventListener("click", playClick);
 ff_element.addEventListener("click", ffClick);
-
 arrow_down_element.addEventListener("click", arrowDownClick);
 arrow_up_element.addEventListener("click", arrowUpClick);
 

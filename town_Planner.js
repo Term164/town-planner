@@ -23,16 +23,12 @@ class App extends Application {
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
         this.camera = new PerspectiveCamera();
         this.scene.nodes[1] = this.camera;
-    
+
+        // Loading all game models
         this.modelManager = new ModelManager();
         await this.modelManager.loadAllModels();
 
-        let ico1 = this.modelManager.getModel("Icosphere");
-        ico1.translation = [0,0,0];
-        ico1.updateMatrix();
-        this.scene.addNode(ico1);
-
-
+        // Initializing the game manager
         this.gameManager = new GameManager(this);
 
         console.log(this.scene);
