@@ -55,6 +55,15 @@ export class Node {
             this.scale);
     }
 
+    updateTranslation(newTranslation){
+        this.translation = newTranslation;
+        this.updateMatrix();
+    }
+
+    translate(){
+
+    }
+
     addChild(node) {
         this.children.push(node);
         node.parent = this;

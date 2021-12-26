@@ -1,6 +1,7 @@
 {
     "models":[
-    	{"name":"Icosphere", "location":"../assets/models/testCircle/krog.gltf"},
+        {"name":"Icosphere", "location":"../assets/models/testCircle/krog.gltf"},
+        {"name":"selectedTile", "location":"../assets/models/selectedTile/selectedTile.gltf"},
         {"name":"townhall", "location":"../assets/models/townhall/townhall.gltf"},
 		{"name":"factory", "location":"../assets/models/factory/factory.gltf"},
 		{"name":"house", "location":"../assets/models/house/house.gltf"},
