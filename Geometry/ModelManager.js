@@ -24,7 +24,7 @@ export class ModelManager{
         if(this.models.has(modelName)){
             return this.models.get(modelName).clone();
         }else{
-            throw new Error('No model with this name exists');
+            throw new Error('No model with this name exists ' + modelName);
         }
     }
 

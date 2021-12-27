@@ -15,14 +15,6 @@
     "nodes" : [
         {
             "mesh" : 0,
-<<<<<<< HEAD
-            "name" : "shop",
-            "rotation" : [
-                0,
-                0,
-                0,
-                1
-=======
             "name" : "Cube",
             "scale" : [
                 1,
@@ -38,7 +30,6 @@
         {
             "children" : [
                 0
->>>>>>> main
             ],
             "name" : "shop",
             "scale" : [
