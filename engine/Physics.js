@@ -1,4 +1,6 @@
 import { vec3, mat4 } from '../../lib/gl-matrix-module.js';
+import { Node } from '../Geometry/Node.js';
+import { windTurbine } from '../Geometry/windTurbine.js';
 
 export class Physics {
 
@@ -17,6 +19,10 @@ export class Physics {
                     }
                 });
                 
+            }
+            
+            if (node.animated){
+                node.animate();
             }
         });
     }

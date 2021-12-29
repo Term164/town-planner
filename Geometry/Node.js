@@ -15,6 +15,8 @@ export class Node {
         this.matrix = options.matrix
             ? mat4.clone(options.matrix)
             : mat4.create();
+        this.animated = false;
+
 
         if (options.matrix) {
             this.updateTransform();

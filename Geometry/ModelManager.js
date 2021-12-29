@@ -15,7 +15,7 @@ export class ModelManager{
         const modelData = (await this.fetchJson(this.model_list)).models;
         for (let model of modelData){
             await this.loader.load(model.location);
-            this.models.set(model.name, await this.loader.loadNode(model.name));
+            this.models.set(model.name, await this.loader.loadNode(model.name, model.animated));
         }
         return this.models;
     }
