@@ -186,12 +186,12 @@ PerspectiveCamera.defaults = {
     aspect           : 1.5,
     fov              : 1.5,
     near             : 0.01,
-    far              : 100,
+    far              : 300,
     velocity         : [0, 0, 0],
     mouseSensitivity : 0.002,
     maxSpeed         : 100,
     friction         : 0.2,
     acceleration     : 100,
-    translation      : [0,10,10],
+    translation      : [150,10,150],
     rotation         : [-Math.PI/4,0,0]
 };

@@ -57,6 +57,13 @@ export class Node {
             this.scale);
     }
 
+    rotate(x, y ,z){
+        quat.rotateX(this.rotation, this.rotation, x );
+        quat.rotateY(this.rotation, this.rotation, y );
+        quat.rotateZ(this.rotation, this.rotation, z );
+        this.updateMatrix();
+    }
+
     updateTranslation(newTranslation){
         this.translation = newTranslation;
         this.updateMatrix();

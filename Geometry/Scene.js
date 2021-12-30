@@ -16,6 +16,21 @@ export class Scene {
         }
     }
 
+    deleteNode(value){
+        for (const node of this.nodes){
+            if (node === value){
+                this.removeValue(value);
+                break;
+            } 
+        }
+    }
+
+    removeValue(value){
+        this.nodes = this.nodes.filter(function(ele){
+            return ele != value;
+        });
+    }
+
     traverseNode(node, before, after) {
         if (before) {
             before(node);
