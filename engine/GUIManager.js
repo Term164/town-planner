@@ -158,4 +158,8 @@ export class GUIManager{
     mouseLeftButton(){
         this.gameManager.mouseController.guiLock = false;
     }
+
+    update(){
+        this.score_element.innerHTML = this.gameManager.money;
+    }
 }

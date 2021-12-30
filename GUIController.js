@@ -84,10 +84,6 @@ function arrowUpClick(){
     up.style.display = "none";
 }
 
-
-
-
-
 function povecaj_score(){
     score+=1000;
     score_element.innerHTML = score;

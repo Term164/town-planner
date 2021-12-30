@@ -35,15 +35,18 @@ export class MouseController {
     }
 
     mouseUp(e){
+        
         if(!this.guiLock){
-            let x = e.clientX;
-            let y = e.clientY;
-            const worldRay = this.ray.generateRayFromPoint(x,y);
-            const distanceToPlane = -this.camera.translation[1]/worldRay[1];
-            const pointPlaneIntersection = vec3.set(vec3.create(), worldRay[0] * distanceToPlane + this.camera.translation[0], 0, worldRay[2] * distanceToPlane + this.camera.translation[2]);
-            x = Math.floor(pointPlaneIntersection[0]/10);
-            y = Math.floor(pointPlaneIntersection[2]/10);
-            this.gameManager.addPlot(x, y);
+            if(this.gameManager.checkMoney()){
+                let x = e.clientX;
+                let y = e.clientY;
+                const worldRay = this.ray.generateRayFromPoint(x,y);
+                const distanceToPlane = -this.camera.translation[1]/worldRay[1];
+                const pointPlaneIntersection = vec3.set(vec3.create(), worldRay[0] * distanceToPlane + this.camera.translation[0], 0, worldRay[2] * distanceToPlane + this.camera.translation[2]);
+                x = Math.floor(pointPlaneIntersection[0]/10);
+                y = Math.floor(pointPlaneIntersection[2]/10);
+                this.gameManager.addPlot(x, y);
+            }
         }
     }
 

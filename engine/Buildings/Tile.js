@@ -2,9 +2,8 @@ export class Tile{
     constructor(x, y, node){
         this.x = x;
         this.y = y;
-        this.connected = false;
         this.active = false;
-        //TODO: Make it a number (0 = left, 1 = up, 2 = right, 3 = down)
+        this.connected = false;
         this.direction = 0;
         this.node = node;
         node.scale = [node.scale[0]/2, node.scale[1]/2, node.scale[2]/2];
