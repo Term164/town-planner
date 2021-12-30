@@ -6,7 +6,7 @@ export class GameManager{
 
     constructor(townPlanner){
         this.townPlanner = townPlanner;
-        this.setHoverSelector();
+        //this.setHoverSelector();
         this.mouseController = new MouseController(townPlanner.canvas, townPlanner.camera, this);
     }
 

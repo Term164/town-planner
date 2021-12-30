@@ -17,14 +17,13 @@ export class ModelManager{
             await this.loader.load(model.location);
             this.models.set(model.name, await this.loader.loadNode(model.name, model.animated));
         }
-        //console.log(this.models);
     }
 
     getModel(modelName){
         if(this.models.has(modelName)){
             return this.models.get(modelName).clone();
         }else{
-            throw new Error('No model with this name exists');
+            throw new Error('No model with name '+ modelName +' exists');
         }
     }
 

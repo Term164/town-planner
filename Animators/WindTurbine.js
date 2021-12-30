@@ -1,6 +1,6 @@
-import { Node } from './Node.js';
+import { Node } from "../Geometry/Node.js";
 
-export class windTurbine extends Node{
+export class WindTurbine extends Node{
 
     constructor(options){
         super(options);
@@ -23,7 +23,7 @@ export class windTurbine extends Node{
 
 
     clone() {
-        return new windTurbine({
+        return new WindTurbine({
             ...this,
             children: this.children.map(child => child.clone()),
         });

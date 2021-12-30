@@ -1,4 +1,4 @@
-import { Node } from './Node.js';
+import { Node } from "../Geometry/Node.js";
 
 export class Car extends Node{
 

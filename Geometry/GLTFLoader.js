@@ -8,8 +8,9 @@ import { Mesh } from './Mesh.js';
 import { PerspectiveCamera } from './PerspectiveCamera.js';
 import { Node } from './Node.js';
 import { Scene } from './Scene.js';
-import { windTurbine } from './windTurbine.js';
-import { Car } from './car.js';
+import { WindTurbine } from '../Animators/WindTurbine.js';
+import { Car } from '../Animators/Car.js';
+import { Tree } from '../Animators/Tree.js';
 
 // This class loads all GLTF resources and instantiates
 // the corresponding classes. Keep in mind that it loads
@@ -285,25 +286,24 @@ export class GLTFLoader {
         
         if ( !animated ){
             const node = new Node(options);
-            //console.log(node);
             this.cache.set(gltfSpec, node);
             return node;
         }else{
             let node;
             switch (nameOrIndex){
              case "wind_turbine_blades":
-                 node = new windTurbine(options);
-                 this.cache.set(gltfSpec, node);
-                 return node;
-            default:
+                node = new WindTurbine(options);
+                break;
+            case "tree":
+                node = new Tree(options);
+                break;
+             default:
                 node = new Car(options);
-                //console.log(node);
-                this.cache.set(gltfSpec, node);
-                return node;
-
+                break;
             }
 
-
+            this.cache.set(gltfSpec, node);
+            return node;
         }
 
     }

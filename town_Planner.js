@@ -8,6 +8,7 @@ import { PerspectiveCamera } from './Geometry/PerspectiveCamera.js';
 import { ModelManager } from './Geometry/ModelManager.js';
 import { GameManager } from './engine/GameManager.js';
 import { quat } from './lib/gl-matrix-module.js';
+import { GUIController } from './GUIController.js';
 
 class App extends Application {
 
@@ -24,6 +25,8 @@ class App extends Application {
         this.camera = new PerspectiveCamera();
         this.scene.nodes[1] = this.camera;
     
+        this.gui = new GUIController();
+
         this.modelManager = new ModelManager();
         await this.modelManager.loadAllModels();
 
@@ -35,10 +38,9 @@ class App extends Application {
             throw new Error('camera node does not contain a camera reference');
         }
     
-         
+        this.gui.closeLoadingScreen();       
+        console.log("models "+this.modelManager.models.size);
 
-        
-        
        
         let ico1 = this.modelManager.getModel("house1_red");
         ico1.translation = [-20,0,20];
@@ -203,8 +205,15 @@ class App extends Application {
         ico29.updateTransformMovement();
         this.scene.addNode(ico29);
 
+        let ico30 = this.modelManager.getModel("tree");
+        ico30.translation = [-20, 0, -10];
+        ico30.updateMatrix();
+        this.scene.addNode(ico30);
 
-
+        let ico31 = this.modelManager.getModel("tree");
+        ico31.translation = [-25, 0, -12];
+        ico31.updateMatrix();
+        this.scene.addNode(ico31);
 
 
         this.gameManager = new GameManager(this);
@@ -215,6 +224,8 @@ class App extends Application {
         this.renderer = new Renderer(this.gl);
         this.renderer.prepareScene(this.scene);
         this.resize();
+
+
     }
 
     update() {
