@@ -185,7 +185,7 @@ export class PerspectiveCamera extends Node {
 PerspectiveCamera.defaults = {
     aspect           : 1.5,
     fov              : 1.5,
-    near             : 0.01,
+    near             : 0.3,
     far              : 300,
     velocity         : [0, 0, 0],
     mouseSensitivity : 0.002,
