@@ -1,7 +1,7 @@
 {
     "models":[
-    	{"name":"Icosphere", "location":"../assets/models/testCircle/krog.gltf", "animated":false},
-        {"name":"townhall", "location":"../assets/models/townhall/townhall.gltf", "animated":false},
+		{"name":"selectedTile", "location":"../assets/models/selectedTile/selectedTile.gltf", "animated":false},
+    	{"name":"townhall", "location":"../assets/models/townhall/townhall.gltf", "animated":false},
 		{"name":"factory", "location":"../assets/models/factory/factory.gltf", "animated":false},
 		{"name":"house1_red", "location":"../assets/models/houses/house1_red/house1_red.gltf", "animated":false},
 		{"name":"house1_blue", "location":"../assets/models/houses/house1_blue/house1_blue.gltf", "animated":false},
@@ -19,7 +19,7 @@
 		{"name":"car2_red", "location":"../assets/models/cars/car2_red/car2_red.gltf", "animated":true},
 		{"name":"car2_blue", "location":"../assets/models/cars/car2_blue/car2_blue.gltf", "animated":true},
 		{"name":"car2_green", "location":"../assets/models/cars/car2_green/car2_green.gltf", "animated":true},
-		{"name":"wind_turbine_shaft", "location":"../assets/models/wind_turbine/wind_turbine_shaft/wind_turbine_shaft.gltf"},
+		{"name":"wind_turbine_shaft", "location":"../assets/models/wind_turbine/wind_turbine_shaft/wind_turbine_shaft.gltf", "animated":false},
 		{"name":"wind_turbine_blades", "location":"../assets/models/wind_turbine/wind_turbine_blades/wind_turbine_blades.gltf", "animated":true},
 		{"name":"person1", "location":"../assets/models/people/person1/person1.gltf", "animated":false},
 		{"name":"person2", "location":"../assets/models/people/person2/person2.gltf", "animated":false},

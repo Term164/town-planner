@@ -9,6 +9,7 @@ import { ModelManager } from './Geometry/ModelManager.js';
 import { GameManager } from './engine/GameManager.js';
 import { quat } from './lib/gl-matrix-module.js';
 import { GUIController } from './GUIController.js';
+import { Car } from './Animators/Car.js';
 
 class App extends Application {
 
@@ -25,8 +26,6 @@ class App extends Application {
         this.camera = new PerspectiveCamera();
         this.scene.nodes[1] = this.camera;
     
-        this.gui = new GUIController();
-
         this.modelManager = new ModelManager();
         await this.modelManager.loadAllModels();
 
@@ -38,10 +37,8 @@ class App extends Application {
             throw new Error('camera node does not contain a camera reference');
         }
     
-        this.gui.closeLoadingScreen();       
-        console.log("models "+this.modelManager.models.size);
-
-       
+        
+        /*
         let ico1 = this.modelManager.getModel("house1_red");
         ico1.translation = [-20,0,20];
         ico1.updateMatrix();
@@ -215,8 +212,30 @@ class App extends Application {
         ico31.updateMatrix();
         this.scene.addNode(ico31);
 
+        */
+        /*
+        let ico12 = this.modelManager.getModel("road");
+        ico12.translation = [145, 0, 145];
+        ico12.scale = [0.5, 0.5, 0.5];
+        ico12.updateTransformMovement();
+        //ico12.updateMatrix();
+        this.scene.addNode(ico12);
+        */
+
+        let ico9 = this.modelManager.getModel("car1_red");
+        ico9.scale = [0.5, 0.5, 0.5];
+
+
+
+
+
+        
+        ico9.updateMatrix();
+        this.scene.addNode(ico9);
+
 
         this.gameManager = new GameManager(this);
+        Car.gameManager = this.gameManager;
 
         console.log(this.scene);
 

@@ -54,6 +54,7 @@ export class GUIController {
         this.loading_screen = document.getElementById("loading_screen");
         this.loading_percentage = document.getElementById("loading_percentage_data");
         this.hint_element = document.getElementById("hint_data");
+        this.loading_progress = document.getElementById("loading_progress");
 
 
 
@@ -94,7 +95,53 @@ export class GUIController {
         this.wind_turbine_cost_elemet.innerHTML = this.wind_turbine_cost;
         this.bulldoze_cost_element.innerHTML = this.bulldoze_cost;
 
+        this.setHint();
+
 }
+
+
+setHint(){
+
+    this.hintList =
+    [
+        "There are no birds in this game, so place all the Wind Turbines you want.",
+        "If you wish to acces anarchy mode, just bulldoze the Town Hall. And lose the game. ;) ",
+        "The latest technological breakthrough in the car industry allows cars to phase through each other. No more collisions!",
+        "Place all the Factories you need. There's no pollution in the game. However, People living near will be very unhappy.",
+        "This town really loves roller blades. In fact, everyone is wearing roller blades. Look at them roll.",
+        "Play this game for the feeling of owning a house. You'll never own one in real life. Sorry.",
+        "How did you become a mayor of the town that has no people in it? Just a lonely Town Hall. Huh...",
+        "They don't tell you, but this game is used in schools to teach Civil Engineering. I think...",
+        "The trees appear to rotate, but it's only the wind. You know that constant back-and-forth wind, right?",
+        "Keep your People happy, and they will give you money.",
+        "People need Shops. Shops need Factories. People DO NOT want Factories. You could make a game out of that...",
+        "All cars actually drift around bends and do massive U turns. It just happens so fast. Don't blink.",
+        "There is no way to finish, but you can lose by making people unhappy. In other words, there are no winners, only survivors.",
+        "If you mess up, click the Bulldozer icon to delete buildings. Be careful, it costs money...",
+        "All buildings should be connected to the Town Hall via Roads. If they're not, consider them as abandoned buildings.",
+        "To increase happiness, try giving People some new neighbours. That should distract them from inflation and poverty.",
+        "Factories produce goods, but how do they get materials? I don't know, portals?",
+        "Town Hall is the most important building. It just is. It doesn't serve any purpose. But it's very important.",
+        "Shops give you money if People use them and if they get goods from Factories. So complicated, this money stuff...",
+        "Money doesn't mean everything. It's about how much fun you're having... And about having the highest score out of your friends!",
+        "To build, or not to build? -William Shakespeare, Beta testing the game, 2021",
+        "Help me, I'm stuck in a loading screen!",
+        "Wait, this isn't Minecraft?!",
+        "Wait, is this Roblox?",
+        "Wait, why is my SimCity on lowest graphics?",
+        "Remember to Hydrate and take breaks!",
+        
+        
+
+
+    
+    ]
+
+    let text = this.hintList[ Math.floor( Math.random() * this.hintList.length )];
+    this.hint_element.innerHTML = text;
+}
+
+
 
 
 pauseClick(){
@@ -141,10 +188,10 @@ arrowUpClick(){
 
 povecaj_score(){
     this.score+=1000;
-    this.score_element.innerHTML = score;
+    this.score_element.innerHTML = this.score;
 
     this.money+=100;
-    this.money_element.innerHTML = money;
+    this.money_element.innerHTML = this.money;
 
     
 }
@@ -184,8 +231,8 @@ povecaj_dan(){
             break;
     }
 
-    this.time_element.innerHTML = time;
-    this.day_element.innerHTML = dan;
+    this.time_element.innerHTML = this.time;
+    this.day_element.innerHTML = this.dan;
 
 }
 
@@ -193,11 +240,19 @@ closeLoadingScreen(){
     this.loading_screen.style.display = "none";
 }
 
-loadPercentage(num){
-    this.loading_percentage.innerHTML = num;
+loadPercentage(num, total){
+    if (total == 0) throw new Error("Karkoli deljeno 0 je nekaj gnilega");
+    
+    let percentage = Math.round( num / total * 100 )+"%";
+    this.loading_percentage.innerHTML = percentage;
+    this.loading_progress.style.width = percentage;
+
+    if (num == total){
+        setInterval(this.closeLoadingScreen, 1500);
+        this.loading_progress.style.backgroundColor = "green";
+    }
+
 }
-
-
 
 
 

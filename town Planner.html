@@ -10,14 +10,14 @@
     <script type="text/javascript" src="../lib/dat.gui.min.js"></script>
     <script type="module" src="town_Planner.js"></script>
 
-    <!-- <script type="module" src="GUIController.js"></script> -->
 </head>
 <body>
 
     <div id="loading_screen">
+        <p id="loading_loading">Loading...</p>
         <div id="loading_percentage">
+            <div id="loading_progress"></div>
             <p id="loading_percentage_data"></p>
-            <p id="loading_percentage_data_percent_sign">%</p>
         </div>
         <div id="hint">
             <p id="hint_data"></p>
@@ -59,7 +59,7 @@
     </div>
 
     <div id="score_div">
-        <p id="score_text">Money:</p>
+        <p id="score_text">Score:</p>
         <div id="score_data_div">
             <p id="score_data"></p>
         </div>

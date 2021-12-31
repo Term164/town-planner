@@ -687,7 +687,7 @@ noranjost (skoraj bela, pomemben opacity)
 /* ==== LOADING SCREEN ===== */
 
 #loading_screen {
-    background: white;
+    background: black;
     position:absolute;
     top:0px;
     right:0px;
@@ -697,9 +697,68 @@ noranjost (skoraj bela, pomemben opacity)
     z-index: 1;
 }
 
+#loading_percentage {
+    position: absolute;
+    width: 30%;
+    height: 5%;
+    margin:auto;
+    text-align: center;
+    top: 0;
+    bottom: 20%;
+    left: 0;
+    right: 0;
+    border-color: white;
+    border-style: solid;
+    border-width: medium;
+}
+
+#loading_percentage_data {
+    position: relative;
+    bottom: -100%;
+    line-height: 2rem;
+    font-size: 200%;
+    text-align: center; 
+    color: white;
+}
+
+#loading_progress {
+    position: absolute;
+    background-color: white;
+    height: 100%;
+    width: 0%;
+}
+
+#loading_loading{
+    position: absolute;
+    top: 25%;
+    left: 0;
+    right: 0;
+    line-height: 2rem;
+    font-size: 200%;
+    text-align: center; 
+    color: white;
+}
 
 
+#hint {
+    position: absolute;
+    width: 50%;
+    height: 10%;
+    margin:auto;
+    text-align: center;
+    bottom: 10%;
+    left: 0;
+    right: 0;
 
+}
+
+#hint_data {
+    position: relative;
+    line-height: 2rem;
+    font-size: 200%;
+    text-align: center; 
+    color: white;
+}
 
 
 
