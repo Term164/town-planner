@@ -37,6 +37,17 @@ class App extends Application {
         this.renderer = new Renderer(this.gl);
         this.renderer.prepareScene(this.scene);
         this.resize();
+
+        // Game logic speed (when do updates occur)
+        this.setNormalGameSpeed();
+    }
+
+    setNormalGameSpeed(){
+        this.normalSpeed = setInterval(this.gameManager.tick, 5000);
+    }
+
+    setFastForwardSpeed(){
+        this.fastSpeed = setInterval(this.gameManager.tick, 2500);
     }
 
     update() {

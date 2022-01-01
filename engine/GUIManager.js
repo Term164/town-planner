@@ -80,16 +80,23 @@ export class GUIManager{
         this.bulldozer_element.addEventListener("click", this.bulldozerMode);
     }
 
+    // Stop all animations + time ticks
     pauseClick(){
-        alert("PAVZA");
+        if(this.gameManager.townPlanner.normalSpeed != null)
+            clearInterval(this.gameManager.townPlanner.normalSpeed);
+        if(this.gameManager.townPlanner.fastSpeed != null)
+            clearInterval(this.gameManager.townPlanner.fastSpeed);
     }
 
     playClick(){
-
+        this.pauseClick();
+        this.gameManager.townPlanner.setNormalGameSpeed();
     }
 
+    // Just speed up the time no need for animations
     ffClick(){
-
+        this.pauseClick();
+        this.gameManager.townPlanner.setFastForwardSpeed();
     }
 
     closeConstructionMenu(){
@@ -113,6 +120,7 @@ export class GUIManager{
             this.gameManager.mode = "build";
             this.gameManager.type = "house";
         }
+        this.gameManager.updateSelector();
     }
 
     shopMode(){
@@ -122,6 +130,7 @@ export class GUIManager{
             this.gameManager.mode = "build";
             this.gameManager.type = "shop";
         }
+        this.gameManager.updateSelector();
     }
 
 
@@ -132,6 +141,7 @@ export class GUIManager{
             this.gameManager.mode = "build";
             this.gameManager.type = "factory";
         }
+        this.gameManager.updateSelector();
     }
 
     roadMode(){
@@ -141,6 +151,7 @@ export class GUIManager{
             this.gameManager.mode = "build";
             this.gameManager.type = "road";
         }
+        this.gameManager.updateSelector();
     }
 
     bulldozerMode(){
@@ -149,6 +160,7 @@ export class GUIManager{
         }else{
             this.gameManager.mode = "bulldoze";
         }
+        this.gameManager.updateSelector();
     }
 
     mouseOverButton(){
@@ -159,7 +171,11 @@ export class GUIManager{
         this.gameManager.mouseController.guiLock = false;
     }
 
+    // All dynamic values are updated here
+    // income, population, money, goods, etc...
     update(){
         this.score_element.innerHTML = this.gameManager.money;
+        this.time_element.innerHTML = this.gameManager.time;
+        this.day_element.innerHTML = this.gameManager.dan;
     }
 }

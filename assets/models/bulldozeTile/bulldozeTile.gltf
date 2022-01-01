@@ -15,29 +15,24 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Cube",
+            "name" : "bulldozeTile",
             "scale" : [
-                150,
-                9.999999747378752e-05,
-                150
-            ],
-            "translation": [
-                150,
-                0,
-                150
+                10,
+                0.1,
+                10
             ]
         }
     ],
     "materials" : [
         {
             "doubleSided" : true,
-            "name" : "Material.001",
+            "name" : "Material",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 0
                 },
                 "metallicFactor" : 0,
-                "roughnessFactor" : 0.5
+                "roughnessFactor" : 0.4000000059604645
             }
         }
     ],
@@ -65,9 +60,9 @@
     ],
     "images" : [
         {
-            "mimeType" : "image/jpeg",
-            "name" : "grassjpg",
-            "uri" : "grassjpg.jpg"
+            "mimeType" : "image/png",
+            "name" : "bulldozeTile",
+            "uri" : "bulldozeTile.png"
         }
     ],
     "accessors" : [
@@ -137,7 +132,7 @@
     "buffers" : [
         {
             "byteLength" : 840,
-            "uri" : "land.bin"
+            "uri" : "bulldozeTile.bin"
         }
     ]
 }
