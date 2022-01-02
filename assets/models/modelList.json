@@ -21,11 +21,11 @@
 		{"name":"car2_green", "location":"../assets/models/cars/car2_green/car2_green.gltf", "animated":true},
 		{"name":"wind_turbine_shaft", "location":"../assets/models/wind_turbine/wind_turbine_shaft/wind_turbine_shaft.gltf", "animated":false},
 		{"name":"wind_turbine_blades", "location":"../assets/models/wind_turbine/wind_turbine_blades/wind_turbine_blades.gltf", "animated":true},
-		{"name":"person1", "location":"../assets/models/people/person1/person1.gltf", "animated":false},
-		{"name":"person2", "location":"../assets/models/people/person2/person2.gltf", "animated":false},
-		{"name":"person3", "location":"../assets/models/people/person3/person3.gltf", "animated":false},
-		{"name":"person4", "location":"../assets/models/people/person4/person4.gltf", "animated":false},
-		{"name":"person5", "location":"../assets/models/people/person5/person5.gltf", "animated":false},
+		{"name":"person1", "location":"../assets/models/people/person1/person1.gltf", "animated":true},
+		{"name":"person2", "location":"../assets/models/people/person2/person2.gltf", "animated":true},
+		{"name":"person3", "location":"../assets/models/people/person3/person3.gltf", "animated":true},
+		{"name":"person4", "location":"../assets/models/people/person4/person4.gltf", "animated":true},
+		{"name":"person5", "location":"../assets/models/people/person5/person5.gltf", "animated":true},
 		{"name":"tree", "location":"../assets/models/tree/tree.gltf", "animated":true}
 
 	]

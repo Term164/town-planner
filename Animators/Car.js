@@ -18,6 +18,9 @@ export class Car extends Node{
         this.animated = true;
         this.carBody = this.children[0];
 
+        this.scale = [0.5, 0.5, 0.5];       
+        this.updateMatrix();
+
         this.direction = 3;
         this.speed = 0.1;
 
@@ -30,10 +33,8 @@ export class Car extends Node{
 
 
     placeCar(){
-        this.translation = [145, 0, 145];
+        this.translation = [145, 0, 135];
         this.updateMatrix();
-
-        //console.log(Car.gameManager.roads);
 
     }
 
@@ -57,11 +58,10 @@ export class Car extends Node{
 
         this.x = (this.translation[0]-5)/10 ;
         this.y = (this.translation[2]-5)/10;
-        console.log("i am at (mapterms): "+ Math.round(this.x), Math.round(this.y));
+        //console.log("i am at (mapterms): "+ Math.round(this.x), Math.round(this.y));
         //console.log( Car.gameManager.map[Math.round(this.x)][Math.round(this.y)] instanceof Road );
         //if ( Car.gameManager.map[Math.round(this.x)][Math.round(this.y)] instanceof Road )
             //console.log( Car.gameManager.map[Math.round(this.x)][Math.round(this.y)].direction );
-        
         //console.log( Car.gameManager.map[15][15] instanceof TownHall); // Tile, in vsi podrazredi
 
 
@@ -71,7 +71,6 @@ export class Car extends Node{
             let condition = false;
             // If crossroad
             if ( Car.gameManager.map[Math.round(this.x)][Math.round(this.y)].type === "crossroad" ) {
-                //console.log("cross");
                 
                 if ( Math.abs(this.x - Math.round(this.x) ) < 0.001 && Math.abs(this.y - Math.round(this.y) ) < 0.001 ){ // polovica
                     let dir = Math.floor(Math.random()*3);
@@ -175,9 +174,10 @@ export class Car extends Node{
                 }
 
             }else if ( Car.gameManager.map[Math.round(this.x)][Math.round(this.y)].type === "road" ){ // konec ravne ceste, 180°
-                console.log( Car.gameManager.map[Math.round(this.x)][Math.round(this.y)].direction );
                     if( Car.gameManager.map[Math.round(this.x)][Math.round(this.y)].direction == 0 && !(Car.gameManager.map[Math.round(this.x)+1][Math.round(this.y)] instanceof Road) ){ 
                         if( this.direction == 3 && (this.x - Math.round(this.x)) > 0.3 )
+                            this.rotateTo( (this.direction+2)%4 );
+                        if( this.direction == 1 && ( Math.round(this.x) - this.x) > 0.3 && !(Car.gameManager.map[Math.round(this.x)-1][Math.round(this.y)] instanceof Road) )
                             this.rotateTo( (this.direction+2)%4 );
                     }else if ( Car.gameManager.map[Math.round(this.x)][Math.round(this.y)].direction == 1 && !(Car.gameManager.map[Math.round(this.x)][Math.round(this.y)+1] instanceof Road) ){
                         if ( this.direction == 0 && (this.y - Math.round(this.y)) > 0.3 )
@@ -257,7 +257,6 @@ export class Car extends Node{
 
 
 
-
-
-
 }
+
+

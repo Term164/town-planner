@@ -10,6 +10,7 @@ import { GameManager } from './engine/GameManager.js';
 import { quat } from './lib/gl-matrix-module.js';
 import { GUIController } from './GUIController.js';
 import { Car } from './Animators/Car.js';
+import { PeopleManager } from './Animators/PeopleManager.js';
 
 class App extends Application {
 
@@ -223,19 +224,15 @@ class App extends Application {
         */
 
         let ico9 = this.modelManager.getModel("car1_red");
-        ico9.scale = [0.5, 0.5, 0.5];
-
-
-
-
-
-        
-        ico9.updateMatrix();
         this.scene.addNode(ico9);
+
+        let ico21 = this.modelManager.getModel("person1");
+        this.scene.addNode(ico21);
 
 
         this.gameManager = new GameManager(this);
         Car.gameManager = this.gameManager;
+        PeopleManager.gameManager = this.gameManager;
 
         console.log(this.scene);
 

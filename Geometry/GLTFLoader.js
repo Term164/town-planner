@@ -11,6 +11,7 @@ import { Scene } from './Scene.js';
 import { WindTurbine } from '../Animators/WindTurbine.js';
 import { Car } from '../Animators/Car.js';
 import { Tree } from '../Animators/Tree.js';
+import { PeopleManager } from '../Animators/PeopleManager.js';
 
 // This class loads all GLTF resources and instantiates
 // the corresponding classes. Keep in mind that it loads
@@ -297,7 +298,22 @@ export class GLTFLoader {
             case "tree":
                 node = new Tree(options);
                 break;
-             default:
+            case "person1":
+                node = new PeopleManager(options);
+                break;
+            case "person2":
+                node = new PeopleManager(options);
+                break;
+            case "person3":
+                node = new PeopleManager(options);
+                break;
+            case "person4":
+                node = new PeopleManager(options);
+                break;
+            case "person5":
+                node = new PeopleManager(options);
+                break;
+            default:
                 node = new Car(options);
                 break;
             }
