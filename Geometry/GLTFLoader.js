@@ -8,6 +8,10 @@ import { Mesh } from './Mesh.js';
 import { PerspectiveCamera } from './PerspectiveCamera.js';
 import { Node } from './Node.js';
 import { Scene } from './Scene.js';
+import { WindTurbine } from '../Animators/WindTurbine.js';
+import { Car } from '../Animators/Car.js';
+import { Tree } from '../Animators/Tree.js';
+import { PeopleManager } from '../Animators/PeopleManager.js';
 
 // This class loads all GLTF resources and instantiates
 // the corresponding classes. Keep in mind that it loads
@@ -259,7 +263,7 @@ export class GLTFLoader {
         }
     }
 
-    async loadNode(nameOrIndex) {
+    async loadNode(nameOrIndex, animated) {
         const gltfSpec = this.findByNameOrIndex(this.gltf.nodes, nameOrIndex);
         
         if (this.cache.has(gltfSpec)) {
@@ -280,12 +284,44 @@ export class GLTFLoader {
             options.mesh = await this.loadMesh(gltfSpec.mesh);
         }
 
+        
+        if ( !animated ){
+            const node = new Node(options);
+            this.cache.set(gltfSpec, node);
+            return node;
+        }else{
+            let node;
+            switch (nameOrIndex){
+             case "wind_turbine_blades":
+                node = new WindTurbine(options);
+                break;
+            case "tree":
+                node = new Tree(options);
+                break;
+            case "person1":
+                node = new PeopleManager(options);
+                break;
+            case "person2":
+                node = new PeopleManager(options);
+                break;
+            case "person3":
+                node = new PeopleManager(options);
+                break;
+            case "person4":
+                node = new PeopleManager(options);
+                break;
+            case "person5":
+                node = new PeopleManager(options);
+                break;
+            default:
+                node = new Car(options);
+                break;
+            }
 
+            this.cache.set(gltfSpec, node);
+            return node;
+        }
 
-        const node = new Node(options);
-        //console.log(node);
-        this.cache.set(gltfSpec, node);
-        return node;
     }
 
     async loadScene(nameOrIndex) {

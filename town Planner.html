@@ -10,22 +10,62 @@
     <script type="text/javascript" src="../lib/dat.gui.min.js"></script>
     <script type="module" src="town_Planner.js"></script>
 
-    <!-- <script type="module" src="GUIController.js"></script> -->
 </head>
 <body>
+
+    <div id="loading_screen">
+        <p id="loading_loading">Loading...</p>
+        <div id="loading_percentage">
+            <div id="loading_progress"></div>
+            <p id="loading_percentage_data"></p>
+        </div>
+        <div id="hint">
+            <p id="hint_data"></p>
+        </div>
+    </div>
+
     <div class="fullscreen">
         <canvas></canvas>
-
     </div>
-    
+
+
+    <div id="money_div">
+        <p id="money_text">Money:</p>
+        <div id="money_data_div">
+            <p id="money_data"></p>
+        </div>
+    </div>
+
+    <div id="population_div">
+        <p id="population_text">Population:</p>
+        <div id="population_data_div">
+            <p id="population_data"></p>
+        </div>
+    </div>
+
+    <div id="happiness_div">
+        <p id="happiness_text">Happiness:</p>
+        <div id="happiness_data_div">
+            <p id="happiness_data"></p>
+            <p id="happiness_percentage">%</p>
+        </div>
+    </div>
+
+    <div id="production_div">
+        <p id="production_text">Production:</p>
+        <div id="production_data_div">
+            <p id="production_data"></p>
+        </div>
+    </div>
 
     <div id="score_div">
-        <p id="score_text">Money:</p>
+        <p id="score_text">Score:</p>
         <div id="score_data_div">
             <p id="score_data"></p>
         </div>
-        
     </div>
+
+
 
     <div id="datetime_div">
         <p id="datetime_day_data">MON</p>
@@ -42,20 +82,41 @@
 
     
     <div id="toolbar_div">
-        <div id=toolbar_house_div>
+        <div id="toolbar_house_div">
             <img id="house_icon" src="/assets/images/GUI/house.png">
         </div>
-        <div id=toolbar_shop_div>
+        <div id="house_cost_div">
+            <p id="house_cost_data"></p>
+        </div>
+        <div id="toolbar_shop_div">
             <img id="shop_icon" src="/assets/images/GUI/shop.png">
         </div>
-        <div id=toolbar_factory_div>
+        <div id="shop_cost_div">
+            <p id="shop_cost_data"></p>
+        </div>
+        <div id="toolbar_factory_div">
             <img id="factory_icon" src="/assets/images/GUI/factory.png">
         </div>
-        <div id=toolbar_road_div>
+        <div id="factory_cost_div">
+            <p id="factory_cost_data"></p>
+        </div>
+        <div id="toolbar_road_div">
             <img id="road_icon" src="/assets/images/GUI/road.png">
         </div>
-        <div id=toolbar_bulldoze_div>
+        <div id="road_cost_div">
+            <p id="road_cost_data"></p>
+        </div>
+        <div id="toolbar_wind_turbine_div">
+            <img id="wind_turbine_icon" src="/assets/images/GUI/wind_turbine.png">
+        </div>
+        <div id="wind_turbine_cost_div">
+            <p id="wind_turbine_cost_data"></p>
+        </div>
+        <div id="toolbar_bulldoze_div">
             <img id="bulldoze_icon" src="/assets/images/GUI/bulldozer.png">
+        </div>
+        <div id="bulldoze_cost_div">
+            <p id="bulldoze_cost_data"></p>
         </div>
         <div id="toolbar_arrow_div">
             <img id="arrow_down_icon" src="/assets/images/GUI/arrow_down.png">
