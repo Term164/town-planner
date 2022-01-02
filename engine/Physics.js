@@ -18,6 +18,10 @@ export class Physics {
                 });
                 
             }
+            
+            if (node.animated){
+                node.animate();
+            }
         });
     }
 

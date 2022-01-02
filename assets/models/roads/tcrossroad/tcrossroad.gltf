@@ -15,7 +15,7 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Cube.007",
+            "name" : "Cube.001",
             "scale" : [
                 10,
                 0.20000000298023224,
@@ -23,7 +23,7 @@
             ],
             "translation" : [
                 0,
-                0.44999998807907104,
+                0.41999998688697815,
                 6.5
             ]
         },
@@ -55,7 +55,7 @@
     ],
     "meshes" : [
         {
-            "name" : "Cube.006",
+            "name" : "Cube.021",
             "primitives" : [
                 {
                     "attributes" : {
@@ -86,58 +86,58 @@
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 148,
+            "count" : 360,
             "max" : [
-                1.000000238418579,
+                1.0000001192092896,
                 1,
-                0.9999995231628418
+                1
             ],
             "min" : [
-                -1.000000238418579,
+                -1.0000001192092896,
                 -2,
-                -11.000001907348633
+                -11.000000953674316
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 148,
+            "count" : 360,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 148,
+            "count" : 360,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 222,
+            "count" : 540,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 1776,
+            "byteLength" : 4320,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 1776,
-            "byteOffset" : 1776
+            "byteLength" : 4320,
+            "byteOffset" : 4320
         },
         {
             "buffer" : 0,
-            "byteLength" : 1184,
-            "byteOffset" : 3552
+            "byteLength" : 2880,
+            "byteOffset" : 8640
         },
         {
             "buffer" : 0,
-            "byteLength" : 444,
-            "byteOffset" : 4736
+            "byteLength" : 1080,
+            "byteOffset" : 11520
         }
     ],
     "samplers" : [
@@ -148,7 +148,7 @@
     ],
     "buffers" : [
         {
-            "byteLength" : 5180,
+            "byteLength" : 12600,
             "uri" : "tcrossroad.bin"
         }
     ]

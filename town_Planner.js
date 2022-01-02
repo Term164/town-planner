@@ -8,6 +8,9 @@ import { PerspectiveCamera } from './Geometry/PerspectiveCamera.js';
 import { ModelManager } from './Geometry/ModelManager.js';
 import { GameManager } from './engine/GameManager.js';
 import { quat } from './lib/gl-matrix-module.js';
+import { GUIController } from './GUIController.js';
+import { Car } from './Animators/Car.js';
+import { PeopleManager } from './Animators/PeopleManager.js';
 
 class App extends Application {
 
@@ -23,13 +26,20 @@ class App extends Application {
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
         this.camera = new PerspectiveCamera();
         this.scene.nodes[1] = this.camera;
-
-        // Loading all game models
+    
         this.modelManager = new ModelManager();
         await this.modelManager.loadAllModels();
 
-        // Initializing the game manager
+        let ico9 = this.modelManager.getModel("car1_red");
+        this.scene.addNode(ico9);
+
+        let ico21 = this.modelManager.getModel("person1");
+        this.scene.addNode(ico21);
+
+
         this.gameManager = new GameManager(this);
+        Car.gameManager = this.gameManager;
+        PeopleManager.gameManager = this.gameManager;
 
         console.log(this.scene);
 
