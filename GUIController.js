@@ -118,7 +118,7 @@ setHint(){
         "All cars actually drift around bends and do massive U turns. It just happens so fast. Don't blink.",
         "There is no way to finish, but you can lose by making people unhappy. In other words, there are no winners, only survivors.",
         "If you mess up, click the Bulldozer icon to delete buildings. Be careful, it costs money...",
-        "All buildings should be connected to the Town Hall via Roads. If they're not, consider them as abandoned buildings.",
+        "All buildings should be connected to the Town Hall via Roads. If they're not, consider them useless. And a waste of money...",
         "To increase happiness, try giving People some new neighbours. That should distract them from inflation and poverty.",
         "Factories produce goods, but how do they get materials? I don't know, portals?",
         "Town Hall is the most important building. It just is. It doesn't serve any purpose. But it's very important.",

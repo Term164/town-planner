@@ -367,10 +367,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_div {
     position: absolute;
-    bottom: 4%;
-    left: 34%;
-    width: 38rem;
-    height: 10rem;
+    bottom: 5%;
+    left: 40%;
+    width: 20%;
+    height: 12%;
     padding: 0;
     background-color: rgba(204, 204, 255, 0.5);
     border-style: solid;
@@ -383,10 +383,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_house_div {
     position: absolute;
-    top: 0.8rem;
-    left: 1rem;
-    width: 5rem;
-    height: 6rem;
+    top: 6%;
+    left: 1.5%;
+    width: 14%;
+    height: 60%;
     
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -396,10 +396,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #house_cost_div {
     position: absolute;
-    bottom: 0.3rem;
-    left: 1rem;
-    width: 5rem;
-    height: 2rem;
+    bottom: 4%;
+    left: 1.5%;
+    width: 14%;
+    height: 16%;
 
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -409,10 +409,9 @@ noranjost (skoraj bela, pomemben opacity)
 
 #house_cost_data, #shop_cost_data, #factory_cost_data, #road_cost_data, #wind_turbine_cost_data, #bulldoze_cost_data {
     position: relative;
-    bottom: 65%;
-    line-height: 2rem;
-    font-size: 140%;
-    text-align: center;    
+    font-size: 1vw;
+    top: -115%;
+    text-align: center;
 }
 
 #house_icon {
@@ -431,10 +430,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_shop_div {
     position: absolute;
-    top: 0.8rem;
-    left: 7.1rem;
-    width: 5rem;
-    height: 6rem;
+    top: 6%;
+    left: 18%;
+    width: 14%;
+    height: 60%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -444,10 +443,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #shop_cost_div {
     position: absolute;
-    bottom: 0.3rem;
-    left: 7.1rem;
-    width: 5rem;
-    height: 2rem;
+    bottom: 4%;
+    left: 18%;
+    width: 14%;
+    height: 16%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -472,10 +471,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_factory_div {
     position: absolute;
-    top: 0.8rem;
-    left: 13.2rem;
-    width: 5rem;
-    height: 6rem;
+    top: 6%;
+    left: 34.3%;
+    width: 14%;
+    height: 60%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -485,10 +484,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #factory_cost_div {
     position: absolute;
-    bottom: 0.3rem;
-    left: 13.2rem;
-    width: 5rem;
-    height: 2rem;
+    bottom: 4%;
+    left: 34.3%;
+    width: 14%;
+    height: 16%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -512,11 +511,11 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_road_div {
     position: absolute;
-    top: 0.8rem;
-    right: 13.3rem;
-    width: 5rem;
-    height: 6rem;
-   
+    top: 6%;
+    right: 34.3%;
+    width: 14%;
+    height: 60%;
+    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
     border-radius: 1rem;
@@ -525,10 +524,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #road_cost_div {
     position: absolute;
-    bottom: 0.3rem;
-    right: 13.3rem;
-    width: 5rem;
-    height: 2rem;
+    bottom: 4%;
+    right: 34.3%;
+    width: 14%;
+    height: 16%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -551,10 +550,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_wind_turbine_div {
     position: absolute;
-    top: 0.8rem;
-    right: 7.1rem;
-    width: 5rem;
-    height: 6rem;
+    top: 6%;
+    right: 18%;
+    width: 14%;
+    height: 60%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -564,10 +563,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #wind_turbine_cost_div {
     position: absolute;
-    bottom: 0.3rem;
-    right: 7.1rem;
-    width: 5rem;
-    height: 2rem;
+    bottom: 4%;
+    right: 18%;
+    width: 14%;
+    height: 16%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -593,10 +592,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_bulldoze_div {
     position: absolute;
-    top: 0.8rem;
-    right: 1rem;
-    width: 5rem;
-    height: 6rem;
+    top: 6%;
+    right: 1.5%;
+    width: 14%;
+    height: 60%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -606,10 +605,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #bulldoze_cost_div {
     position: absolute;
-    bottom: 0.3rem;
-    right: 1rem;
-    width: 5rem;
-    height: 2rem;
+    bottom: 4%;
+    right: 1.5%;
+    width: 14%;
+    height: 16%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -634,10 +633,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_arrow_div {
     position: absolute;
-    bottom: 9.5rem;
-    left: 45.5%;
-    width: 3rem;
-    height: 1.4rem;
+    top: -18%;
+    left: 44%;
+    width: 12%;
+    height: 18%;
    
     background-color: rgba(172, 172, 218, 0.8);
     border-style: solid;
@@ -660,10 +659,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_show_div {
     position: absolute;
-    bottom: 1rem;
-    left: 48.4%;
-    width: 3rem;
-    height: 1.4rem;
+    bottom: 3%;
+    left: 48.85%;
+    width: 2.3%;
+    height: 2.3%;
    
     background-color: rgba(172, 172, 218, 0.8);
     border-style: solid;

@@ -52,11 +52,12 @@ export class PeopleManager extends Node{
             }else if ( PeopleManager.gameManager.map[Math.round(this.x)][Math.round(this.y)].type === "tcrossroad" ) {
             }else if ( PeopleManager.gameManager.map[Math.round(this.x)][Math.round(this.y)].type === "bend" ){
                 
-                console.log( this.person.translation[2] , this.y); 
+                console.log("x "+ Math.round(this.x), this.x); 
+                console.log("y "+ Math.round(this.y), this.y);
                 switch( PeopleManager.gameManager.map[Math.round(this.x)][Math.round(this.y)].direction ){
                     case 0:
                         if ( Math.round(this.y) > this.y && Math.round(this.x) - this.x > 0.45 && this.direction == 1 ||
-                            Math.round(this.y) < this.y && this.x - Math.round(this.x) > 0.1 && this.direction == 1
+                            this.translation[0] < this.y && this.x - Math.round(this.x) > 0.1 && this.direction == 1
                         )   this.rotateTo(0);
                         else if ( Math.round(this.x) > this.x && Math.round(this.y) - this.y > 0.45 && this.direction == 2 ||
                             Math.round(this.x) < this.x && this.y - Math.round(this.y) > 0.45 && this.direction == 2
@@ -77,8 +78,6 @@ export class PeopleManager extends Node{
                         break;
                 }
 
-
-
             }else if ( PeopleManager.gameManager.map[Math.round(this.x)][Math.round(this.y)].type === "road" ){
                 
                 if( PeopleManager.gameManager.map[Math.round(this.x)][Math.round(this.y)].direction == 0 && !( PeopleManager.gameManager.map[Math.round(this.x)+1][Math.round(this.y)] ) ){ 
@@ -98,14 +97,18 @@ export class PeopleManager extends Node{
                 }
 
             }
-
-
-
-
+            
+            this.moveCardinal();
 
         }else if ( PeopleManager.gameManager.map[Math.round(this.x)][Math.round(this.y)] instanceof Shop ){
-            // Shop code
-        
+            this.speed = 0.001;
+            let dir = Math.random()*Math.PI/4-Math.PI/8;
+            if ( Math.random() < 0.05 ){
+                this.person.rotation = [0, this.person.rotation[1]+dir, 0];
+                this.person.updateTransformMovement();
+            }
+            this.translation = [this.speed * ( this.translation[0] + Math.cos(dir) ), this.translation[1], this.speed * ( this.translation[2] + Math.sin(dir) ) ];
+            this.updateMatrix();
 
         }else if ( PeopleManager.gameManager.map[Math.round(this.x)][Math.round(this.y)] instanceof House ){
             // House code
@@ -118,23 +121,6 @@ export class PeopleManager extends Node{
             this.placePerson();
 
         }
-       
-        //Move
-        switch(this.direction){
-            case 0:
-                this.translation = [ this.translation[0] , this.translation[1], this.translation[2] + this.speed];
-                break;
-            case 1:
-                this.translation = [ this.translation[0] - this.speed, this.translation[1], this.translation[2] ];
-                break;
-            case 2:
-                this.translation = [ this.translation[0] , this.translation[1], this.translation[2] - this.speed];
-                break;
-            case 3:
-                this.translation = [ this.translation[0] + this.speed, this.translation[1], this.translation[2] ];
-                break;
-        }
-        this.updateTransformMovement();
 
 
 
@@ -168,6 +154,26 @@ export class PeopleManager extends Node{
                 this.direction = 3;
                 break;    
         }
+    }
+
+    moveCardinal(){
+
+        switch(this.direction){
+            case 0:
+                this.translation = [ this.translation[0] , this.translation[1], this.translation[2] + this.speed];
+                break;
+            case 1:
+                this.translation = [ this.translation[0] - this.speed, this.translation[1], this.translation[2] ];
+                break;
+            case 2:
+                this.translation = [ this.translation[0] , this.translation[1], this.translation[2] - this.speed];
+                break;
+            case 3:
+                this.translation = [ this.translation[0] + this.speed, this.translation[1], this.translation[2] ];
+                break;
+        }
+        this.updateTransformMovement();
+
     }
 
 

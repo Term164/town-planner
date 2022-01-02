@@ -35,7 +35,11 @@ export class Car extends Node{
     placeCar(){
         this.translation = [145, 0, 135];
         this.updateMatrix();
+        // TU PRIDE KODA ZA RANDOM SPAWN
+        // IZVEDE SE, KO SE AVTO PRVIČ SPAWNA, ALI PA KO PRIDE IZ CESTE
+        // ČE NEKDO RAVNO IZBRIŠE CESTO POD AVTOM *
 
+        
     }
 
 
