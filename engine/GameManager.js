@@ -1,4 +1,3 @@
-import { GUIManager } from "./GUIManager.js";
 import { House } from "./Buildings/House.js";
 import { Shop } from "./Buildings/Shop.js";
 import { Factory } from "./Buildings/Factory.js";
@@ -13,8 +12,12 @@ export class GameManager{
 
     constructor(townPlanner){
         this.townPlanner = townPlanner;
-        this.guiManager = new GUIManager(this);
-        this.setHoverSelector("selectedTile");
+        this.modelManager = townPlanner.modelManager;
+        this.guiManager = this.modelManager.guiManager;
+        this.guiManager.setGameManager(this);
+        
+        this.setHoverSelector("selectedTile")
+
         this.mouseController = new MouseController(townPlanner.canvas, townPlanner.camera, this);
         this.map = this.generateMap(30);
         this.townHall;
@@ -64,7 +67,7 @@ export class GameManager{
         }
 
         // TODO: randomize townhall placement
-        const model = this.townPlanner.modelManager.getModel("townhall");
+        const model = this.modelManager.getModel("townhall");
         const selectedTile = new TownHall(15,15, model);
         selectedTile.active = true;
         map[15][15] = selectedTile;
@@ -126,7 +129,7 @@ export class GameManager{
 
     updateOveralHappiness(){
         this.overalHappiness = 0;
-        for (let house of this.houses) this.overalHappiness += house.happiness;
+        for (let house of this.houses) this.overalHappiness w house.happiness;
         this.overalHappiness = this.overalHappiness / this.houses.size;
         // TODO fiddle a little with the happines of the people
         //this.overalHappiness -= (this.unemployedPopulation/this.pop) * 0.5;
@@ -244,7 +247,7 @@ export class GameManager{
                         tile.active = true;
                         this.activeBuildings++;
                         this.unemployedPopulation -= tile.requiredPop;
-                        this.requiredGoods -= tile.requiredGoods;
+                        this.unusedGoods -= tile.requiredGoods;
                         this.inactiveShops.delete(tile)
                     }
                 }
@@ -426,9 +429,20 @@ export class GameManager{
         if(x >= 0 && y >= 0 && x < 30 && y <30){
             if(this.mode == "build"){
                 if(this.map[x][y] == null){
-                    const model = this.townPlanner.modelManager.getModel(this.type);
-                    if(this.type != "road")
-                        model.rotation = GameManager.mouseHoverSelector.rotation;
+
+                    let model;
+                    if(this.type != "road"){
+                        model = GameManager.mouseHoverSelector.clone();
+                    }else{
+                        model = this.modelManager.getModel("road");
+                    }
+                    
+                    //Get a new model to show what model is going to be placed next
+                    this.setHoverSelector(this.type);
+                    GameManager.mouseHoverSelector.rotation = model.rotation;
+                    GameManager.mouseHoverSelector.translation = [model.translation[0], -20, model.translation[2]];
+                    GameManager.mouseHoverSelector.updateMatrix();
+
                     let selectedTile;
                     switch(this.type){
                         case "house":
@@ -466,7 +480,7 @@ export class GameManager{
                     this.updateOveralHappiness();
                     this.townPlanner.scene.addNode(model);
                     this.townPlanner.renderer.prepareScene(this.townPlanner.scene);
-                    console.log("connected roads: " + this.connectedRoads, "active buildings: " + this.activeBuildings, "connected buildings: " + this.connectedBuildings);
+                    //console.log("connected roads: " + this.connectedRoads, "active buildings: " + this.activeBuildings, "connected buildings: " + this.connectedBuildings);
                     console.log("population: " + this.pop,"unemployed: " + this.unemployedPopulation ,"goods: " + this.goods,"unused goods: " + this.unusedGoods ,"income: " + this.income, "happines: " + this.overalHappiness);
                 }
             }else if (this.mode == "bulldoze"){
@@ -499,6 +513,7 @@ export class GameManager{
                     //console.log("population: " + this.pop, "goods: " + this.goods, "income: " + this.income, "happines: " + this.overalHappiness);
                 }
             }
+            this.guiManager.update();
         }
     }
 
@@ -657,7 +672,7 @@ export class GameManager{
     }
 
     setRoadTypeAndModel(selectedTile, type){
-        let model = this.townPlanner.modelManager.getModel(type);
+        let model = this.modelManager.getModel(type);
         selectedTile.type = type;
         selectedTile.node.children[0] = model;
     }
@@ -673,7 +688,11 @@ export class GameManager{
     }
 
     setHoverSelector(type){
-        const newModel = this.townPlanner.modelManager.getModel(type);
+        if(type == "house"){
+            const houses = ["house1_red", "house1_blue","house1_orange","house1_grey","house1_blueyellow"];
+            type = houses[Math.floor(Math.random() * houses.length)];
+        }
+        const newModel = this.modelManager.getModel(type);
         newModel.scale = [newModel.scale[0]/2, newModel.scale[1]/2, newModel.scale[2]/2];
         newModel.updateMatrix();
         if(GameManager.mouseHoverSelector == null){
