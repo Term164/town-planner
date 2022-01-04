@@ -4,28 +4,13 @@ export class GUIController {
 
     constructor(){
 
-        this.score = 100;
-        this.money = 10;
-        this.production = 50;
-        this.population = 10;
-        this.happiness = 85;
 
-        this.nday = 0;
-        this.day = "MON";
-        this.time = 8;
-
-        this.house_cost = 100;
-        this.shop_cost = 200;
-        this.factory_cost = 400;
-        this.wind_turbine_cost = 300;
-        this.road_cost = 50;
-        this.bulldoze_cost = 20;
-
+/*
         this.score_element = document.getElementById("score_data");
         this.money_element = document.getElementById("money_data");
         this.population_element = document.getElementById("population_data");
         this.happiness_element = document.getElementById("happiness_data");
-        this.production_element = document.getElementById("production_data");
+        //this.production_element = document.getElementById("production_data");
 
         this.day_element = document.getElementById("datetime_day_data");
         this.time_element = document.getElementById("datetime_time_data");
@@ -50,14 +35,14 @@ export class GUIController {
 
         this.arrow_down_element = document.getElementById("arrow_down_icon");
         this.arrow_up_element = document.getElementById("arrow_up_icon");
-
+*/
         this.loading_screen = document.getElementById("loading_screen");
         this.loading_percentage = document.getElementById("loading_percentage_data");
         this.hint_element = document.getElementById("hint_data");
         this.loading_progress = document.getElementById("loading_progress");
 
 
-
+/*
         this.pause_element.addEventListener("click", this.pauseClick);
         this.play_element.addEventListener("click", this.playClick);
         this.ff_element.addEventListener("click", this.ffClick);
@@ -77,7 +62,7 @@ export class GUIController {
         */
 
 
-
+/*
 
         this.score_element.innerHTML = this.score;
         this.money_element.innerHTML = this.money;
@@ -94,7 +79,7 @@ export class GUIController {
         this.road_cost_element.innerHTML = this.road_cost;
         this.wind_turbine_cost_elemet.innerHTML = this.wind_turbine_cost;
         this.bulldoze_cost_element.innerHTML = this.bulldoze_cost;
-
+*/
         this.setHint();
 
 }
@@ -236,6 +221,9 @@ povecaj_dan(){
 
 }
 
+
+
+
 closeLoadingScreen(){
     this.loading_screen.style.display = "none";
 }
@@ -253,6 +241,7 @@ loadPercentage(num, total){
     }
 
 }
+
 
 
 

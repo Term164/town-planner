@@ -15,29 +15,29 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "leaf",
+            "name" : "blades",
             "scale" : [
-                1,
-                2,
-                1
+                0.5,
+                10,
+                0.5
             ],
             "translation" : [
-                0,
-                4.7646403312683105,
-                0
+                -0.0015702317468822002,
+                20.886354446411133,
+                1.8008955717086792
             ]
         },
         {
             "mesh" : 1,
-            "name" : "stem",
+            "name" : "shaft",
             "scale" : [
-                0.4000000059604645,
-                1.5,
-                0.4000000059604645
+                0.5,
+                10,
+                0.5
             ],
             "translation" : [
                 0,
-                1.5099999904632568,
+                10.010000228881836,
                 0
             ]
         },
@@ -46,7 +46,12 @@
                 0,
                 1
             ],
-            "name" : "tree"
+            "name" : "wind_turbine",
+            "scale" : [
+                0.5,
+                0.5,
+                0.5
+            ]
         }
     ],
     "materials" : [
@@ -63,19 +68,19 @@
         },
         {
             "doubleSided" : true,
-            "name" : "Material",
+            "name" : "Material.003",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 1
                 },
                 "metallicFactor" : 0,
-                "roughnessFactor" : 0.4000000059604645
+                "roughnessFactor" : 0.5
             }
         }
     ],
     "meshes" : [
         {
-            "name" : "Cube.001",
+            "name" : "Cylinder.003",
             "primitives" : [
                 {
                     "attributes" : {
@@ -89,7 +94,7 @@
             ]
         },
         {
-            "name" : "Cube",
+            "name" : "Cylinder",
             "primitives" : [
                 {
                     "attributes" : {
@@ -116,125 +121,125 @@
     "images" : [
         {
             "mimeType" : "image/png",
-            "name" : "leafgreen",
-            "uri" : "leafgreen.png"
+            "name" : "blades",
+            "uri" : "blades.png"
         },
         {
             "mimeType" : "image/png",
-            "name" : "brown",
-            "uri" : "brown.png"
+            "name" : "white",
+            "uri" : "white.png"
         }
     ],
     "accessors" : [
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 24,
+            "count" : 276,
             "max" : [
-                1,
-                1,
-                1
+                22.990758895874023,
+                1.2734181880950928,
+                0.7982088327407837
             ],
             "min" : [
-                -1,
-                -1,
-                -1
+                -22.972448348999023,
+                -0.6733253002166748,
+                -0.8017913103103638
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 24,
+            "count" : 276,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 24,
+            "count" : 276,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 36,
+            "count" : 414,
             "type" : "SCALAR"
         },
         {
             "bufferView" : 4,
             "componentType" : 5126,
-            "count" : 24,
+            "count" : 704,
             "max" : [
-                1,
-                1,
-                1
+                1.376686692237854,
+                1.137324333190918,
+                5.589310646057129
             ],
             "min" : [
+                -1.376686692237854,
                 -1,
-                -1,
-                -1
+                -1.6893112659454346
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 5,
             "componentType" : 5126,
-            "count" : 24,
+            "count" : 704,
             "type" : "VEC3"
         },
         {
             "bufferView" : 6,
             "componentType" : 5126,
-            "count" : 24,
+            "count" : 704,
             "type" : "VEC2"
         },
         {
             "bufferView" : 7,
             "componentType" : 5123,
-            "count" : 36,
+            "count" : 1128,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 288,
+            "byteLength" : 3312,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 288,
-            "byteOffset" : 288
+            "byteLength" : 3312,
+            "byteOffset" : 3312
         },
         {
             "buffer" : 0,
-            "byteLength" : 192,
-            "byteOffset" : 576
+            "byteLength" : 2208,
+            "byteOffset" : 6624
         },
         {
             "buffer" : 0,
-            "byteLength" : 72,
-            "byteOffset" : 768
+            "byteLength" : 828,
+            "byteOffset" : 8832
         },
         {
             "buffer" : 0,
-            "byteLength" : 288,
-            "byteOffset" : 840
+            "byteLength" : 8448,
+            "byteOffset" : 9660
         },
         {
             "buffer" : 0,
-            "byteLength" : 288,
-            "byteOffset" : 1128
+            "byteLength" : 8448,
+            "byteOffset" : 18108
         },
         {
             "buffer" : 0,
-            "byteLength" : 192,
-            "byteOffset" : 1416
+            "byteLength" : 5632,
+            "byteOffset" : 26556
         },
         {
             "buffer" : 0,
-            "byteLength" : 72,
-            "byteOffset" : 1608
+            "byteLength" : 2256,
+            "byteOffset" : 32188
         }
     ],
     "samplers" : [
@@ -245,8 +250,8 @@
     ],
     "buffers" : [
         {
-            "byteLength" : 1680,
-            "uri" : "tree.bin"
+            "byteLength" : 34444,
+            "uri" : "wind_turbine.bin"
         }
     ]
 }

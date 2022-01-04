@@ -292,7 +292,7 @@ export class GLTFLoader {
         }else{
             let node;
             switch (nameOrIndex){
-             case "wind_turbine_blades":
+             case "wind_turbine":
                 node = new WindTurbine(options);
                 break;
             case "tree":

@@ -7,7 +7,24 @@ export class GUIManager{
 
     getAllElements(){
         this.score_element = document.getElementById("score_data");
+        
+        this.money_elemet = document.getElementById("money_data");
+        
+        this.income_data = document.getElementById("income_data");
+        
+        this.population_working = document.getElementById("population_working_data");
+        this.population_all = document.getElementById("population_all_data");
+        
+        this.happiness = document.getElementById("happiness_data");
+        
+        this.goods_used = document.getElementById("production_used_data");
+        this.goods_all = document.getElementById("production_all_data");
+        
+        this.energy_used = document.getElementById("energy_used_data");
+        this.energy_all = document.getElementById("energy_all_data");
 
+
+        
         this.day_element = document.getElementById("datetime_day_data");
         this.time_element = document.getElementById("datetime_time_data");
 

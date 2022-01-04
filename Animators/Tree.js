@@ -7,10 +7,19 @@ export class Tree extends Node{
         this.animated = true;
         this.leaf = this.children[0];
         this.epsilon = Math.PI/8;
-        this.phi = Math.random()*0.5;
+        this.phi = Math.random()*0.4+0.1;
         this.direction = Math.round(Math.random()) == 0 ? -1 : 1;
+        this.scale = [0.5, 0.5, 0.5];
+        this.updateTransformMovement();
 
     }
+
+    placeTree(x,y){
+        this.translation = [x, 0, y];
+        this.updateTransformMovement();
+        console.log(this.children.length);
+    }
+
 
     animate(){
     

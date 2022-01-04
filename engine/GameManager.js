@@ -6,6 +6,9 @@ import { Road } from "./Buildings/Road.js";
 import { TownHall } from "./Buildings/TownHall.js";
 
 import { MouseController } from "./MouseController.js";
+import { Car } from "../Animators/Car.js";
+import { PeopleManager } from "../Animators/PeopleManager.js";
+import { Tree } from "../Animators/Tree.js";
 
 export class GameManager{
 
@@ -46,6 +49,16 @@ export class GameManager{
         this.inactiveFactories = new Set();
         this.inactiveShops = new Set();
 
+        // Cars
+        this.cars = [];
+        this.waitingCars = [];
+
+        // People
+        this.people = [];
+
+        // Trees
+        this.trees = [];
+
         // Game modes
         this.mode = "look"
         this.type = "house"
@@ -70,10 +83,19 @@ export class GameManager{
         // TODO: randomize townhall placement
         const model = this.townPlanner.modelManager.getModel("townhall");
         const selectedTile = new TownHall(15,15, model);
+        
+        const tree1 = this.townPlanner.modelManager.getModel("tree");
+        const tree2 = this.townPlanner.modelManager.getModel("tree");
+        tree1.placeTree(151,158.5);
+        tree2.placeTree(159, 158.5);
+        
         selectedTile.active = true;
         map[15][15] = selectedTile;
         this.townHall = selectedTile;
         this.townPlanner.scene.addNode(model);
+
+        this.townPlanner.scene.addNode(tree1);
+        this.townPlanner.scene.addNode(tree2);
 
         return map;
     }
@@ -115,6 +137,7 @@ export class GameManager{
                 if (neighbour instanceof Road || neighbour instanceof TownHall){
                     if (neighbour.connected) {
                         tile.connected = true;
+
                         if(tile instanceof Road) this.connectedRoads++;
                         else this.connectedBuildings++;
                         break;
@@ -213,6 +236,8 @@ export class GameManager{
         if (!tile.active){
             if (this.checkTileAcitvity(tile)){
 
+            }else{
+                
             }
         }else{
             // Decrease the population for the amount that it orginaly added if the tile was previously active
@@ -358,13 +383,41 @@ export class GameManager{
         if(x >= 0 && y >= 0 && x < 30 && y <30){
             if(this.mode == "build"){
                 if(this.map[x][y] == null){
-                    const model = this.townPlanner.modelManager.getModel(this.type);
+                    let model;
+                    if (this.type == "house"){
+                        let rng = Math.floor(Math.random()*5);
+                        switch(rng){
+                            case 0:
+                                model = this.townPlanner.modelManager.getModel("house1_red");    
+                                break;
+                            case 1:
+                                model = this.townPlanner.modelManager.getModel("house1_blue");    
+                                break;
+                            case 2:
+                                model = this.townPlanner.modelManager.getModel("house1_orange");    
+                                break;
+                            case 3:
+                                model = this.townPlanner.modelManager.getModel("house1_grey");    
+                                break;
+                            case 4:
+                                model = this.townPlanner.modelManager.getModel("house1_blueyellow");    
+                                break;
+                        }
+                    }else{
+                        model = this.townPlanner.modelManager.getModel(this.type);
+                    } 
+                    
                     let selectedTile;
                     switch(this.type){
                         case "house":
                             selectedTile = new House(x,y, model);
                             this.houses.add(selectedTile);
-                            this                            
+                            
+                            this.createCar();
+                            this.createPerson();
+                            this.createPerson();
+                            //this.createTree(selectedTile.direction, x, y);
+
                             break;
                         case "shop":
                             selectedTile = new Shop(x,y, model);
@@ -379,6 +432,11 @@ export class GameManager{
                         case "road":
                             selectedTile = new Road(x, y, model, "road");
                             this.roads.add(selectedTile);
+
+
+                            this.releaseWaitingQ();
+                            
+
                             break;
                     }
                     this.map[x][y] = selectedTile;
@@ -406,6 +464,9 @@ export class GameManager{
                     if(this.map[x][y] instanceof Road){
                         this.roads.delete(this.map[x][y]);
                         this.map[x][y] = null;
+
+                        this.moveIntoWaitingQOnRoadBulldoze();
+
                         const neighbours = this.getTileNeighbours(null, x, y);
                         for (let neighbour of neighbours){
                             if(neighbour instanceof Road){
@@ -415,6 +476,10 @@ export class GameManager{
                         }
                         this.updateMapActivity();
                         console.log("connected roads: " + this.connectedRoads, "active buildings: " + this.activeBuildings);
+                    }else if (this.map[x][y] instanceof House){
+                        this.deleteCar();
+                        this.deletePerson();
+                        this.deletePerson();
                     }
 
 
@@ -588,5 +653,123 @@ export class GameManager{
         selectedTile.type = type;
         selectedTile.node.children[0] = model;
     }
+
+
+
+    // MyFunctions
+
+    createCar(){
+    // Choose random car model, add it to this.cars (total cars), if placing fails, add it to waiting q
+        let carModel;
+        let rngCar = Math.floor(Math.random()*6);
+        switch(rngCar){
+            case 0:
+                carModel = this.townPlanner.modelManager.getModel("car1_red");    
+                break;
+            case 1:
+                carModel = this.townPlanner.modelManager.getModel("car1_blue");    
+                break;
+            case 2:
+                carModel = this.townPlanner.modelManager.getModel("car1_green");    
+                break;
+            case 3:
+                carModel = this.townPlanner.modelManager.getModel("car2_red");    
+                break;
+            case 4:
+                carModel = this.townPlanner.modelManager.getModel("car2_blue");    
+                break;
+            case 5:
+                carModel = this.townPlanner.modelManager.getModel("car2_green");    
+                break;
+            }
+        let c = new Car(carModel);
+        this.cars.push(c);
+        if (this.roads.size <= 0)
+            this.waitingCars.push(c);
+        else{
+            this.townPlanner.scene.addNode(c);
+            c.placeCar();
+       }
+    }
+
+    createPerson(){
+    // Choose random person model, add it to this.people (total people)
+        let personModel;
+        let rng = Math.floor(Math.random()*5);
+        switch(rng){
+            case 0:
+                personModel = this.townPlanner.modelManager.getModel("person1");    
+                break;
+            case 1:
+                personModel = this.townPlanner.modelManager.getModel("person2");    
+                break;
+            case 2:
+                personModel = this.townPlanner.modelManager.getModel("person3");    
+                break;
+            case 3:
+                personModel = this.townPlanner.modelManager.getModel("person4");    
+                break;
+            case 4:
+                personModel = this.townPlanner.modelManager.getModel("person5");    
+                break;
+        }
+        let p = new PeopleManager(personModel);
+        this.people.push(p);
+        this.townPlanner.scene.addNode(p);
+        p.placePerson();
+    }
+
+    createTree(dir, mapx, mapy){
+        let t = new Tree("tree");
+        this.trees.push(t);
+        this.townPlanner.scene.addNode(t);
+        let x;
+        let y;
+        switch(dir){
+            case 0:
+                x = Math.random() < 0.5 ? mapx*10+9 : mapx*10+1;
+                y = mapy*10+3.5;
+                break;
+        }
+        
+        
+        t.placeTree(x,y);
+    }
+
+
+    deleteCar(){
+        if (this.cars.length<=0)return;
+        let car = this.cars.pop();
+        this.townPlanner.scene.deleteNode(car);
+    }
+
+    deletePerson(){
+        if (this.people.length<=0)return;
+        let p = this.people.pop();
+        this.townPlanner.scene.deleteNode(p);
+    }
+
+    releaseWaitingQ(){
+    // If there are any cars in the waiting q, release them now
+        while (this.waitingCars.length > 0){
+            let wc = this.waitingCars.pop();
+            this.townPlanner.scene.addNode(wc);
+            wc.placeCar();
+        }
+    
+    }
+
+    moveIntoWaitingQOnRoadBulldoze(){
+    //If there are no roads when we destroy a road, put all cars into waiting q
+        if (this.roads.size <= 0){
+            for (let i=0; i < this.cars.length; i++){
+                this.waitingCars.push(this.cars[i]);
+                this.townPlanner.scene.deleteNode(this.cars[i]);
+            }
+        }
+    }
+
+
+
 
 }
