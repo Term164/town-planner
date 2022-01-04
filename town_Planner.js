@@ -7,8 +7,6 @@ import { GLTFLoader } from './Geometry/GLTFLoader.js';
 import { PerspectiveCamera } from './Geometry/PerspectiveCamera.js';
 import { ModelManager } from './Geometry/ModelManager.js';
 import { GameManager } from './engine/GameManager.js';
-import { quat } from './lib/gl-matrix-module.js';
-import { GUIController } from './GUIController.js';
 import { Car } from './Animators/Car.js';
 import { PeopleManager } from './Animators/PeopleManager.js';
 
@@ -30,15 +28,6 @@ class App extends Application {
         this.modelManager = new ModelManager();
         await this.modelManager.loadAllModels();
 
-        if (!this.scene) {
-            throw new Error('Scene or camera.camera not present in glTF');
-        }
-
-        if (!this.camera) {
-            throw new Error('camera node does not contain a camera reference');
-        }
-    
-
         this.gameManager = new GameManager(this);
         Car.gameManager = this.gameManager;
         PeopleManager.gameManager = this.gameManager;
@@ -50,7 +39,16 @@ class App extends Application {
         this.renderer.prepareScene(this.scene);
         this.resize();
 
+        // Game logic speed (when do updates occur)
+        this.setNormalGameSpeed();
+    }
 
+    setNormalGameSpeed(){
+        this.normalSpeed = setInterval(this.gameManager.tick, 5000);
+    }
+
+    setFastForwardSpeed(){
+        this.fastSpeed = setInterval(this.gameManager.tick, 2500);
     }
 
     update() {

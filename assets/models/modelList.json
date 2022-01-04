@@ -1,6 +1,7 @@
 {
     "models":[
 		{"name":"selectedTile", "location":"../assets/models/selectedTile/selectedTile.gltf", "animated":false},
+		{"name":"bulldozeTile", "location":"../assets/models/bulldozeTile/bulldozeTile.gltf", "animated":false},
     	{"name":"townhall", "location":"../assets/models/townhall/townhall.gltf", "animated":false},
 		{"name":"factory", "location":"../assets/models/factory/factory.gltf", "animated":false},
 		{"name":"house1_red", "location":"../assets/models/houses/house1_red/house1_red.gltf", "animated":false},
