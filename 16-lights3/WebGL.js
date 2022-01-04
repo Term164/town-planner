@@ -1,6 +1,4 @@
-export class WebGL {
-
-static createShader(gl, source, type) {
+export function createShader(gl, source, type) {
     const shader = gl.createShader(type);
     gl.shaderSource(shader, source);
     gl.compileShader(shader);
@@ -12,9 +10,9 @@ static createShader(gl, source, type) {
     return shader;
 }
 
-static createProgram(gl, shaders) {
+export function createProgram(gl, shaders) {
     const program = gl.createProgram();
-    for (const shader of shaders) {
+    for (let shader of shaders) {
         gl.attachShader(program, shader);
     }
     gl.linkProgram(program);
@@ -24,38 +22,39 @@ static createProgram(gl, shaders) {
         throw new Error('Cannot link program\nInfo log:\n' + log);
     }
 
-    const attributes = {};
+    let attributes = {};
     const activeAttributes = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES);
     for (let i = 0; i < activeAttributes; i++) {
         const info = gl.getActiveAttrib(program, i);
         attributes[info.name] = gl.getAttribLocation(program, info.name);
     }
 
-    const uniforms = {};
+    let uniforms = {};
     const activeUniforms = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
     for (let i = 0; i < activeUniforms; i++) {
         const info = gl.getActiveUniform(program, i);
-        if(info.name.includes('[0]')){
-            for(let j = 0; j < info.size; j++){
+        if (info.name.includes('[0]')) {
+            for (let j = 0; j < info.size; j++) {
                 let uniformName = info.name.substring(0, info.name.indexOf('[') + 1) + j + info.name.substring(info.name.indexOf(']'));
                 uniforms[uniformName] = gl.getUniformLocation(program, uniformName);
             }
-        }else{
+        } else {
             uniforms[info.name] = gl.getUniformLocation(program, info.name);
         }
     }
+
+    console.log(program, attributes, uniforms);
     return { program, attributes, uniforms };
-    
 }
 
-static buildPrograms(gl, shaders) {
-    const programs = {};
-    for (const name in shaders) {
+export function buildPrograms(gl, shaders) {
+    var programs = {};
+    for (let name in shaders) {
         try {
-            const program = shaders[name];
-            programs[name] = WebGL.createProgram(gl, [
-                WebGL.createShader(gl, program.vertex, gl.VERTEX_SHADER),
-                WebGL.createShader(gl, program.fragment, gl.FRAGMENT_SHADER)
+            var program = shaders[name];
+            programs[name] = createProgram(gl, [
+                createShader(gl, program.vertex, gl.VERTEX_SHADER),
+                createShader(gl, program.fragment, gl.FRAGMENT_SHADER)
             ]);
         } catch (err) {
             throw new Error('Error compiling ' + name + '\n' + err);
@@ -64,7 +63,7 @@ static buildPrograms(gl, shaders) {
     return programs;
 }
 
-static createTexture(gl, options) {
+export function createTexture(gl, options) {
     const target  = options.target  || gl.TEXTURE_2D;
     const iformat = options.iformat || gl.RGBA;
     const format  = options.format  || gl.RGBA;
@@ -96,36 +95,4 @@ static createTexture(gl, options) {
     if (options.mip) { gl.generateMipmap(target); }
 
     return texture;
-}
-
-static createBuffer(gl, options) {
-    const target = options.target || gl.ARRAY_BUFFER;
-    const hint   = options.hint   || gl.STATIC_DRAW;
-    const buffer = options.buffer || gl.createBuffer();
-
-    gl.bindBuffer(target, buffer);
-    gl.bufferData(target, options.data, hint);
-
-    return buffer;
-}
-
-static createUnitQuad(gl) {
-    return WebGL.createBuffer(gl, { data: new Float32Array([0, 0, 1, 0, 1, 1, 0, 1]) });
-}
-
-static createClipQuad(gl) {
-    return WebGL.createBuffer(gl, { data: new Float32Array([-1, -1, 1, -1, 1, 1, -1, 1]) });
-}
-
-static createSampler(gl, options) {
-    const sampler = options.sampler || gl.createSampler();
-
-    if (options.wrapS) { gl.samplerParameteri(sampler, gl.TEXTURE_WRAP_S, options.wrapS); }
-    if (options.wrapT) { gl.samplerParameteri(sampler, gl.TEXTURE_WRAP_T, options.wrapT); }
-    if (options.min) { gl.samplerParameteri(sampler, gl.TEXTURE_MIN_FILTER, options.min); }
-    if (options.mag) { gl.samplerParameteri(sampler, gl.TEXTURE_MAG_FILTER, options.mag); }
-
-    return sampler;
-}
-
 }
