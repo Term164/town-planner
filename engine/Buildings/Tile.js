@@ -6,7 +6,8 @@ export class Tile{
         this.connected = false;
         this.direction = 0;
         this.node = node;
-        node.updateTranslation([x*10+5,0,y*10+5]);
+        if(node != null)
+            node.updateTranslation([x*10+5,0,y*10+5]);
     }
 
 
