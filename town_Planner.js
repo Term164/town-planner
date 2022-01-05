@@ -26,30 +26,28 @@ class App extends Application {
         this.camera = new PerspectiveCamera();
         this.scene.nodes[1] = this.camera;
 
-        
-        const light1 = new Light();
-        //light1.translation = [0,5,0];
-
+        // Create a sun and some throwaway lights (probably should be replaced with townhall lights)
+        const sun = new Light();
         const light2 = new Light();
-        //light2.translation = [0,5,0];        
         const light3 = new Light();
-        //light3.translation = [-5,5,-5];
         const light4 = new Light();
-        //light4.translation = [5,5,-5];
 
-        this.lights = [light1, light2, light3, light4];
+        sun.translation = [150,100,150];
+        /*
+        sun.ambientColor = [200, 200, 200]
+        sun.diffuseColor = [240, 240, 240]
+        sun.specularColor = [255, 255, 255]
+        */
+
+        sun.ambientColor = [50, 50, 50]
+        sun.diffuseColor = [50, 50, 50]
+        sun.specularColor = [50, 50, 50]
+        sun.attenuatuion = [1.0,0.0001,0.00005];
+        this.lights = [sun, light2, light3, light4];
 
     
         this.modelManager = new ModelManager();
         await this.modelManager.loadAllModels();
-
-        if (!this.scene) {
-            throw new Error('Scene or camera.camera not present in glTF');
-        }
-
-        if (!this.camera) {
-            throw new Error('camera node does not contain a camera reference');
-        }
 
         let ico9 = this.modelManager.getModel("car1_red");
         this.scene.addNode(ico9);
@@ -89,6 +87,7 @@ class App extends Application {
 
     render() {
         if (this.renderer) {
+            //console.log(this.lights.length);
             this.renderer.render(this.scene, this.camera, this.lights);
         }
     }

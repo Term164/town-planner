@@ -23,6 +23,7 @@ const fragment = `#version 300 es
 precision mediump float;
 
 uniform mat4 uViewModel;
+uniform mat4 uViewMatrix;
 
 
 uniform mediump sampler2D uTexture;
@@ -46,7 +47,7 @@ void main() {
     oColor = vec4(0.0);
 
     for (int i = 0; i < 4; i++) {
-        vec3 lightPosition = (uViewModel * vec4(uLightPosition[i], 1)).xyz;
+        vec3 lightPosition = (uViewMatrix * vec4(uLightPosition[i], 1)).xyz;
         //vec3 lightPosition = uLightPosition[i];
         float d = distance(vVertexPosition, lightPosition);
         float attenuation = 1.0 / dot(uLightAttenuation[i], vec3(1, d, d * d));
@@ -67,8 +68,6 @@ void main() {
 
         oColor += texture(uTexture, vTexCoord) * vec4(light, 1);
     }
-    
-    //oColor = texture(uTexture, vTexCoord) * vec4(0.0,0,0,1);
 }
 `;
 
