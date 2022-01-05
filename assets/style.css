@@ -39,6 +39,10 @@ a.back:hover {
 }
 
 
+
+
+
+
 /* ======= HUD ========= */
 
 /*
@@ -54,9 +58,9 @@ noranjost (skoraj bela, pomemben opacity)
 /* ---- MONEY ----- */
 #money_div {
     position: absolute;
-    top:1rem;
+    top:0.5rem;
     left: 1rem;
-    height: 2.5rem;
+    height: 2rem;
     width: 15rem;
     
     background-color: rgba(204, 204, 255, 0.6);
@@ -67,36 +71,78 @@ noranjost (skoraj bela, pomemben opacity)
 
 #money_text {
     position: absolute;
-    top: -42%;
+    top: -48%;
     left: 5%;
-    line-height: 2rem;
-    font-size: 140%;
+    line-height: 1.5rem;
+    font-size: 130%;
    
 }
 
 #money_data_div {
     position: absolute;
     left: 5rem;
-    height: 2.5rem;
+    height: 2rem;
     width: 10rem;
     
 }
 
 #money_data {
     position: relative;
-    top: -42%;
-    line-height: 2rem;
-    font-size: 140%;
+    top: -48%;
+    line-height: 1.5rem;
+    font-size: 130%;
     text-align: center;
     
 }
 
+/* ----- INCOME ------ */
+
+#income_div {
+    position: absolute;
+    top:3rem;
+    left: 1rem;
+    height: 2rem;
+    width: 15rem;
+    
+    background-color: rgba(204, 204, 255, 0.6);
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+}
+
+#income_text {
+    position: absolute;
+    top: -49%;
+    left: 5%;
+    line-height: 1.5rem;
+    font-size: 130%;
+   
+}
+
+#income_data_div {
+    position: absolute;
+    left: 5rem;
+    height: 2rem;
+    width: 10rem;
+    
+}
+
+#income_data {
+    position: relative;
+    top: -49%;
+    line-height: 1.5rem;
+    font-size: 130%;
+    text-align: center;
+    
+}
+
+
 /* ---- POPULATION ----- */
 #population_div {
     position: absolute;
-    top: 4.5rem;
+    top: 5.5rem;
     left: 1rem;
-    height: 2.5rem;
+    height: 2rem;
     width: 15rem;
     
     background-color: rgba(204, 204, 255, 0.6);
@@ -107,26 +153,47 @@ noranjost (skoraj bela, pomemben opacity)
 
 #population_text {
     position: absolute;
-    top: -42%;
+    top: -49%;
     left: 5%;
-    line-height: 2rem;
-    font-size: 140%;
+    line-height: 1.5rem;
+    font-size: 130%;
    
 }
 
 #population_data_div {
     position: absolute;
     left: 5rem;
-    height: 2.5rem;
+    height: 2rem;
     width: 10rem;
     
 }
 
-#population_data {
-    position: relative;
-    top: -42%;
-    line-height: 2rem;
-    font-size: 140%;
+#population_working_data {
+    position: absolute;
+    top: -49%;
+    right: 55%;
+    line-height: 1.5rem;
+    font-size: 130%;
+    text-align: center;
+    
+}
+
+#population_data_slash {
+    position: absolute;
+    top: -49%;
+    right: 50%;
+    line-height: 1.5rem;
+    font-size: 130%;
+    text-align: center;
+    
+}
+
+#population_all_data {
+    position: absolute;
+    top: -49%;
+    left: 52%;
+    line-height: 1.5rem;
+    font-size: 130%;
     text-align: center;
     
 }
@@ -136,7 +203,7 @@ noranjost (skoraj bela, pomemben opacity)
     position: absolute;
     top: 8rem;
     left: 1rem;
-    height: 2.5rem;
+    height: 2rem;
     width: 15rem;
     
     background-color: rgba(204, 204, 255, 0.6);
@@ -147,35 +214,35 @@ noranjost (skoraj bela, pomemben opacity)
 
 #happiness_text {
     position: absolute;
-    top: -42%;
+    top: -49%;
     left: 5%;
-    line-height: 2rem;
-    font-size: 140%;
+    line-height: 1.5rem;
+    font-size: 130%;
    
 }
 
 #happiness_data_div {
     position: absolute;
     left: 5rem;
-    height: 2.5rem;
+    height: 2rem;
     width: 10rem;
     
 }
 
 #happiness_data {
     position: relative;
-    top: -42%;
-    line-height: 2rem;
-    font-size: 140%;
+    top: -49%;
+    line-height: 1.5rem;
+    font-size: 130%;
     text-align: center;
     
 }
 
 #happiness_percentage {
     position: absolute;
-    top: -42%;
+    top: -49%;
     right: 25%;
-    line-height: 2rem;
+    line-height: 1.5rem;
     font-size: 140%;
    
 }
@@ -183,9 +250,9 @@ noranjost (skoraj bela, pomemben opacity)
 /* ---- PRODUCTION ----- */
 #production_div {
     position: absolute;
-    top: 11.5rem;
+    top: 10.5rem;
     left: 1rem;
-    height: 2.5rem;
+    height: 2rem;
     width: 15rem;
     
     background-color: rgba(204, 204, 255, 0.6);
@@ -196,24 +263,101 @@ noranjost (skoraj bela, pomemben opacity)
 
 #production_text {
     position: absolute;
-    top: -42%;
+    top: -49%;
     left: 5%;
-    line-height: 2rem;
-    font-size: 140%;
+    line-height: 1.5rem;
+    font-size: 130%;
 
 }
 
 #production_data_div {
     position: absolute;
     left: 5rem;
-    height: 2.5rem;
+    height: 2rem;
     width: 10rem;
 }
 
-#production_data {
-    position: relative;
-    top: -42%;
-    line-height: 2rem;
+#production_used_data {
+    position: absolute;
+    top: -49%;
+    right: 55%;
+    line-height: 1.5rem;
+    font-size: 140%;
+    text-align: center;    
+}
+
+#production_data_slash {
+    position: absolute;
+    top: -49%;
+    right: 50%;
+    line-height: 1.5rem;
+    font-size: 140%;
+    text-align: center;    
+}
+
+#production_all_data {
+    position: absolute;
+    top: -49%;
+    left: 52%;
+    line-height: 1.5rem;
+    font-size: 140%;
+    text-align: center;    
+}
+
+/* ------ ENERGY ----- */
+
+#energy_div {
+    position: absolute;
+    top: 13rem;
+    left: 1rem;
+    height: 2rem;
+    width: 15rem;
+    
+    background-color: rgba(204, 204, 255, 0.6);
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+}
+
+#energy_text {
+    position: absolute;
+    top: -49%;
+    left: 5%;
+    line-height: 1.5rem;
+    font-size: 130%;
+
+}
+
+#energy_data_div {
+    position: absolute;
+    left: 5rem;
+    height: 2rem;
+    width: 10rem;
+}
+
+#energy_used_data {
+    position: absolute;
+    top: -49%;
+    right: 55%;
+    line-height: 1.5rem;
+    font-size: 140%;
+    text-align: center;    
+}
+
+#energy_data_slash {
+    position: absolute;
+    top: -49%;
+    right: 50%;
+    line-height: 1.5rem;
+    font-size: 140%;
+    text-align: center;    
+}
+
+#energy_all_data {
+    position: absolute;
+    top: -49%;
+    left: 52%;
+    line-height: 1.5rem;
     font-size: 140%;
     text-align: center;    
 }
@@ -221,9 +365,9 @@ noranjost (skoraj bela, pomemben opacity)
 /* ---- SCORE ----- */
 #score_div {
     position: absolute;
-    top: 15rem;
+    top: 15.5rem;
     left: 1rem;
-    height: 2.5rem;
+    height: 2rem;
     width: 15rem;
     
     background-color: rgba(204, 204, 255, 0.6);
@@ -234,26 +378,26 @@ noranjost (skoraj bela, pomemben opacity)
 
 #score_text {
     position: absolute;
-    top: -42%;
+    top: -49%;
     left: 5%;
-    line-height: 2rem;
-    font-size: 140%;
+    line-height: 1.5rem;
+    font-size: 130%;
    
 }
 
 #score_data_div {
     position: absolute;
     left: 5rem;
-    height: 2.5rem;
+    height: 2rem;
     width: 10rem;
     
 }
 
 #score_data {
     position: relative;
-    top: -42%;
-    line-height: 2rem;
-    font-size: 140%;
+    top: -49%;
+    line-height: 1.5rem;
+    font-size: 130%;
     text-align: center;
     
 }
@@ -367,10 +511,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_div {
     position: absolute;
-    bottom: 4%;
-    left: 34%;
-    width: 38rem;
-    height: 10rem;
+    bottom: 5%;
+    left: 40%;
+    width: 20%;
+    height: 12%;
     padding: 0;
     background-color: rgba(204, 204, 255, 0.5);
     border-style: solid;
@@ -383,10 +527,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_house_div {
     position: absolute;
-    top: 0.8rem;
-    left: 1rem;
-    width: 5rem;
-    height: 6rem;
+    top: 6%;
+    left: 1.5%;
+    width: 14%;
+    height: 60%;
     
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -396,10 +540,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #house_cost_div {
     position: absolute;
-    bottom: 0.3rem;
-    left: 1rem;
-    width: 5rem;
-    height: 2rem;
+    bottom: 4%;
+    left: 1.5%;
+    width: 14%;
+    height: 16%;
 
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -409,10 +553,9 @@ noranjost (skoraj bela, pomemben opacity)
 
 #house_cost_data, #shop_cost_data, #factory_cost_data, #road_cost_data, #wind_turbine_cost_data, #bulldoze_cost_data {
     position: relative;
-    bottom: 65%;
-    line-height: 2rem;
-    font-size: 140%;
-    text-align: center;    
+    font-size: 1vw;
+    top: -115%;
+    text-align: center;
 }
 
 #house_icon {
@@ -431,10 +574,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_shop_div {
     position: absolute;
-    top: 0.8rem;
-    left: 7.1rem;
-    width: 5rem;
-    height: 6rem;
+    top: 6%;
+    left: 18%;
+    width: 14%;
+    height: 60%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -444,10 +587,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #shop_cost_div {
     position: absolute;
-    bottom: 0.3rem;
-    left: 7.1rem;
-    width: 5rem;
-    height: 2rem;
+    bottom: 4%;
+    left: 18%;
+    width: 14%;
+    height: 16%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -472,10 +615,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_factory_div {
     position: absolute;
-    top: 0.8rem;
-    left: 13.2rem;
-    width: 5rem;
-    height: 6rem;
+    top: 6%;
+    left: 34.3%;
+    width: 14%;
+    height: 60%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -485,10 +628,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #factory_cost_div {
     position: absolute;
-    bottom: 0.3rem;
-    left: 13.2rem;
-    width: 5rem;
-    height: 2rem;
+    bottom: 4%;
+    left: 34.3%;
+    width: 14%;
+    height: 16%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -512,11 +655,11 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_road_div {
     position: absolute;
-    top: 0.8rem;
-    right: 13.3rem;
-    width: 5rem;
-    height: 6rem;
-   
+    top: 6%;
+    right: 34.3%;
+    width: 14%;
+    height: 60%;
+    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
     border-radius: 1rem;
@@ -525,10 +668,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #road_cost_div {
     position: absolute;
-    bottom: 0.3rem;
-    right: 13.3rem;
-    width: 5rem;
-    height: 2rem;
+    bottom: 4%;
+    right: 34.3%;
+    width: 14%;
+    height: 16%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -551,10 +694,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_wind_turbine_div {
     position: absolute;
-    top: 0.8rem;
-    right: 7.1rem;
-    width: 5rem;
-    height: 6rem;
+    top: 6%;
+    right: 18%;
+    width: 14%;
+    height: 60%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -564,10 +707,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #wind_turbine_cost_div {
     position: absolute;
-    bottom: 0.3rem;
-    right: 7.1rem;
-    width: 5rem;
-    height: 2rem;
+    bottom: 4%;
+    right: 18%;
+    width: 14%;
+    height: 16%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -593,10 +736,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_bulldoze_div {
     position: absolute;
-    top: 0.8rem;
-    right: 1rem;
-    width: 5rem;
-    height: 6rem;
+    top: 6%;
+    right: 1.5%;
+    width: 14%;
+    height: 60%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -606,10 +749,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #bulldoze_cost_div {
     position: absolute;
-    bottom: 0.3rem;
-    right: 1rem;
-    width: 5rem;
-    height: 2rem;
+    bottom: 4%;
+    right: 1.5%;
+    width: 14%;
+    height: 16%;
    
     background-color: rgba(204, 204, 255, 0.8);
     border-style: solid;
@@ -634,10 +777,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_arrow_div {
     position: absolute;
-    bottom: 9.5rem;
-    left: 45.5%;
-    width: 3rem;
-    height: 1.4rem;
+    top: -18%;
+    left: 44%;
+    width: 12%;
+    height: 18%;
    
     background-color: rgba(172, 172, 218, 0.8);
     border-style: solid;
@@ -660,10 +803,10 @@ noranjost (skoraj bela, pomemben opacity)
 
 #toolbar_show_div {
     position: absolute;
-    bottom: 1rem;
-    left: 48.4%;
-    width: 3rem;
-    height: 1.4rem;
+    bottom: 3%;
+    left: 48.8%;
+    width: 2.3%;
+    height: 2.3%;
    
     background-color: rgba(172, 172, 218, 0.8);
     border-style: solid;

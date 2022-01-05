@@ -8,51 +8,41 @@
         {
             "name" : "Scene",
             "nodes" : [
-                2
+                1
             ]
         }
     ],
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "leaf",
+            "name" : "Cube",
             "scale" : [
                 1,
-                2,
+                0.05000000074505806,
                 1
             ],
             "translation" : [
                 0,
-                4.7646403312683105,
-                0
-            ]
-        },
-        {
-            "mesh" : 1,
-            "name" : "stem",
-            "scale" : [
-                0.4000000059604645,
-                1.5,
-                0.4000000059604645
-            ],
-            "translation" : [
-                0,
-                1.5099999904632568,
+                0.05999999865889549,
                 0
             ]
         },
         {
             "children" : [
-                0,
-                1
+                0
             ],
-            "name" : "tree"
+            "name" : "shop2",
+            "scale" : [
+                10,
+                1,
+                10
+            ]
         }
     ],
     "materials" : [
         {
             "doubleSided" : true,
-            "name" : "Material.001",
+            "name" : "Material.005",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 0
@@ -63,19 +53,19 @@
         },
         {
             "doubleSided" : true,
-            "name" : "Material",
+            "name" : "Material.006",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 1
                 },
                 "metallicFactor" : 0,
-                "roughnessFactor" : 0.4000000059604645
+                "roughnessFactor" : 0.5
             }
         }
     ],
     "meshes" : [
         {
-            "name" : "Cube.001",
+            "name" : "Cube",
             "primitives" : [
                 {
                     "attributes" : {
@@ -85,12 +75,7 @@
                     },
                     "indices" : 3,
                     "material" : 0
-                }
-            ]
-        },
-        {
-            "name" : "Cube",
-            "primitives" : [
+                },
                 {
                     "attributes" : {
                         "POSITION" : 4,
@@ -116,23 +101,23 @@
     "images" : [
         {
             "mimeType" : "image/png",
-            "name" : "leafgreen",
-            "uri" : "leafgreen.png"
+            "name" : "shop_text_new",
+            "uri" : "shop_text_new.png"
         },
         {
             "mimeType" : "image/png",
-            "name" : "brown",
-            "uri" : "brown.png"
+            "name" : "Untitled",
+            "uri" : "Untitled.png"
         }
     ],
     "accessors" : [
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 24,
+            "count" : 1027,
             "max" : [
                 1,
-                1,
+                189.1998748779297,
                 1
             ],
             "min" : [
@@ -145,96 +130,96 @@
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 24,
+            "count" : 1027,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 24,
+            "count" : 1027,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 36,
+            "count" : 1743,
             "type" : "SCALAR"
         },
         {
             "bufferView" : 4,
             "componentType" : 5126,
-            "count" : 24,
+            "count" : 338,
             "max" : [
-                1,
-                1,
-                1
+                0.3950313627719879,
+                173.31747436523438,
+                0.0325000025331974
             ],
             "min" : [
-                -1,
-                -1,
-                -1
+                -0.3747686445713043,
+                132.15748596191406,
+                0.032499995082616806
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 5,
             "componentType" : 5126,
-            "count" : 24,
+            "count" : 338,
             "type" : "VEC3"
         },
         {
             "bufferView" : 6,
             "componentType" : 5126,
-            "count" : 24,
+            "count" : 338,
             "type" : "VEC2"
         },
         {
             "bufferView" : 7,
             "componentType" : 5123,
-            "count" : 36,
+            "count" : 372,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 288,
+            "byteLength" : 12324,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 288,
-            "byteOffset" : 288
+            "byteLength" : 12324,
+            "byteOffset" : 12324
         },
         {
             "buffer" : 0,
-            "byteLength" : 192,
-            "byteOffset" : 576
+            "byteLength" : 8216,
+            "byteOffset" : 24648
         },
         {
             "buffer" : 0,
-            "byteLength" : 72,
-            "byteOffset" : 768
+            "byteLength" : 3486,
+            "byteOffset" : 32864
         },
         {
             "buffer" : 0,
-            "byteLength" : 288,
-            "byteOffset" : 840
+            "byteLength" : 4056,
+            "byteOffset" : 36352
         },
         {
             "buffer" : 0,
-            "byteLength" : 288,
-            "byteOffset" : 1128
+            "byteLength" : 4056,
+            "byteOffset" : 40408
         },
         {
             "buffer" : 0,
-            "byteLength" : 192,
-            "byteOffset" : 1416
+            "byteLength" : 2704,
+            "byteOffset" : 44464
         },
         {
             "buffer" : 0,
-            "byteLength" : 72,
-            "byteOffset" : 1608
+            "byteLength" : 744,
+            "byteOffset" : 47168
         }
     ],
     "samplers" : [
@@ -245,8 +230,8 @@
     ],
     "buffers" : [
         {
-            "byteLength" : 1680,
-            "uri" : "tree.bin"
+            "byteLength" : 47912,
+            "uri" : "shop2.bin"
         }
     ]
 }

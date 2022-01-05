@@ -1,6 +1,7 @@
 {
     "models":[
 		{"name":"selectedTile", "location":"../assets/models/selectedTile/selectedTile.gltf", "animated":false},
+		{"name":"bulldozeTile", "location":"../assets/models/bulldozeTile/bulldozeTile.gltf", "animated":false},
     	{"name":"townhall", "location":"../assets/models/townhall/townhall.gltf", "animated":false},
 		{"name":"factory", "location":"../assets/models/factory/factory.gltf", "animated":false},
 		{"name":"house1_red", "location":"../assets/models/houses/house1_red/house1_red.gltf", "animated":false},
@@ -8,7 +9,8 @@
 		{"name":"house1_orange", "location":"../assets/models/houses/house1_orange/house1_orange.gltf", "animated":false},
 		{"name":"house1_grey", "location":"../assets/models/houses/house1_grey/house1_grey.gltf", "animated":false},
 		{"name":"house1_blueyellow", "location":"../assets/models/houses/house1_blueyellow/house1_blueyellow.gltf", "animated":false},
-		{"name":"shop", "location":"../assets/models/shop/shop.gltf", "animated":false},
+		{"name":"shop", "location":"../assets/models/shops/shop/shop.gltf", "animated":false},
+		{"name":"shop2", "location":"../assets/models/shops/shop2/shop2.gltf", "animated":false},
 		{"name":"road", "location":"../assets/models/roads/road/road.gltf", "animated":false},
 		{"name":"bend", "location":"../assets/models/roads/bend/bend.gltf", "animated":false},
 		{"name":"tcrossroad", "location":"../assets/models/roads/tcrossroad/tcrossroad.gltf", "animated":false},
@@ -19,8 +21,7 @@
 		{"name":"car2_red", "location":"../assets/models/cars/car2_red/car2_red.gltf", "animated":true},
 		{"name":"car2_blue", "location":"../assets/models/cars/car2_blue/car2_blue.gltf", "animated":true},
 		{"name":"car2_green", "location":"../assets/models/cars/car2_green/car2_green.gltf", "animated":true},
-		{"name":"wind_turbine_shaft", "location":"../assets/models/wind_turbine/wind_turbine_shaft/wind_turbine_shaft.gltf", "animated":false},
-		{"name":"wind_turbine_blades", "location":"../assets/models/wind_turbine/wind_turbine_blades/wind_turbine_blades.gltf", "animated":true},
+		{"name":"wind_turbine", "location":"../assets/models/wind_turbine/wind_turbine/wind_turbine.gltf", "animated":true},
 		{"name":"person1", "location":"../assets/models/people/person1/person1.gltf", "animated":true},
 		{"name":"person2", "location":"../assets/models/people/person2/person2.gltf", "animated":true},
 		{"name":"person3", "location":"../assets/models/people/person3/person3.gltf", "animated":true},

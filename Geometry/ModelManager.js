@@ -1,4 +1,4 @@
-import { GUIController } from "../GUIController.js";
+import { GUIManager } from "../engine/GUIManager.js";
 import { GLTFLoader } from "./GLTFLoader.js";
 
 export class ModelManager{
@@ -7,7 +7,7 @@ export class ModelManager{
         this.models = new Map();
         this.loader = new GLTFLoader();
 
-        this.gui = new GUIController();
+        this.guiManager = new GUIManager();
 
     }
 
@@ -22,7 +22,7 @@ export class ModelManager{
             this.models.set(model.name, await this.loader.loadNode(model.name, model.animated));
             
             // A bit messy, innit
-            this.gui.loadPercentage(this.models.size, modelData.length);
+            this.guiManager.loadPercentage(this.models.size, modelData.length);
 
         }
     }

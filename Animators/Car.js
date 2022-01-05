@@ -24,22 +24,36 @@ export class Car extends Node{
         this.direction = 3;
         this.speed = 0.1;
 
-        this.placeCar();
+        //this.placeCar();
 
         this.x;
         this.y;
         
+
     }
 
 
     placeCar(){
-        this.translation = [145, 0, 135];
-        this.updateMatrix();
-
+        
+        let list = Car.gameManager.roads;
+        if(list.size != 0 ){
+        let rng = Math.floor(Math.random()*list.size);
+            let road = [...list][rng];
+            this.x = road.x;
+            this.y = road.y;
+            this.rotateTo((road.direction+1)%4);
+            //if(Math.random<0.5) this.rotateTo( (this.direction+2)%4 );
+            this.translation = [this.x*10+5, 0, this.y*10+5];
+            this.updateTransformMovement();
+            
+        }else{
+            return false;
+        }
+        
     }
+    
 
-
-
+    
     animate(){
         
         //wheels
@@ -68,7 +82,6 @@ export class Car extends Node{
         if ( !(Car.gameManager.map[Math.round(this.x)][Math.round(this.y)] instanceof Road) ){
             this.placeCar();
         } else {
-            let condition = false;
             // If crossroad
             if ( Car.gameManager.map[Math.round(this.x)][Math.round(this.y)].type === "crossroad" ) {
                 
@@ -174,7 +187,17 @@ export class Car extends Node{
                 }
 
             }else if ( Car.gameManager.map[Math.round(this.x)][Math.round(this.y)].type === "road" ){ // konec ravne ceste, 180°
-                    if( Car.gameManager.map[Math.round(this.x)][Math.round(this.y)].direction == 0 && !(Car.gameManager.map[Math.round(this.x)+1][Math.round(this.y)] instanceof Road) ){ 
+                if ( Math.round(this.x)+1 >= Car.gameManager.map[0].length||
+                    Math.round(this.x)-1 < 0 ||
+                    Math.round(this.y)+1 >= Car.gameManager.map.length||
+                    Math.round(this.y)-1 < 0
+                ){
+                    this.rotateTo( (this.direction+2)%4 );
+                    this.moveCardinal();
+                    return;
+                }
+                
+                if( Car.gameManager.map[Math.round(this.x)][Math.round(this.y)].direction == 0 && !(Car.gameManager.map[Math.round(this.x)+1][Math.round(this.y)] instanceof Road) ){ 
                         if( this.direction == 3 && (this.x - Math.round(this.x)) > 0.3 )
                             this.rotateTo( (this.direction+2)%4 );
                         if( this.direction == 1 && ( Math.round(this.x) - this.x) > 0.3 && !(Car.gameManager.map[Math.round(this.x)-1][Math.round(this.y)] instanceof Road) )
@@ -199,22 +222,8 @@ export class Car extends Node{
         }
 
 
-
-        switch(this.direction){
-            case 0:
-                this.translation = [ this.translation[0] , this.translation[1], this.translation[2] + this.speed];
-                break;
-            case 1:
-                this.translation = [ this.translation[0] - this.speed, this.translation[1], this.translation[2] ];
-                break;
-            case 2:
-                this.translation = [ this.translation[0] , this.translation[1], this.translation[2] - this.speed];
-                break;
-            case 3:
-                this.translation = [ this.translation[0] + this.speed, this.translation[1], this.translation[2] ];
-                break;
-        }
-        this.updateTransformMovement();
+        this.moveCardinal();
+        
 
 
     }
@@ -244,6 +253,28 @@ export class Car extends Node{
                 break;    
         }
     }
+
+
+    moveCardinal(){
+
+        switch(this.direction){
+            case 0:
+                this.translation = [ this.translation[0] , this.translation[1], this.translation[2] + this.speed];
+                break;
+            case 1:
+                this.translation = [ this.translation[0] - this.speed, this.translation[1], this.translation[2] ];
+                break;
+            case 2:
+                this.translation = [ this.translation[0] , this.translation[1], this.translation[2] - this.speed];
+                break;
+            case 3:
+                this.translation = [ this.translation[0] + this.speed, this.translation[1], this.translation[2] ];
+                break;
+        }
+        this.updateTransformMovement();
+
+    }
+
 
 
 

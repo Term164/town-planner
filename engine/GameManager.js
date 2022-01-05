@@ -1,4 +1,3 @@
-import { GUIManager } from "./GUIManager.js";
 import { House } from "./Buildings/House.js";
 import { Shop } from "./Buildings/Shop.js";
 import { Factory } from "./Buildings/Factory.js";
@@ -7,6 +6,9 @@ import { TownHall } from "./Buildings/TownHall.js";
 
 import { MouseController } from "./MouseController.js";
 import { Light } from "../Geometry/Light.js";
+import { Car } from "../Animators/Car.js";
+import { PeopleManager } from "../Animators/PeopleManager.js";
+import { Tree } from "../Animators/Tree.js";
 
 export class GameManager{
 
@@ -14,14 +16,20 @@ export class GameManager{
 
     constructor(townPlanner){
         this.townPlanner = townPlanner;
-        this.guiManager = new GUIManager(this);
-        this.setHoverSelector();
+        this.modelManager = townPlanner.modelManager;
+        this.guiManager = this.modelManager.guiManager;
+        this.guiManager.setGameManager(this);
+        
+        this.setHoverSelector("selectedTile")
+
         this.mouseController = new MouseController(townPlanner.canvas, townPlanner.camera, this);
         this.map = this.generateMap(30);
         this.townHall;
 
         // Game variables
         this.time = 0;
+        this.dan = "MON";
+        this.nday = 0;
         this.pop = 0;
         this.money = 5000000;
         this.goods = 0;
@@ -47,19 +55,23 @@ export class GameManager{
         this.inactiveFactories = new Set();
         this.inactiveShops = new Set();
 
+        // Cars
+        this.cars = [];
+        this.waitingCars = [];
+
+        // People
+        this.people = [];
+
+        // Trees
+        this.trees = [];
+
         // Game modes
         this.mode = "look"
         this.type = "house"
 
         this.guiManager.update();
-    }
 
-    setHoverSelector(){
-        GameManager.mouseHoverSelector = this.townPlanner.modelManager.getModel("selectedTile");
-        GameManager.mouseHoverSelector.translation = [5,0,5];
-        GameManager.mouseHoverSelector.scale = [5,0.1,5];
-        GameManager.mouseHoverSelector.updateMatrix();
-        this.townPlanner.scene.addNode(GameManager.mouseHoverSelector);
+        this.tick = this.tick.bind(this);
     }
 
     generateMap(size){
@@ -69,12 +81,21 @@ export class GameManager{
         }
 
         // TODO: randomize townhall placement
-        const model = this.townPlanner.modelManager.getModel("townhall");
+        const model = this.modelManager.getModel("townhall");
         const selectedTile = new TownHall(15,15, model);
+        
+        const tree1 = this.townPlanner.modelManager.getModel("tree");
+        const tree2 = this.townPlanner.modelManager.getModel("tree");
+        tree1.placeTree(151,158.5);
+        tree2.placeTree(159, 158.5);
+        
         selectedTile.active = true;
         map[15][15] = selectedTile;
         this.townHall = selectedTile;
         this.townPlanner.scene.addNode(model);
+
+        this.townPlanner.scene.addNode(tree1);
+        this.townPlanner.scene.addNode(tree2);
 
         return map;
     }
@@ -82,25 +103,59 @@ export class GameManager{
     tick(){
         this.money += this.income;
         this.time += 1;
+
+        if(this.time >= 24) {
+            this.time=0;
+            this.nday+=1;
+        }
+        
+        
+        if(this.nday >= 7) this.nday=0;
+        
+        let dan;
+        switch(this.nday){
+            case 0:
+                this.dan="MON";
+                break;
+            case 1:
+                this.dan="TUE";
+                break;
+            case 2:
+                this.dan="WED";
+                break;
+            case 3:
+                this.dan="THU";
+                break;
+            case 4:
+                this.dan="FRI";
+                break;
+            case 5:
+                this.dan="SAT";
+                break;
+            case 6:
+                this.dan="SUN";
+                break;
+        }
+
+        this.guiManager.update();
     }
 
     updateMapActivity(){
-        this.connectedRoads = 0;
-        this.activeBuildings = 0;
         this.resetTown();
         this.checkRoadNetwork();
 
         // Order of updates is IMPORTANT!
         this.updatePopulation();
-        this.updateProduction();
-        this.updateIncome();
+        this.updateProductionAndIncome();
         this.updateOveralHappiness();
     }
 
     updateOveralHappiness(){
+        this.overalHappiness = 0;
         for (let house of this.houses) this.overalHappiness += house.happiness;
         this.overalHappiness = this.overalHappiness / this.houses.size;
-        //this.overalHappiness = 1 - (this.unemployedPopulation/this.pop) * 0.5;
+        // TODO fiddle a little with the happines of the people
+        //this.overalHappiness -= (this.unemployedPopulation/this.pop) * 0.5;
     }
 
     checkRoadNetwork(){
@@ -116,6 +171,7 @@ export class GameManager{
                 if (neighbour instanceof Road || neighbour instanceof TownHall){
                     if (neighbour.connected) {
                         tile.connected = true;
+
                         if(tile instanceof Road) this.connectedRoads++;
                         else this.connectedBuildings++;
                         break;
@@ -124,7 +180,7 @@ export class GameManager{
             }    
         }
 
-        if(tile.connected && tile instanceof Road){
+        if(tile.connected && (tile instanceof Road || tile instanceof TownHall)){
             for (let neighbour of neighbours){
                 if(neighbour != null){
                     if (neighbour instanceof Road && !neighbour.connected){
@@ -134,6 +190,7 @@ export class GameManager{
                     }else if (!(neighbour instanceof Road)){
                         if (!neighbour.connected){
                             neighbour.connected = true;
+                            this.checkAndUpdateTile(neighbour);
                             this.connectedBuildings++;
                         }
                     }
@@ -143,30 +200,59 @@ export class GameManager{
     }
 
     resetTown(){
+        this.goods = 0;
+        this.pop = 0;
+        this.income = 0;
+        this.unemployedPopulation = 0;
+        this.unusedGoods = 0;
+        this.overalHappiness = 0;
+
+        // Logic variables
+        this.connectedRoads = 0;
+        this.connectedBuildings = 0;
+        this.activeBuildings = 0;
+
+        this.inactiveFactories.clear();
+        this.inactiveShops.clear();
+
         const allBuildings = [this.roads, this.houses, this.shops, this.factories];
         for(let set of allBuildings){
             for (let tile of set) {
                 tile.active = false;
                 tile.connected = false;
                 if (tile.adjacencyBonus != null) tile.adjacencyBonus = 0;
+                if(tile instanceof Factory) this.inactiveFactories.add(tile);
+                else if(tile instanceof Shop) this.inactiveShops.add(tile);
             }
         }
     }
 
     // Update all different type of buildings
     updatePopulation(){
-        for(let house of this.houses) this.checkTileAcitvity(house);
         for(let house of this.houses) this.updateHouse(house);
     }
 
-    updateProduction(){
-        for(let factory of this.factories) this.checkTileAcitvity(factory);
-        for(let factory of this.factories) this.updateFactory(factory);
-    }
+    updateProductionAndIncome(){
+        let previousFactoriesSize;
+        let previousShopsSize;
+        while(true){
+            previousFactoriesSize = this.inactiveFactories.size;
+            previousShopsSize = this.inactiveShops.size;
+            if (this.inactiveShops.size != 0 && this.unusedGoods >= 10){
+                for (let shop of this.inactiveShops) {
+                    if (this.unusedGoods < shop.requiredGoods) break;
+                    this.updateShop(shop);
+                }
+            }
+            if (this.unusedGoods < 10 || this.inactiveShops.size == 0){
+                for (let factory of this.inactiveFactories){
+                    if(this.updateFactory(factory)) break;
+                }
+            }
 
-    updateIncome(){
-        for(let shop of this.shops) this.checkTileAcitvity(shop);
-        for(let shop of this.shops) this.updateShop(shop);
+            if (previousFactoriesSize == this.inactiveFactories.size && previousShopsSize == this.inactiveShops.size) break;
+
+        }
     }
 
     checkTileAcitvity(tile){
@@ -185,15 +271,12 @@ export class GameManager{
                         tile.active = true;
                         this.activeBuildings++;
                         this.unemployedPopulation -= tile.requiredPop;
-                        this.requiredGoods -= tile.requiredGoods;
+                        this.unusedGoods -= tile.requiredGoods;
                         this.inactiveShops.delete(tile)
                     }
                 }
             }
         }
-
-        if (tile.active) return true;
-        else return false;
     }
 
     checkAndUpdateTile(tile){
@@ -211,39 +294,46 @@ export class GameManager{
     // Update specific building
     updateHouse(tile){
 
-        if (!tile.active){
-            if (this.checkTileAcitvity(tile)){
-
-            }
-        }else{
+        if (!tile.active)this.checkTileAcitvity(tile)  
+        else{
             // Decrease the population for the amount that it orginaly added if the tile was previously active
             this.pop -= (tile.pop + tile.adjacencyBonus);
             this.unemployedPopulation -= (tile.pop + tile.adjacencyBonus);
             tile.adjacencyBonus = 0; // Reset the adjecency bonus
         }
 
-        
-        const neighbours = this.getBuildingNeighbours(tile);
-        for(let neighbour of neighbours){
-            if(neighbour != null){
-                if(neighbour.pop != null){ // Check if its a house
-                    if(tile.adjacencyBonus < 2) tile.adjacencyBonus += 0.5;
-                    tile.happiness += 0.0625; //If all neighbours are houses the happines is at 100%
-                }else if(neighbour.goodsProduction != null){ // Check if its a factory
-                    tile.adjacencyBonus -= 0.5;
-                    tile.happiness -= 0.1;
-                }else if(neighbour.income != null){ // Check if its a shop
-                    if(tile.happiness <= 0.9) tile.happiness += 0.1;
-                    else tile.happiness = 1;
+        if(tile.active){
+            const neighbours = this.getBuildingNeighbours(tile);
+            for(let neighbour of neighbours){
+                if(neighbour != null){
+                    if(neighbour.pop != null){ // Check if its a house
+                        if(tile.adjacencyBonus < 2) tile.adjacencyBonus += 0.5;
+                        tile.happiness += 0.0625; //If all neighbours are houses the happines is at 100%
+                    }else if(neighbour.goodsProduction != null){ // Check if its a factory
+                        tile.adjacencyBonus -= 0.5;
+                        tile.happiness -= 0.1;
+                    }else if(neighbour.income != null){ // Check if its a shop
+                        if(tile.happiness <= 0.9) tile.happiness += 0.1;
+                        else tile.happiness = 1;
+                    }
                 }
             }
+            this.pop += tile.pop + tile.adjacencyBonus;
+            this.unemployedPopulation += tile.pop + tile.adjacencyBonus;
+
+            if (this.inactiveFactories.size > 0 || this.inactiveShops.size > 0) this.updateProductionAndIncome();
         }
-        this.pop += tile.pop + tile.adjacencyBonus;
-        this.unemployedPopulation += tile.pop + tile.adjacencyBonus;
     }
 
     updateFactory(tile){
-        if(tile.active == true){
+        if(!tile.active) this.checkTileAcitvity(tile);
+        else{
+            this.goods -= (tile.goodsProduction + tile.adjacencyBonus);
+            this.unusedGoods -= (tile.goodsProduction + tile.adjacencyBonus);
+            tile.adjacencyBonus = 0;
+        }
+
+        if(tile.active){
             const neighbours = this.getBuildingNeighbours(tile);
             for(let neighbour of neighbours){
                 if(neighbour != null){
@@ -252,13 +342,23 @@ export class GameManager{
                     }
                 }
             }
-            this.goods += tile.goodsProdction + tile.adjacencyBonus;
-            this.unusedGoods += tile.goodsProdction + tile.adjacencyBonus;
-        }
+            this.goods += tile.goodsProduction + tile.adjacencyBonus;
+            this.unusedGoods += tile.goodsProduction + tile.adjacencyBonus;
+            if (this.inactiveShops.size > 0) this.updateProductionAndIncome();
+            return true;
+        }else return false;
     }
 
     updateShop(tile){
-        if(tile.active == true){
+
+        if(!tile.active) this.checkTileAcitvity(tile);
+        else{
+            this.income -= (tile.income + tile.adjacencyBonus);
+            tile.adjacencyBonus = 0;
+        }
+
+
+        if(tile.active){
             const neighbours = this.getBuildingNeighbours(tile);
             for(let neighbour of neighbours){
                 if (neighbour != null){
@@ -268,12 +368,6 @@ export class GameManager{
                 }
             }
             this.income += tile.income + tile.adjacencyBonus;
-        }
-    }
-    
-    updateDeletedTile(neighbours){
-        for (let neighbour of neighbours){
-            this.checkAndUpdateTile(neighbour);
         }
     }
 
@@ -359,13 +453,31 @@ export class GameManager{
         if(x >= 0 && y >= 0 && x < 30 && y <30){
             if(this.mode == "build"){
                 if(this.map[x][y] == null){
-                    const model = this.townPlanner.modelManager.getModel(this.type);
+
+                    let model;
+                    if(this.type != "road"){
+                        model = GameManager.mouseHoverSelector.clone();
+                    }else{
+                        model = this.modelManager.getModel("road");
+                    }
+                    
+                    //Get a new model to show what model is going to be placed next
+                    this.setHoverSelector(this.type);
+                    GameManager.mouseHoverSelector.rotation = model.rotation;
+                    GameManager.mouseHoverSelector.translation = [model.translation[0], -20, model.translation[2]];
+                    GameManager.mouseHoverSelector.updateMatrix();
+
                     let selectedTile;
                     switch(this.type){
                         case "house":
                             selectedTile = new House(x,y, model, this.createLight(x, y));
                             this.houses.add(selectedTile);
-                            this                            
+                            
+                            this.createCar();
+                            this.createPerson();
+                            this.createPerson();
+                            //this.createTree(selectedTile.direction, x, y);
+
                             break;
                         case "shop":
                             selectedTile = new Shop(x,y, model, this.createLight(x, y));
@@ -380,6 +492,11 @@ export class GameManager{
                         case "road":
                             selectedTile = new Road(x, y, model, "road");
                             this.roads.add(selectedTile);
+
+
+                            this.releaseWaitingQ();
+                            
+
                             break;
                     }
                     this.map[x][y] = selectedTile;
@@ -392,13 +509,13 @@ export class GameManager{
                         this.checkAndUpdateTile(selectedTile);
                         const neighbours = this.getBuildingNeighbours(selectedTile);
                         for (let neighbour of neighbours) this.checkAndUpdateTile(neighbour);
-                        this.updateOveralHappiness();
                     }
 
+                    this.updateOveralHappiness();
                     this.townPlanner.scene.addNode(model);
                     this.townPlanner.renderer.prepareScene(this.townPlanner.scene);
                     //console.log("connected roads: " + this.connectedRoads, "active buildings: " + this.activeBuildings, "connected buildings: " + this.connectedBuildings);
-                    console.log("population: " + this.pop, "goods: " + this.goods, "income: " + this.income, "happines: " + this.overalHappiness);
+                    console.log("population: " + this.pop,"unemployed: " + this.unemployedPopulation ,"goods: " + this.goods,"unused goods: " + this.unusedGoods ,"income: " + this.income, "happines: " + this.overalHappiness);
                 }
             }else if (this.mode == "bulldoze"){
                 if (this.map[x][y] != null){
@@ -407,6 +524,9 @@ export class GameManager{
                     if(this.map[x][y] instanceof Road){
                         this.roads.delete(this.map[x][y]);
                         this.map[x][y] = null;
+
+                        this.moveIntoWaitingQOnRoadBulldoze();
+
                         const neighbours = this.getTileNeighbours(null, x, y);
                         for (let neighbour of neighbours){
                             if(neighbour instanceof Road){
@@ -416,17 +536,27 @@ export class GameManager{
                         }
                         this.updateMapActivity();
                         console.log("connected roads: " + this.connectedRoads, "active buildings: " + this.activeBuildings);
+                    }else{
+                        // If a house is deleted update the income/population/production...
+                        const selectedTile = this.map[x][y];
+                        if(this.houses.has(selectedTile)){
+                            this.deleteCar();
+                            this.deletePerson();
+                            this.deletePerson();
+                            this.houses.delete(selectedTile);
+                        } 
+                        else if(this.factories.has(selectedTile)) this.factories.delete(selectedTile);
+                        else if(this.shops.has(selectedTile)) this.shops.delete(selectedTile);
+                        this.map[x][y] = null;
+                        this.updateMapActivity();
                     }
-
-
-                    // If a house is deleted update the income/population/production...
-                    const neighbours = this.getBuildingNeighbours(this.map[x][y]);
-                    this.map[x][y] = null;
-                    this.updateDeletedTile(neighbours)
                     this.townPlanner.renderer.prepareScene(this.townPlanner.scene);
                     this.updateOveralHappiness();
+                    //console.log("connected roads: " + this.connectedRoads, "active buildings: " + this.activeBuildings, "connected buildings: " + this.connectedBuildings);
+                    //console.log("population: " + this.pop, "goods: " + this.goods, "income: " + this.income, "happines: " + this.overalHappiness);
                 }
             }
+            this.guiManager.update();
         }
     }
 
@@ -604,9 +734,156 @@ export class GameManager{
     }
 
     setRoadTypeAndModel(selectedTile, type){
-        let model = this.townPlanner.modelManager.getModel(type);
+        let model = this.modelManager.getModel(type);
         selectedTile.type = type;
         selectedTile.node.children[0] = model;
     }
+
+
+
+    // MyFunctions
+
+    createCar(){
+    // Choose random car model, add it to this.cars (total cars), if placing fails, add it to waiting q
+        let carModel;
+        let rngCar = Math.floor(Math.random()*6);
+        switch(rngCar){
+            case 0:
+                carModel = this.townPlanner.modelManager.getModel("car1_red");    
+                break;
+            case 1:
+                carModel = this.townPlanner.modelManager.getModel("car1_blue");    
+                break;
+            case 2:
+                carModel = this.townPlanner.modelManager.getModel("car1_green");    
+                break;
+            case 3:
+                carModel = this.townPlanner.modelManager.getModel("car2_red");    
+                break;
+            case 4:
+                carModel = this.townPlanner.modelManager.getModel("car2_blue");    
+                break;
+            case 5:
+                carModel = this.townPlanner.modelManager.getModel("car2_green");    
+                break;
+            }
+        let c = new Car(carModel);
+        this.cars.push(c);
+        if (this.roads.size <= 0)
+            this.waitingCars.push(c);
+        else{
+            this.townPlanner.scene.addNode(c);
+            c.placeCar();
+       }
+    }
+
+    createPerson(){
+    // Choose random person model, add it to this.people (total people)
+        let personModel;
+        let rng = Math.floor(Math.random()*5);
+        switch(rng){
+            case 0:
+                personModel = this.townPlanner.modelManager.getModel("person1");    
+                break;
+            case 1:
+                personModel = this.townPlanner.modelManager.getModel("person2");    
+                break;
+            case 2:
+                personModel = this.townPlanner.modelManager.getModel("person3");    
+                break;
+            case 3:
+                personModel = this.townPlanner.modelManager.getModel("person4");    
+                break;
+            case 4:
+                personModel = this.townPlanner.modelManager.getModel("person5");    
+                break;
+        }
+        let p = new PeopleManager(personModel);
+        this.people.push(p);
+        this.townPlanner.scene.addNode(p);
+        p.placePerson();
+    }
+
+    createTree(dir, mapx, mapy){
+        let t = new Tree("tree");
+        this.trees.push(t);
+        this.townPlanner.scene.addNode(t);
+        let x;
+        let y;
+        switch(dir){
+            case 0:
+                x = Math.random() < 0.5 ? mapx*10+9 : mapx*10+1;
+                y = mapy*10+3.5;
+                break;
+        }
+        
+        
+        t.placeTree(x,y);
+    }
+
+
+    deleteCar(){
+        if (this.cars.length<=0)return;
+        let car = this.cars.pop();
+        this.townPlanner.scene.deleteNode(car);
+    }
+
+    deletePerson(){
+        if (this.people.length<=0)return;
+        let p = this.people.pop();
+        this.townPlanner.scene.deleteNode(p);
+    }
+
+    releaseWaitingQ(){
+    // If there are any cars in the waiting q, release them now
+        while (this.waitingCars.length > 0){
+            let wc = this.waitingCars.pop();
+            this.townPlanner.scene.addNode(wc);
+            wc.placeCar();
+        }
+    
+    }
+
+    moveIntoWaitingQOnRoadBulldoze(){
+    //If there are no roads when we destroy a road, put all cars into waiting q
+        if (this.roads.size <= 0){
+            for (let i=0; i < this.cars.length; i++){
+                this.waitingCars.push(this.cars[i]);
+                this.townPlanner.scene.deleteNode(this.cars[i]);
+            }
+        }
+    }
+
+
+
+
+    updateSelector(){
+        if(this.mode == "look"){
+            this.setHoverSelector("selectedTile");
+        }else if (this.mode == "bulldoze"){
+            this.setHoverSelector("bulldozeTile");
+        }else{
+            this.setHoverSelector(this.type);
+        }
+    }
+
+    setHoverSelector(type){
+        if(type == "house"){
+            const houses = ["house1_red", "house1_blue","house1_orange","house1_grey","house1_blueyellow"];
+            type = houses[Math.floor(Math.random() * houses.length)];
+        }
+        const newModel = this.modelManager.getModel(type);
+        newModel.scale = [newModel.scale[0]/2, newModel.scale[1]/2, newModel.scale[2]/2];
+        newModel.updateMatrix();
+        if(GameManager.mouseHoverSelector == null){
+            this.townPlanner.scene.addNode(newModel);
+        }else{
+            this.townPlanner.scene.deleteNode(GameManager.mouseHoverSelector);
+            this.townPlanner.scene.addNode(newModel);
+            this.townPlanner.renderer.prepareScene(this.townPlanner.scene);
+        }
+        GameManager.mouseHoverSelector = newModel;
+    }
+
 
 }
