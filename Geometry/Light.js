@@ -10,5 +10,6 @@ export class Light{
             shininess        : 50,
             attenuatuion     : [1.0, 0, 0.002]
         });
+        this.isOn = true;
     }
 }

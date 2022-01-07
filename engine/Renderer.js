@@ -16,7 +16,7 @@ export class Renderer {
         this.programs = WebGL.buildPrograms(gl, shaders);
 
         //gl.clearColor(0, 0.10, 0.25, 1); // night sky
-        gl.clearColor((0/255), (204/255), (255/255), 1);
+        //gl.clearColor((0/255), (204/255), (255/255), 1);        
 
 
         gl.enable(gl.DEPTH_TEST);
@@ -220,12 +220,18 @@ export class Renderer {
         const gl = this.gl;
         const program = this.programs.simple;
         const closestLights = [lights[0]];
-        const lightDistance = [-999999999,999999999,99999999,99999999];
+        const lightDistance = [-999999999,999999999,999999999,999999999];
 
         for(let i = 1; i < lights.length; i++){
-            for(let j = 0; j < lightDistance.length; j++){
+            for(let j = 1; j < lightDistance.length; j++){
                 let distance = vec3.distance(node.translation, lights[i].translation);
-                if (distance < lightDistance[j]){
+                if (closestLights.length < 4){
+                    if(closestLights[j] == null){
+                        closestLights[j] = lights[i];
+                        lightDistance[j] = distance;
+                        break;
+                    }
+                }else if (distance < lightDistance[j]){
                     closestLights[j] = lights[i];
                     lightDistance[j] = distance;
                     break;

@@ -61,6 +61,7 @@ export class MouseController {
     keyupHandler(e) {
         if(e.code == "KeyR"){
             GameManager.mouseHoverSelector.rotate(0,-Math.PI/2,0);
+            this.gameManager.selectorDirection = (this.gameManager.selectorDirection+1)%4;
         }
     }
 

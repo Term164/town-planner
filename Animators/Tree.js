@@ -17,7 +17,6 @@ export class Tree extends Node{
     placeTree(x,y){
         this.translation = [x, 0, y];
         this.updateTransformMovement();
-        console.log(this.children.length);
     }
 
 

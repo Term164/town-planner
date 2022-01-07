@@ -11,11 +11,7 @@ export class Physics {
             if (node.velocity) {
                 vec3.scaleAndAdd(node.translation, node.translation, node.velocity, dt);
                 node.updateTransformMovement();
-                this.scene.traverse(other => {
-                    if (node !== other) {
-                        //this.resolveCollision(node, other);
-                    }
-                });
+                this.resolveCollision(node);
                 
             }
             
@@ -25,46 +21,43 @@ export class Physics {
         });
     }
 
-    intervalIntersection(min1, max1, min2, max2) {
-        return !(min1 > max2 || min2 > max1);
-    }
 
-    aabbIntersection(aabb1, aabb2) {
-        return this.intervalIntersection(aabb1.min[0], aabb1.max[0], aabb2.min[0], aabb2.max[0])
-            && this.intervalIntersection(aabb1.min[1], aabb1.max[1], aabb2.min[1], aabb2.max[1])
-            && this.intervalIntersection(aabb1.min[2], aabb1.max[2], aabb2.min[2], aabb2.max[2]);
-    }
-
-    resolveCollision(a, b) {
-        // Update bounding boxes with global translation.
-        const ta = a.getGlobalTransform();
-        const tb = b.getGlobalTransform();
-
-        const posa = mat4.getTranslation(vec3.create(), ta);
-        const posb = mat4.getTranslation(vec3.create(), tb);
-
-        const mina = vec3.add(vec3.create(), posa, a.aabb.min);
-        const maxa = vec3.add(vec3.create(), posa, a.aabb.max);
-        const minb = vec3.add(vec3.create(), posb, b.aabb.min);
-        const maxb = vec3.add(vec3.create(), posb, b.aabb.max);
-
-        // Check if there is collision.
-        const isColliding = this.aabbIntersection({
-            min: mina,
-            max: maxa
-        }, {
-            min: minb,
-            max: maxb
-        });
-
-        if (!isColliding) {
-            return;
+    resolveCollision(c) {
+    
+    if( !(c.translation[0]>=0 && c.translation[0]<=300 && c.translation[1]>=15 && c.translation[1]<=100 && c.translation[2]>=0 && c.translation[2]<=300) ){   
+        
+        if (c.translation[0]<0){
+            c.translation=[0, c.translation[1], c.translation[2]];
+            c.updateTransformMovement();
         }
+        if (c.translation[0]>300){
+            c.translation=[300, c.translation[1], c.translation[2]];
+            c.updateTransformMovement();
+        }
+        if (c.translation[1]<15){
+            c.translation=[c.translation[0], 15, c.translation[2]];
+            c.updateTransformMovement();
+        }
+        if (c.translation[1]>100){
+            c.translation=[c.translation[0], 100, c.translation[2]];
+            c.updateTransformMovement();
+        }
+        if (c.translation[2]<0){
+            c.translation=[c.translation[0], c.translation[1], 0];
+            c.updateTransformMovement();
+        }
+        if (c.translation[2]>300){
+            c.translation=[c.translation[0], c.translation[1], 300];
+            c.updateTransformMovement();
+        }
+    
+    }
 
-        // Move node A minimally to avoid collision.
-        const diffa = vec3.sub(vec3.create(), maxb, mina);
-        const diffb = vec3.sub(vec3.create(), maxa, minb);
-
+        
+        // Move node minimally to avoid collision.
+        /*
+        const diffa = vec3.sub(vec3.create(), 1, 1);
+        
         let minDiff = Infinity;
         let minDirection = [0, 0, 0];
         if (diffa[0] >= 0 && diffa[0] < minDiff) {
@@ -79,21 +72,24 @@ export class Physics {
             minDiff = diffa[2];
             minDirection = [0, 0, minDiff];
         }
-        if (diffb[0] >= 0 && diffb[0] < minDiff) {
-            minDiff = diffb[0];
-            minDirection = [-minDiff, 0, 0];
-        }
-        if (diffb[1] >= 0 && diffb[1] < minDiff) {
-            minDiff = diffb[1];
-            minDirection = [0, -minDiff, 0];
-        }
-        if (diffb[2] >= 0 && diffb[2] < minDiff) {
-            minDiff = diffb[2];
-            minDirection = [0, 0, -minDiff];
-        }
+        */
 
-        vec3.add(a.translation, a.translation, minDirection);
-        a.updateTransform();
+        /*
+        let diff=vec3.create(150,20,150);
+        vec3.sub(diff, diff, c.translation);
+        vec3.normalize(diff, diff);
+        console.log(diff)
+
+        vec3.add(c.translation, c.translation, diff);
+        c.updateTransformMovement();
+        */
+
+        //vec3.sub(c.translation, c.translation, vec3.normalize(vec3.create(), c.velocity));
+
+        
+        
+        
+
     }
 
 }

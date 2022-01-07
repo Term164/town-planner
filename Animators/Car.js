@@ -55,7 +55,11 @@ export class Car extends Node{
 
     
     animate(){
-        
+
+        // If a user has paused the game, no animations should play
+        if (!Car.gameManager.animationRunning) return;
+
+
         //wheels
         this.phi -= (this.speed / 0.4 ); // w = v/r 
         if (this.phi < 0 ) this.phi += 2*Math.PI;

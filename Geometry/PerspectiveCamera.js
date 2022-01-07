@@ -192,6 +192,6 @@ PerspectiveCamera.defaults = {
     maxSpeed         : 100,
     friction         : 0.2,
     acceleration     : 100,
-    translation      : [150,10,150],
+    translation      : [150,20,150],
     rotation         : [-Math.PI/4,0,0]
 };

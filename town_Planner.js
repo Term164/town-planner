@@ -10,12 +10,14 @@ import { GameManager } from './engine/GameManager.js';
 import { Car } from './Animators/Car.js';
 import { PeopleManager } from './Animators/PeopleManager.js';
 import { Light } from './Geometry/Light.js';
+import { SoundManager } from './engine/SoundManager.js';
 
 class App extends Application {
 
     async start() {
         this.time = Date.now();
         this.startTime = this.time;
+        this.delta = 0;
         this.pointerlockchangeHandler = this.pointerlockchangeHandler.bind(this);
         document.addEventListener('pointerlockchange', this.pointerlockchangeHandler);
 
@@ -25,36 +27,24 @@ class App extends Application {
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
         this.camera = new PerspectiveCamera();
         this.scene.nodes[1] = this.camera;
-
-        // Create a sun and some throwaway lights (probably should be replaced with townhall lights)
-        const sun = new Light();
-        const light2 = new Light();
-        const light3 = new Light();
-        const light4 = new Light();
-
-        sun.translation = [150,100,150];
-        /*
-        sun.ambientColor = [200, 200, 200]
-        sun.diffuseColor = [240, 240, 240]
-        sun.specularColor = [255, 255, 255]
-        */
-
-        sun.ambientColor = [50, 50, 50]
-        sun.diffuseColor = [50, 50, 50]
-        sun.specularColor = [50, 50, 50]
-        sun.attenuatuion = [1.0,0.0001,0.00005];
-        this.lights = [sun, light2, light3, light4];
-
+        
+        this.lights = [];
     
         this.modelManager = new ModelManager();
         await this.modelManager.loadAllModels();
 
 
+        
+        
+        this.soundManager = new SoundManager();
         this.gameManager = new GameManager(this);
+
+        
         Car.gameManager = this.gameManager;
         PeopleManager.gameManager = this.gameManager;
+        
 
-        console.log(this.scene);
+        //console.log(this.scene);
 
         this.physics = new Physics(this.scene);
         this.renderer = new Renderer(this.gl);
@@ -63,6 +53,7 @@ class App extends Application {
 
         // Game logic speed (when do updates occur)
         this.setNormalGameSpeed();
+        this.setSunUpdateNormalSpeed();
     }
 
     setNormalGameSpeed(){
@@ -73,10 +64,29 @@ class App extends Application {
         this.fastSpeed = setInterval(this.gameManager.tick, 2500);
     }
 
+    setSunUpdateNormalSpeed(){
+        this.sunSpeedFactor = 1;
+    }
+
+    setSunUpdateFastSpeed(){
+        this.sunSpeedFactor = 2;
+    }
+
+
     update() {
-        const t = this.time = Date.now();
+        this.time = Date.now();
         const dt = (this.time - this.startTime) * 0.001;
         this.startTime = this.time;
+        this.delta += dt*1000;
+        //console.log(dt, this.delta);
+        if(this.gameManager){
+            if (this.delta >= 100/this.sunSpeedFactor){
+                this.gameManager.updateSun();
+                this.delta = 0;
+            }
+        }
+        
+
 
         if (this.camera) {
             this.camera.update(dt);
@@ -85,6 +95,8 @@ class App extends Application {
         if (this.physics) {
             this.physics.update(dt);
         }
+
+        
 
     }
 
@@ -108,6 +120,7 @@ class App extends Application {
 
     enablecamera() {
         this.canvas.requestPointerLock();
+        this.soundManager.playBackground();
     }
 
     pointerlockchangeHandler() {

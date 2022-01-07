@@ -19,7 +19,11 @@ export class GameManager{
         this.modelManager = townPlanner.modelManager;
         this.guiManager = this.modelManager.guiManager;
         this.guiManager.setGameManager(this);
-        
+        this.soundManager = this.townPlanner.soundManager;
+        this.guiManager.setSoundManager(this.soundManager);
+        this.soundManager.setManagers(this);
+
+
         this.setHoverSelector("selectedTile")
 
         this.mouseController = new MouseController(townPlanner.canvas, townPlanner.camera, this);
@@ -27,9 +31,11 @@ export class GameManager{
         this.townHall;
 
         // Game variables
-        this.time = 0;
+        this.time = 8;
+        this.sunState = "sunrise"; // nightTime = false means it's day...
         this.dan = "MON";
         this.nday = 0;
+
         this.pop = 0;
         this.money = 5000000;
         this.goods = 0;
@@ -46,6 +52,8 @@ export class GameManager{
         this.activeBuildings = 0;
         this.checkedTiles = new Set();
 
+        this.selectorDirection = 0;
+
         // All placed buildings
         this.roads = new Set();
         this.houses = new Set();
@@ -59,6 +67,15 @@ export class GameManager{
         this.cars = [];
         this.waitingCars = [];
 
+        /*
+        let carModels = ["car1_red","car1_green","car1_blue","car2_red","car2_green","car2_blue"];
+        for (let model of carModels){
+            let c = this.modelManager.getModel(model);
+            this.cars.push(c);
+            this.townPlanner.scene.addNode(c);    
+        }
+
+        */
         // People
         this.people = [];
 
@@ -72,7 +89,66 @@ export class GameManager{
         this.guiManager.update();
 
         this.tick = this.tick.bind(this);
+        this.updateSun = this.updateSun.bind(this);
+
+        // Lights
+        this.initializeLights();
+        this.sunx=0;
+        this.suny=0;
+        this.sunCounter = 0;
+        this.skyColor = [0/255, 200/255, 200/255, 1];
+
+        // Sound
+        this.crowdPoint = [];
+
+        // Animation
+        this.animationRunning = true;
+
+
     }
+
+    initializeLights(){
+        const sun = new Light();
+        const light2 = new Light();
+        const light3 = new Light();
+        const light4 = new Light();
+
+        sun.translation = [150,20,150];
+
+        sun.ambientColor = [200, 200, 200];
+        sun.diffuseColor = [200, 200, 200];
+        sun.specularColor = [50, 50, 50];
+
+        /*    
+        sun.ambientColor = [250, 250, 250];
+        sun.diffuseColor = [250, 250, 250];
+        sun.specularColor = [100, 100, 100];
+        */
+
+        sun.attenuatuion = [1.0,0.0001,0.000005];
+        //sun.attenuatuion = [1.0,0.0001,0.00005];
+
+        light2.ambientColor = [50, 50, 50];
+        light2.diffuseColor = [50, 50, 50];
+        light2.specularColor = [50, 50, 50];
+        light2.translation = [151, 5, 155];
+
+        light3.ambientColor = [50, 50, 50];
+        light3.diffuseColor = [50, 50, 50];
+        light3.specularColor = [50, 50, 50];
+        light3.translation = [159, 5, 155];
+
+        light4.ambientColor = [50, 50, 50];
+        light4.diffuseColor = [50, 50, 50];
+        light4.specularColor = [50, 50, 50];
+        light4.translation = [155, 5, 152];
+
+        this.townPlanner.lights = [sun, light2, light3, light4];
+
+
+    }
+
+
 
     generateMap(size){
         const map = new Array(size);
@@ -88,15 +164,13 @@ export class GameManager{
         const tree2 = this.townPlanner.modelManager.getModel("tree");
         tree1.placeTree(151,158.5);
         tree2.placeTree(159, 158.5);
-        
+        this.townPlanner.scene.addNode(tree1);
+        this.townPlanner.scene.addNode(tree2);
+
         selectedTile.active = true;
         map[15][15] = selectedTile;
         this.townHall = selectedTile;
         this.townPlanner.scene.addNode(model);
-
-        this.townPlanner.scene.addNode(tree1);
-        this.townPlanner.scene.addNode(tree2);
-
         return map;
     }
 
@@ -108,10 +182,7 @@ export class GameManager{
             this.time=0;
             this.nday+=1;
         }
-        
-        
         if(this.nday >= 7) this.nday=0;
-        
         let dan;
         switch(this.nday){
             case 0:
@@ -137,7 +208,32 @@ export class GameManager{
                 break;
         }
 
+        if (this.time >= 7 && this.time <= 19) this.nightTime = false;
+        else this.nightTime = true;
+
+        if (this.nightTime) this.turnOnLights();
+        else this.turnOffLights();
+
+        if (this.time >= 6 && this.time <= 8) this.sunState = "sunrise";
+        if (this.time >= 9 && this.time <= 17) this.sunState = "sun";
+        if (this.time >= 18 && this.time <= 20) this.sunState = "sunset";
+        if (this.time >= 21 || this.time <= 5) this.sunState = "moon";
+        
+        if (this.time == 20){
+            for (let i = 0; i < this.people.length; i++){
+                if (Math.random()<0.6) this.people[i].sleeping = true;
+            }
+        }
+        if (this.time == 8){
+            for (let i = 0; i < this.people.length; i++){
+                this.people[i].sleeping = false;
+            }
+        }
+
+
         this.guiManager.update();
+        this.calculateCrowdPoint();
+        this.soundManager.updateCrowd(this.townPlanner.camera.translation, this.crowdPoint, this.houses.size>0);
     }
 
     updateMapActivity(){
@@ -457,37 +553,43 @@ export class GameManager{
                     let model;
                     if(this.type != "road"){
                         model = GameManager.mouseHoverSelector.clone();
+                        //Get a new model to show what model is going to be placed next
+                        this.setHoverSelector(this.type);
+                        GameManager.mouseHoverSelector.rotation = model.rotation;
+                        GameManager.mouseHoverSelector.translation = [model.translation[0], -20, model.translation[2]];
+                        GameManager.mouseHoverSelector.updateMatrix();
                     }else{
                         model = this.modelManager.getModel("road");
+                        GameManager.mouseHoverSelector.translation = [model.translation[0], -20, model.translation[2]];
+                        GameManager.mouseHoverSelector.updateMatrix();
                     }
                     
-                    //Get a new model to show what model is going to be placed next
-                    this.setHoverSelector(this.type);
-                    GameManager.mouseHoverSelector.rotation = model.rotation;
-                    GameManager.mouseHoverSelector.translation = [model.translation[0], -20, model.translation[2]];
-                    GameManager.mouseHoverSelector.updateMatrix();
-
                     let selectedTile;
                     switch(this.type){
                         case "house":
                             selectedTile = new House(x,y, model, this.createLight(x, y));
+                            selectedTile.direction = this.selectorDirection;
                             this.houses.add(selectedTile);
                             
                             this.createCar();
                             this.createPerson();
                             this.createPerson();
                             //this.createTree(selectedTile.direction, x, y);
-
+                            this.soundManager.playConstructSound();
                             break;
                         case "shop":
                             selectedTile = new Shop(x,y, model, this.createLight(x, y));
+                            selectedTile.direction = this.selectorDirection;
                             this.shops.add(selectedTile);
-                            this.inactiveShops.add(selectedTile)
+                            this.inactiveShops.add(selectedTile);
+                            this.soundManager.playConstructSound();
                             break;
                         case "factory":
                             selectedTile = new Factory(x,y, model);
+                            selectedTile.direction = this.selectorDirection;
                             this.factories.add(selectedTile);
                             this.inactiveFactories.add(selectedTile);
+                            this.soundManager.playConstructSound();
                             break;
                         case "road":
                             selectedTile = new Road(x, y, model, "road");
@@ -495,7 +597,7 @@ export class GameManager{
 
 
                             this.releaseWaitingQ();
-                            
+                            this.soundManager.playConstructSound();
 
                             break;
                     }
@@ -515,7 +617,7 @@ export class GameManager{
                     this.townPlanner.scene.addNode(model);
                     this.townPlanner.renderer.prepareScene(this.townPlanner.scene);
                     //console.log("connected roads: " + this.connectedRoads, "active buildings: " + this.activeBuildings, "connected buildings: " + this.connectedBuildings);
-                    console.log("population: " + this.pop,"unemployed: " + this.unemployedPopulation ,"goods: " + this.goods,"unused goods: " + this.unusedGoods ,"income: " + this.income, "happines: " + this.overalHappiness);
+                    //console.log("population: " + this.pop,"unemployed: " + this.unemployedPopulation ,"goods: " + this.goods,"unused goods: " + this.unusedGoods ,"income: " + this.income, "happines: " + this.overalHappiness);
                 }
             }else if (this.mode == "bulldoze"){
                 if (this.map[x][y] != null){
@@ -525,7 +627,8 @@ export class GameManager{
                         this.roads.delete(this.map[x][y]);
                         this.map[x][y] = null;
 
-                        this.moveIntoWaitingQOnRoadBulldoze();
+                        this.moveIntoWaitingQOnRoadBulldoze(); // NOT WORKING CHECK
+                        // BECAUSE OF UPDATED CAR PLACING, EDGE CASE HOUSE DELETION
 
                         const neighbours = this.getTileNeighbours(null, x, y);
                         for (let neighbour of neighbours){
@@ -535,7 +638,7 @@ export class GameManager{
                             }
                         }
                         this.updateMapActivity();
-                        console.log("connected roads: " + this.connectedRoads, "active buildings: " + this.activeBuildings);
+                       this.soundManager.playDemolishSound();
                     }else{
                         // If a house is deleted update the income/population/production...
                         const selectedTile = this.map[x][y];
@@ -543,12 +646,15 @@ export class GameManager{
                             this.deleteCar();
                             this.deletePerson();
                             this.deletePerson();
+
                             this.houses.delete(selectedTile);
                         } 
                         else if(this.factories.has(selectedTile)) this.factories.delete(selectedTile);
                         else if(this.shops.has(selectedTile)) this.shops.delete(selectedTile);
                         this.map[x][y] = null;
                         this.updateMapActivity();
+                        
+                        this.soundManager.playDemolishSound();
                     }
                     this.townPlanner.renderer.prepareScene(this.townPlanner.scene);
                     this.updateOveralHappiness();
@@ -563,15 +669,23 @@ export class GameManager{
     createLight(x, y){
         const light = new Light();
         light.translation = [x*10+5, 1, y*10+7.5];
+    
+    
+        if (this.nightTime){
+            // Random color chooser
+            const R = Math.floor(Math.random()*56+200);
+            const G = Math.floor(Math.random()*56+200);
+            const B = Math.floor(Math.random()*56+200);
 
-        // Random color chooser
-        const R = Math.floor(Math.random()*256);
-        const G = Math.floor(Math.random()*256);
-        const B = Math.floor(Math.random()*256);
+            light.ambientColor = [Math.floor(R * 0.5), Math.floor(G * 0.5), Math.floor(B * 0.5)];
+            light.diffuseColor = [Math.floor(R * 0.8), Math.floor(G * 0.8), Math.floor(B * 0.8)];
+            light.specularColor = [R, G, B];
+        }else{
+            light.ambientColor = [0, 0, 0];
+            light.diffuseColor = [0, 0, 0];           
+            light.specularColor = [0, 0, 0];
+        }
 
-        light.ambientColor = [Math.floor(R * 0.5), Math.floor(G * 0.5), Math.floor(B * 0.5)];
-        light.diffuseColor = [Math.floor(R * 0.8), Math.floor(G * 0.8), Math.floor(B * 0.8)];
-        light.specularColor = [R, G, B];
         light.shininess = 10;
 
         this.townPlanner.lights.push(light);
@@ -740,6 +854,126 @@ export class GameManager{
     }
 
 
+    turnOffLights(){
+        if (this.townPlanner.lights.length <= 4) return;
+        for (let i = 4; i < this.townPlanner.lights.length; i++){
+            if (this.townPlanner.lights[i].isOn){
+                if (Math.random()<0.75){
+                    this.townPlanner.lights[i].isOn = false;
+                    this.townPlanner.lights[i].ambientColor = [0, 0, 0];
+                    this.townPlanner.lights[i].diffuseColor = [0, 0, 0];           
+                    this.townPlanner.lights[i].specularColor = [0, 0, 0];
+                }
+            }
+        }
+
+    }
+
+    turnOnLights(){
+        if (this.townPlanner.lights.length <= 4) return;
+        for (let i = 4; i < this.townPlanner.lights.length; i++){
+            if (!this.townPlanner.lights[i].isOn){
+                if (Math.random()<0.75){
+                    this.townPlanner.lights[i].isOn = true;
+                    const R = Math.floor(Math.random()*100+100);
+                    const G = Math.floor(Math.random()*100+100);
+                    const B = Math.floor(Math.random()*100+100);
+
+                    this.townPlanner.lights[i].ambientColor = [Math.floor(R * 0.3), Math.floor(G * 0.3), Math.floor(B * 0.3)];
+                    this.townPlanner.lights[i].diffuseColor = [Math.floor(R * 0.8), Math.floor(G * 0.8), Math.floor(B * 0.8)];
+                    this.townPlanner.lights[i].specularColor = [0,0,0];
+                }
+            }else{
+                let x = (this.townPlanner.lights[i].translation[0]-5)/10;
+                let y = (this.townPlanner.lights[i].translation[2]-5)/10;
+                if ( this.map[x][y] instanceof House ){
+                    if (Math.random()<0.05){
+                        this.townPlanner.lights[i].isOn = false;
+                        this.townPlanner.lights[i].ambientColor = [0, 0, 0];
+                        this.townPlanner.lights[i].diffuseColor = [0, 0, 0];           
+                        this.townPlanner.lights[i].specularColor = [0, 0, 0];
+                    }
+                }
+
+            }
+
+        }
+        
+    }
+
+    updateSun(){
+        
+        //console.log(this.sunState);
+        switch(this.sunState){
+            case "sun":              
+                this.townPlanner.renderer.gl.clearColor((0/255), (204/255), (255/255), 1);   
+                this.skyColor = [0/255,204/255, 255/255, 1];
+                //console.log(this.skyColor);
+                this.townPlanner.lights[0].ambientColor = [240, 240, 240];
+                this.townPlanner.lights[0].diffuseColor = [240, 240, 240];
+                this.townPlanner.lights[0].specularColor = [100, 100, 100];
+                break;  
+            case "moon":
+                this.townPlanner.renderer.gl.clearColor(0, 0.10, 0.25, 1); // night sky
+                this.skyColor = [0/255,0.1, 0.25, 1];
+                //console.log(this.skyColor);
+                this.townPlanner.lights[0].ambientColor = [50, 50, 150];
+                this.townPlanner.lights[0].diffuseColor = [50, 50, 150];
+                this.townPlanner.lights[0].specularColor = [50, 50, 150];
+                break;
+            case "sunrise":
+                if (this.skyColor[1]<0.8){
+                this.skyColor = [this.skyColor[0], this.skyColor[1]+2/255, this.skyColor[2]+2.15/255, 1];
+                //console.log(this.skyColor);
+                this.townPlanner.renderer.gl.clearColor(...this.skyColor);
+                this.townPlanner.lights[0].ambientColor = [this.townPlanner.lights[0].ambientColor[0]+2, this.townPlanner.lights[0].ambientColor[1]+2, this.townPlanner.lights[0].ambientColor[2]+1];
+                this.townPlanner.lights[0].diffuseColor = [this.townPlanner.lights[0].diffuseColor[0]+2, this.townPlanner.lights[0].diffuseColor[1]+2, this.townPlanner.lights[0].diffuseColor[2]+1];
+                this.townPlanner.lights[0].specularColor = [this.townPlanner.lights[0].specularColor[0]+2, this.townPlanner.lights[0].specularColor[1]+2, this.townPlanner.lights[0].specularColor[2]+1];
+                }
+                break;
+                
+            case "sunset":
+                if (this.skyColor[1]>0.1){
+                this.skyColor = [this.skyColor[0], this.skyColor[1]-2/255, this.skyColor[2]-2.15/255, 1];
+                //console.log(this.skyColor);
+                this.townPlanner.renderer.gl.clearColor(...this.skyColor);
+                this.townPlanner.lights[0].ambientColor = [this.townPlanner.lights[0].ambientColor[0]-2, this.townPlanner.lights[0].ambientColor[1]-2, this.townPlanner.lights[0].ambientColor[2]-1];
+                this.townPlanner.lights[0].diffuseColor = [this.townPlanner.lights[0].diffuseColor[0]-2, this.townPlanner.lights[0].diffuseColor[1]-2, this.townPlanner.lights[0].diffuseColor[2]-1];
+                this.townPlanner.lights[0].specularColor = [this.townPlanner.lights[0].specularColor[0]-1.5, this.townPlanner.lights[0].specularColor[1]-1.5, this.townPlanner.lights[0].specularColor[2]-1];
+                }
+                break;
+                
+        }
+        //gl.clearColor(0, 0.10, 0.25, 1); // night sky
+        //gl.clearColor((0/255), (204/255), (255/255), 1);   
+
+
+        // Calculates and sets the volume accodringly to the average point of all houses, simulating sound SPATIALIZATION
+        this.calculateCrowdPoint();
+        this.soundManager.updateCrowd(this.townPlanner.camera.translation, this.crowdPoint, this.houses.size>0);
+
+    }
+
+    calculateCrowdPoint(){
+        if (this.houses.size == 0){
+            this.crowdPoint = [150, 10, 150];
+        }else{
+            let avgPoint = [0,10,0];
+            for (let house of this.houses){
+                avgPoint = [avgPoint[0]+(house.x*10+5), 10, avgPoint[2]+(house.y*10+5)];
+            }
+            avgPoint = [avgPoint[0]/this.houses.size, 10, avgPoint[2]/this.houses.size];
+            this.crowdPoint = avgPoint;
+
+        }
+
+        
+
+
+    }
+
+
+
 
     // MyFunctions
 
@@ -767,13 +1001,13 @@ export class GameManager{
                 carModel = this.townPlanner.modelManager.getModel("car2_green");    
                 break;
             }
-        let c = new Car(carModel);
-        this.cars.push(c);
+        
+        this.cars.push(carModel);
         if (this.roads.size <= 0)
-            this.waitingCars.push(c);
+            this.waitingCars.push(carModel);
         else{
-            this.townPlanner.scene.addNode(c);
-            c.placeCar();
+            this.townPlanner.scene.addNode(carModel);
+            carModel.placeCar();
        }
     }
 
@@ -798,14 +1032,13 @@ export class GameManager{
                 personModel = this.townPlanner.modelManager.getModel("person5");    
                 break;
         }
-        let p = new PeopleManager(personModel);
-        this.people.push(p);
-        this.townPlanner.scene.addNode(p);
-        p.placePerson();
+        this.people.push(personModel);
+        this.townPlanner.scene.addNode(personModel);
+        personModel.placePerson();
     }
 
     createTree(dir, mapx, mapy){
-        let t = new Tree("tree");
+        let t = this.townPlanner.modelManager.getModel("tree");
         this.trees.push(t);
         this.townPlanner.scene.addNode(t);
         let x;
@@ -817,7 +1050,6 @@ export class GameManager{
                 break;
         }
         
-        
         t.placeTree(x,y);
     }
 
@@ -826,6 +1058,8 @@ export class GameManager{
         if (this.cars.length<=0)return;
         let car = this.cars.pop();
         this.townPlanner.scene.deleteNode(car);
+        if (this.waitingCars.length>0)
+            this.waitingCars.pop();
     }
 
     deletePerson(){
@@ -836,7 +1070,7 @@ export class GameManager{
 
     releaseWaitingQ(){
     // If there are any cars in the waiting q, release them now
-        while (this.waitingCars.length > 0){
+        while(this.waitingCars.length > 0){
             let wc = this.waitingCars.pop();
             this.townPlanner.scene.addNode(wc);
             wc.placeCar();
@@ -864,13 +1098,18 @@ export class GameManager{
             this.setHoverSelector("bulldozeTile");
         }else{
             this.setHoverSelector(this.type);
+            this.selectorDirection = 0;
         }
+        
     }
 
     setHoverSelector(type){
         if(type == "house"){
             const houses = ["house1_red", "house1_blue","house1_orange","house1_grey","house1_blueyellow"];
             type = houses[Math.floor(Math.random() * houses.length)];
+        }else if(type == "shop"){
+            const shops = ["shop","shop2"];
+            type = shops[Math.floor(Math.random() * shops.length)];
         }
         const newModel = this.modelManager.getModel(type);
         newModel.scale = [newModel.scale[0]/2, newModel.scale[1]/2, newModel.scale[2]/2];

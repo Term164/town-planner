@@ -2,6 +2,7 @@ export class GUIManager{
     constructor(){
         this.gameManager = null;
         
+
         this.house_cost = 100;
         this.shop_cost = 200;
         this.factory_cost = 400;
@@ -18,6 +19,10 @@ export class GUIManager{
 
     setGameManager(gameManager){
         this.gameManager = gameManager;
+    }
+
+    setSoundManager(soundManager){
+        this.soundManager = soundManager;
     }
 
     getAllElements(){
@@ -188,21 +193,33 @@ export class GUIManager{
 
     // Stop all animations + time ticks
     pauseClick(){
-        if(this.gameManager.townPlanner.normalSpeed != null)
+        if(this.gameManager.townPlanner.normalSpeed != null){
             clearInterval(this.gameManager.townPlanner.normalSpeed);
-        if(this.gameManager.townPlanner.fastSpeed != null)
+            clearInterval(this.gameManager.townPlanner.normalSunSpeed);
+        }
+        if(this.gameManager.townPlanner.fastSpeed != null){
             clearInterval(this.gameManager.townPlanner.fastSpeed);
+            clearInterval(this.gameManager.townPlanner.fastSunSpeed);
+        }
+        this.soundManager.pauseCrowd();
+        this.gameManager.animationRunning = false;
     }
 
     playClick(){
         this.pauseClick();
         this.gameManager.townPlanner.setNormalGameSpeed();
+        this.gameManager.townPlanner.setSunUpdateNormalSpeed();
+        this.soundManager.playCrowd();
+        this.gameManager.animationRunning = true;
     }
 
     // Just speed up the time no need for animations
     ffClick(){
         this.pauseClick();
         this.gameManager.townPlanner.setFastForwardSpeed();
+        this.gameManager.townPlanner.setSunUpdateFastSpeed();
+        this.soundManager.playCrowd();
+        this.gameManager.animationRunning = true;
     }
 
     closeConstructionMenu(){
@@ -287,5 +304,6 @@ export class GUIManager{
         this.goods_all.innerHTML = this.gameManager.goods;
         this.time_element.innerHTML = this.gameManager.time;
         this.day_element.innerHTML = this.gameManager.dan;
+
     }
 }
