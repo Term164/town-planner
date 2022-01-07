@@ -7,7 +7,8 @@ export class Tile{
         this.direction = 0;
         if(lights != null) this.lights = lights;
         this.node = node;
-        node.updateTranslation([x*10+5,0,y*10+5]);
+        if(node != null)
+            node.updateTranslation([x*10+5,0,y*10+5]);
     }
 
 

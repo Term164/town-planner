@@ -1,5 +1,6 @@
 import { Ray } from "../Geometry/Ray.js";
 import { vec3 } from "../lib/gl-matrix-module.js";
+import { Empty } from "./Buildings/Empty.js";
 import { GameManager } from "./GameManager.js";
 
 export class MouseController {
@@ -31,7 +32,7 @@ export class MouseController {
         const mapY = Math.floor(pointPlaneIntersection[2]/10);
         if(this.gameManager.mode != "bulldoze"){
             if(mapX >= 0 && mapY >= 0 && mapX < 30 && mapY <30){
-                if(this.gameManager.map[mapX][mapY] == null)
+                if(this.gameManager.map[mapX][mapY] instanceof Empty)
                     GameManager.mouseHoverSelector.updateTranslation([mapX*10 + 5,0,mapY*10+5]);
                 else
                     GameManager.mouseHoverSelector.updateTranslation([mapX*10 + 5,-100,mapY*10+5]);

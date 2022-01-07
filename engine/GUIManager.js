@@ -57,6 +57,7 @@ export class GUIManager{
         this.shop_element = document.getElementById("shop_icon");
         this.factory_element = document.getElementById("factory_icon");
         this.road_element = document.getElementById("road_icon");
+        this.wind_turbine_elemet = document.getElementById("wind_turbine_icon");
         this.bulldozer_element = document.getElementById("bulldoze_icon");
 
         this.house_cost_element = document.getElementById("house_cost_data");
@@ -97,6 +98,8 @@ export class GUIManager{
         this.factory_element.addEventListener('mouseout', this.mouseLeftButton);
         this.road_element.addEventListener('mouseover', this.mouseOverButton);
         this.road_element.addEventListener('mouseout', this.mouseLeftButton);
+        this.wind_turbine_elemet.addEventListener('mouseover', this.mouseOverButton);
+        this.wind_turbine_elemet.addEventListener('mouseout', this.mouseLeftButton);
         this.bulldozer_element.addEventListener('mouseover', this.mouseOverButton);
         this.bulldozer_element.addEventListener('mouseout', this.mouseLeftButton);
         this.pause_element.addEventListener('mouseover', this.mouseOverButton);
@@ -129,12 +132,15 @@ export class GUIManager{
         this.shopMode = this.shopMode.bind(this);
         this.factoryMode = this.factoryMode.bind(this);
         this.roadMode = this.roadMode.bind(this);
+        this.windTurbineMode = this.windTurbineMode.bind(this);
         this.bulldozerMode = this.bulldozerMode.bind(this);
         this.house_element.addEventListener("click", this.houseMode);
         this.shop_element.addEventListener("click", this.shopMode);
         this.factory_element.addEventListener("click", this.factoryMode);
         this.road_element.addEventListener("click", this.roadMode);
+        this.wind_turbine_elemet.addEventListener("click", this.windTurbineMode);
         this.bulldozer_element.addEventListener("click", this.bulldozerMode);
+        
     }
 
     setHint(){
@@ -277,6 +283,16 @@ export class GUIManager{
         this.gameManager.updateSelector();
     }
 
+    windTurbineMode(){
+        if(this.gameManager.mode == "build" && this.gameManager.type == "wind_turbine"){
+            this.gameManager.mode = "look";
+        }else{
+            this.gameManager.mode = "build";
+            this.gameManager.type = "wind_turbine";
+        }
+        this.gameManager.updateSelector();
+    }
+
     bulldozerMode(){
         if(this.gameManager.mode == "bulldoze"){
             this.gameManager.mode = "look";
@@ -302,6 +318,11 @@ export class GUIManager{
         this.population_all.innerHTML = this.gameManager.pop;
         this.goods_used.innerHTML = this.gameManager.goods-this.gameManager.unusedGoods;
         this.goods_all.innerHTML = this.gameManager.goods;
+        this.energy_all.innerHTML = this.gameManager.energyProduction;
+        this.energy_used.innerHTML = this.gameManager.criticalEnergy;
+        this.income_data.innerHTML = this.gameManager.income;
+        this.happiness.innerHTML = Math.floor(this.gameManager.overalHappiness * 100);
+        this.score_element.innerHTML = Math.floor(this.gameManager.pop * this.gameManager.overalHappiness);
         this.time_element.innerHTML = this.gameManager.time;
         this.day_element.innerHTML = this.gameManager.dan;
 

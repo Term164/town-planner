@@ -1,11 +1,5 @@
 import { Node } from "../Geometry/Node.js";
-import { GameManager } from "../engine/GameManager.js";
-import { Tile } from "../engine/Buildings/Tile.js";
-import { House } from "../engine/Buildings/House.js";
-import { Shop } from "../engine/Buildings/Shop.js";
-import { Factory } from "../engine/Buildings/Factory.js";
 import { Road } from "../engine/Buildings/Road.js";
-import { TownHall } from "../engine/Buildings/TownHall.js";
 
 
 export class Car extends Node{

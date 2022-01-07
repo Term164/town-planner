@@ -6,6 +6,7 @@ export class Factory extends Tile{
 
     constructor(x, y, node){
         super(x,y, node);
+        this.energyConsumption = 30;
         this.requiredPop = 2;
         this.goodsProduction = 30;
         this.adjacencyBonus = 0;
