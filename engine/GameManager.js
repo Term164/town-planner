@@ -9,6 +9,8 @@ import { Car } from "../Animators/Car.js";
 import { PeopleManager } from "../Animators/PeopleManager.js";
 import { Tree } from "../Animators/Tree.js";
 import { Empty } from "./Buildings/Empty.js";
+import { WindTurbine } from "../Animators/WindTurbine.js";
+import { quat } from "../lib/gl-matrix-module.js";
 
 export class GameManager{
 
@@ -34,11 +36,12 @@ export class GameManager{
         this.pop = 0;
         this.money = 5000000;
         this.goods = 0;
-        this.electricProduction = 0;
+        this.energyProduction = 0;
 
         this.income = 0; // Money per tick
         this.unemployedPopulation = 0;
         this.unusedGoods = 0;
+        this.criticalEnergy = 0;
         this.overalHappiness = 0;
 
         // Logic variables
@@ -52,6 +55,7 @@ export class GameManager{
         this.houses = new Set();
         this.shops = new Set();
         this.factories = new Set();
+        this.windTurbines = new Set();
 
         this.inactiveFactories = new Set();
         this.inactiveShops = new Set();
@@ -59,6 +63,7 @@ export class GameManager{
         // Cars
         this.cars = [];
         this.waitingCars = [];
+        this.connectedRoadsForCars = [new Car()];
 
         // People
         this.people = [];
@@ -180,10 +185,13 @@ export class GameManager{
 
     updateOveralHappiness(){
         this.overalHappiness = 0;
+        const excessEnergy = this.energyProduction - this.criticalEnergy;
+        const numberOfPossibleHouses = Math.floor(excessEnergy/House.energyConsumption);
+        if (numberOfPossibleHouses <= this.houses.size) this.overalHappiness += numberOfPossibleHouses * 0.1;
+        else this.overalHappiness += this.houses.size * 0.1;
         for (let house of this.houses) this.overalHappiness += house.happiness;
         this.overalHappiness = this.overalHappiness / this.houses.size;
-        // TODO fiddle a little with the happines of the people
-        //this.overalHappiness -= (this.unemployedPopulation/this.pop) * 0.5;
+        this.overalHappiness -= (this.unemployedPopulation/this.pop) * 0.25;
     }
 
     checkRoadNetwork(){
@@ -200,7 +208,10 @@ export class GameManager{
                     if (neighbour.connected) {
                         tile.connected = true;
 
-                        if(tile instanceof Road) this.connectedRoads++;
+                        if(tile instanceof Road) {
+                            this.connectedRoads++;
+                            this.connectedRoadsForCars.push(tile);
+                        }
                         else this.connectedBuildings++;
                         break;
                     }
@@ -234,6 +245,9 @@ export class GameManager{
         this.unemployedPopulation = 0;
         this.unusedGoods = 0;
         this.overalHappiness = 0;
+        this.energyProduction = 0;
+        this.houseEnergy = 0;
+        this.criticalEnergy = 0;
 
         // Logic variables
         this.connectedRoads = 0;
@@ -251,7 +265,12 @@ export class GameManager{
                 if (tile.adjacencyBonus != null) tile.adjacencyBonus = 0;
                 if(tile instanceof Factory) this.inactiveFactories.add(tile);
                 else if(tile instanceof Shop) this.inactiveShops.add(tile);
+                else if(tile instanceof House) tile.happiness = 0.5;
             }
+        }
+
+        for(let turbine of this.windTurbines){
+            this.energyProduction += turbine.energyProduction;
         }
     }
 
@@ -288,11 +307,12 @@ export class GameManager{
             if(tile instanceof House){
                 tile.active = true;
                 this.activeBuildings++;
-            }else if(tile.requiredPop <= this.unemployedPopulation){
+            }else if(tile.requiredPop <= this.unemployedPopulation && tile.energyConsumption <= this.energyProduction - this.criticalEnergy){
                 if(tile instanceof Factory){
                     tile.active = true;
                     this.activeBuildings++;
                     this.unemployedPopulation -= tile.requiredPop;
+                    this.criticalEnergy += tile.energyConsumption;
                     this.inactiveFactories.delete(tile);
                 }else if(tile instanceof Shop) {
                     if(tile.requiredGoods <= this.unusedGoods){
@@ -300,6 +320,7 @@ export class GameManager{
                         this.activeBuildings++;
                         this.unemployedPopulation -= tile.requiredPop;
                         this.unusedGoods -= tile.requiredGoods;
+                        this.criticalEnergy += tile.energyConsumption;
                         this.inactiveShops.delete(tile)
                     }
                 }
@@ -465,6 +486,10 @@ export class GameManager{
                     enoughMoney = this.money >= Road.cost;
                     if (enoughMoney) this.money -= Road.cost;
                     break;
+                case "wind_turbine":
+                    enoughMoney = this.money >= WindTurbine.cost;
+                    if(enoughMoney) this.money -= WindTurbine.cost;
+                    break;
             }
         }else if(this.mode == "bulldoze"){
             enoughMoney = this.money >= 20;
@@ -493,7 +518,7 @@ export class GameManager{
                     
                     //Get a new model to show what model is going to be placed next
                     this.setHoverSelector(this.type);
-                    GameManager.mouseHoverSelector.rotation = model.rotation;
+                    GameManager.mouseHoverSelector.rotation = quat.clone(model.rotation);
                     GameManager.mouseHoverSelector.translation = [model.translation[0], -20, model.translation[2]];
                     GameManager.mouseHoverSelector.updateMatrix();
 
@@ -504,10 +529,9 @@ export class GameManager{
                             this.houses.add(selectedTile);
                             
                             this.createCar();
-                            this.createPerson();
-                            this.createPerson();
+                            //this.createPerson();
+                            //this.createPerson();
                             //this.createTree(selectedTile.direction, x, y);
-
                             break;
                         case "shop":
                             selectedTile = new Shop(x,y, model);
@@ -522,11 +546,12 @@ export class GameManager{
                         case "road":
                             selectedTile = new Road(x, y, model, "road");
                             this.roads.add(selectedTile);
-
-
-                            this.releaseWaitingQ();
-                            
-
+                            break;
+                        case "wind_turbine":
+                            selectedTile = model;
+                            selectedTile.placeWindTurbine(x, y);
+                            this.windTurbines.add(selectedTile);
+                            this.updateMapActivity();
                             break;
                     }
                     this.map[x][y] = selectedTile;
@@ -534,18 +559,18 @@ export class GameManager{
                         this.fixRoadPoint(x,y);
                         this.checkedTiles.clear();
                         this.checkTileConnectivity(selectedTile);
-                    }else{
+                        this.releaseWaitingQ();
+                    }else if (this.type != "wind_turbine"){
                         this.checkTileConnectivity(selectedTile);
                         this.checkAndUpdateTile(selectedTile);
                         const neighbours = this.getBuildingNeighbours(selectedTile);
                         for (let neighbour of neighbours) this.checkAndUpdateTile(neighbour);
                     }
-
                     this.updateOveralHappiness();
                     this.townPlanner.scene.addNode(model);
                     this.townPlanner.renderer.prepareScene(this.townPlanner.scene);
                     //console.log("connected roads: " + this.connectedRoads, "active buildings: " + this.activeBuildings, "connected buildings: " + this.connectedBuildings);
-                    console.log("population: " + this.pop,"unemployed: " + this.unemployedPopulation ,"goods: " + this.goods,"unused goods: " + this.unusedGoods ,"income: " + this.income, "happines: " + this.overalHappiness);
+                    //console.log("population: " + this.pop,"unemployed: " + this.unemployedPopulation ,"goods: " + this.goods,"unused goods: " + this.unusedGoods ,"income: " + this.income, "happines: " + this.overalHappiness);
                 }
             }else if (this.mode == "bulldoze"){
                 if (!(this.map[x][y] instanceof Empty)){
@@ -565,7 +590,7 @@ export class GameManager{
                             }
                         }
                         this.updateMapActivity();
-                        console.log("connected roads: " + this.connectedRoads, "active buildings: " + this.activeBuildings);
+                        //console.log("connected roads: " + this.connectedRoads, "active buildings: " + this.activeBuildings);
                     }else{
                         // If a house is deleted update the income/population/production...
                         const selectedTile = this.map[x][y];
@@ -577,6 +602,7 @@ export class GameManager{
                         } 
                         else if(this.factories.has(selectedTile)) this.factories.delete(selectedTile);
                         else if(this.shops.has(selectedTile)) this.shops.delete(selectedTile);
+                        else if(this.windTurbines.has(selectedTile)) this.windTurbines.delete(selectedTile);
                         this.map[x][y] = new Empty();
                         this.updateMapActivity();
                     }
@@ -846,12 +872,22 @@ export class GameManager{
     }
 
     releaseWaitingQ(){
-    // If there are any cars in the waiting q, release them now
+        // If there are any cars in the waiting q, release them now
+        
         while (this.waitingCars.length > 0){
             let wc = this.waitingCars.pop();
             this.townPlanner.scene.addNode(wc);
             wc.placeCar();
         }
+        
+       /*
+        for (let car of this.waitingCars){
+            this.townPlanner.scene.addNode(car);
+            car.placeCar();
+        }
+        */
+
+        this.waitingCars = [];
     
     }
 

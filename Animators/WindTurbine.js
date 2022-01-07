@@ -1,15 +1,29 @@
 import { Node } from "../Geometry/Node.js";
 
-export class WindTurbine extends Node{
+export class WindTurbine extends Node {
+
+    static cost = 300;
 
     constructor(options){
         super(options);
+        this.x = 0;
+        this.y = 0;
+        this.energyProduction = 100;
+        this.node = this;
+
         this.phi = Math.random();
         this.rotationSpeed = Math.random()*0.05+0.005;
         this.animated = true;
         this.blades = this.children[0];
         this.blades.translation = [this.blades.translation[0], this.blades.translation[1]-0.1, this.blades.translation[2]];
         this.blades.updateTransformMovement();
+    }
+
+
+    placeWindTurbine(x, y){
+        this.x = x;
+        this.y = y;
+        this.updateTranslation([x*10+5,0,y*10+5]);
     }
 
     animate(){
