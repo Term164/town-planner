@@ -9,6 +9,7 @@ import { ModelManager } from './Geometry/ModelManager.js';
 import { GameManager } from './engine/GameManager.js';
 import { Car } from './Animators/Car.js';
 import { PeopleManager } from './Animators/PeopleManager.js';
+import { Light } from './Geometry/Light.js';
 
 class App extends Application {
 
@@ -24,9 +25,30 @@ class App extends Application {
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
         this.camera = new PerspectiveCamera();
         this.scene.nodes[1] = this.camera;
+
+        // Create a sun and some throwaway lights (probably should be replaced with townhall lights)
+        const sun = new Light();
+        const light2 = new Light();
+        const light3 = new Light();
+        const light4 = new Light();
+
+        sun.translation = [150,100,150];
+        /*
+        sun.ambientColor = [200, 200, 200]
+        sun.diffuseColor = [240, 240, 240]
+        sun.specularColor = [255, 255, 255]
+        */
+
+        sun.ambientColor = [50, 50, 50]
+        sun.diffuseColor = [50, 50, 50]
+        sun.specularColor = [50, 50, 50]
+        sun.attenuatuion = [1.0,0.0001,0.00005];
+        this.lights = [sun, light2, light3, light4];
+
     
         this.modelManager = new ModelManager();
         await this.modelManager.loadAllModels();
+
 
         this.gameManager = new GameManager(this);
         Car.gameManager = this.gameManager;
@@ -68,7 +90,8 @@ class App extends Application {
 
     render() {
         if (this.renderer) {
-            this.renderer.render(this.scene, this.camera);
+            //console.log(this.lights.length);
+            this.renderer.render(this.scene, this.camera, this.lights);
         }
     }
 

@@ -2,7 +2,8 @@ import { mat4 } from '../../lib/gl-matrix-module.js';
 
 import { WebGL } from './WebGL.js';
 
-import { shaders } from './shaders.js';
+import { shaders } from './newShader.js';
+import { vec3, vec4 } from '../lib/gl-matrix-module.js';
 
 // This class prepares all assets for use with WebGL
 // and takes care of rendering.
@@ -16,9 +17,9 @@ export class Renderer {
 
         //gl.clearColor(0, 0.10, 0.25, 1); // night sky
         gl.clearColor((0/255), (204/255), (255/255), 1);
-        //gl.clearColor(1,1,1,1);
+
+
         gl.enable(gl.DEPTH_TEST);
-        //gl.disable(gl.DEPTH_TEST);
         gl.enable(gl.CULL_FACE);
     }
 
@@ -121,6 +122,7 @@ export class Renderer {
         const attributeNameToIndexMap = {
             POSITION   : 0,
             TEXCOORD_0 : 1,
+            NORMAL     : 2,
         };
 
         for (const name in primitive.attributes) {
@@ -168,19 +170,7 @@ export class Renderer {
         }
     }
 
-    getViewProjectionMatrix(camera) {
-        const mvpMatrix = mat4.clone(camera.matrix);
-        let parent = camera.parent;
-        while (parent) {
-            mat4.mul(mvpMatrix, parent.matrix, mvpMatrix);
-            parent = parent.parent;
-        }
-        mat4.invert(mvpMatrix, mvpMatrix);
-        mat4.mul(mvpMatrix, camera.projectionMatrix, mvpMatrix);
-        return mvpMatrix;
-    }
-
-    render(scene, camera) {
+    render(scene, camera, lights) {
         const gl = this.gl;
 
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -189,28 +179,77 @@ export class Renderer {
         gl.useProgram(program.program);
         gl.uniform1i(program.uniforms.uTexture, 0);
 
-        const mvpMatrix = this.getViewProjectionMatrix(camera);
+
+       
+        
+
+        const viewMatrix = mat4.clone(camera.matrix);
+        mat4.invert(viewMatrix, viewMatrix);
+        gl.uniformMatrix4fv(program.uniforms.uViewMatrix, false, viewMatrix);
+
+        const projectionMatrix = mat4.clone(camera.projectionMatrix);
+        gl.uniformMatrix4fv(program.uniforms.uProjection, false, projectionMatrix);
+        
         for (const node of scene.nodes) {
-            this.renderNode(node, mvpMatrix);
+            this.loadLights(node, lights);
+            this.renderNode(node, viewMatrix);
         }
     }
 
-    renderNode(node, mvpMatrix) {
-        const gl = this.gl;
+    renderNode(node, viewMatrix) {
 
-        mvpMatrix = mat4.clone(mvpMatrix);
-        mat4.mul(mvpMatrix, mvpMatrix, node.matrix);
+        
+        const gl = this.gl;
+        viewMatrix = mat4.clone(viewMatrix);
+        mat4.mul(viewMatrix, viewMatrix, node.matrix);
 
         if (node.mesh) {
             const program = this.programs.simple;
-            gl.uniformMatrix4fv(program.uniforms.uMvpMatrix, false, mvpMatrix);
+            gl.uniformMatrix4fv(program.uniforms.uViewModel, false, viewMatrix);
             for (const primitive of node.mesh.primitives) {
                 this.renderPrimitive(primitive);
             }
         }
 
         for (const child of node.children) {
-            this.renderNode(child, mvpMatrix);
+            this.renderNode(child, viewMatrix);
+        }
+    }
+
+    loadLights(node, lights){
+        const gl = this.gl;
+        const program = this.programs.simple;
+        const closestLights = [lights[0]];
+        const lightDistance = [-999999999,999999999,99999999,99999999];
+
+        for(let i = 1; i < lights.length; i++){
+            for(let j = 0; j < lightDistance.length; j++){
+                let distance = vec3.distance(node.translation, lights[i].translation);
+                if (distance < lightDistance[j]){
+                    closestLights[j] = lights[i];
+                    lightDistance[j] = distance;
+                    break;
+                }
+            }
+        }
+
+        for(let i = 0; i < 4; i++){
+            const light = closestLights[i];
+            let color = vec3.clone(light.ambientColor);
+            vec3.scale(color, color, 1.0 / 255.0);
+            gl.uniform3fv(program.uniforms['uAmbientColor[' + i + ']'], color);
+            color = vec3.clone(light.diffuseColor);
+            vec3.scale(color, color, 1.0 / 255.0);
+            gl.uniform3fv(program.uniforms['uDiffuseColor[' + i + ']'], color);
+            color = vec3.clone(light.specularColor);
+            vec3.scale(color, color, 1.0 / 255.0);
+            gl.uniform3fv(program.uniforms['uSpecularColor[' + i + ']'], color);
+            let position = light.translation;
+            //console.log(position);
+
+            gl.uniform3fv(program.uniforms['uLightPosition[' + i + ']'], position);
+            gl.uniform1f(program.uniforms['uShininess[' + i + ']'], light.shininess);
+            gl.uniform3fv(program.uniforms['uLightAttenuation[' + i + ']'], light.attenuatuion);
         }
     }
 

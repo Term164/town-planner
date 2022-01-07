@@ -5,6 +5,7 @@ import { Road } from "./Buildings/Road.js";
 import { TownHall } from "./Buildings/TownHall.js";
 
 import { MouseController } from "./MouseController.js";
+import { Light } from "../Geometry/Light.js";
 import { Car } from "../Animators/Car.js";
 import { PeopleManager } from "../Animators/PeopleManager.js";
 import { Tree } from "../Animators/Tree.js";
@@ -525,7 +526,7 @@ export class GameManager{
                     let selectedTile;
                     switch(this.type){
                         case "house":
-                            selectedTile = new House(x,y, model);
+                            selectedTile = new House(x,y, model, this.createLight(x, y));
                             this.houses.add(selectedTile);
                             
                             this.createCar();
@@ -534,7 +535,7 @@ export class GameManager{
                             //this.createTree(selectedTile.direction, x, y);
                             break;
                         case "shop":
-                            selectedTile = new Shop(x,y, model);
+                            selectedTile = new Shop(x,y, model, this.createLight(x, y));
                             this.shops.add(selectedTile);
                             this.inactiveShops.add(selectedTile)
                             break;
@@ -614,6 +615,25 @@ export class GameManager{
             }
             this.guiManager.update();
         }
+    }
+
+    createLight(x, y){
+        const light = new Light();
+        light.translation = [x*10+5, 1, y*10+7.5];
+
+        // Random color chooser
+        const R = Math.floor(Math.random()*256);
+        const G = Math.floor(Math.random()*256);
+        const B = Math.floor(Math.random()*256);
+
+        light.ambientColor = [Math.floor(R * 0.5), Math.floor(G * 0.5), Math.floor(B * 0.5)];
+        light.diffuseColor = [Math.floor(R * 0.8), Math.floor(G * 0.8), Math.floor(B * 0.8)];
+        light.specularColor = [R, G, B];
+        light.shininess = 10;
+
+        this.townPlanner.lights.push(light);
+
+        return light;
     }
 
     fixRoadPoint(x, y, deleted) {
