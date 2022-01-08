@@ -126,14 +126,14 @@ export class PerspectiveCamera extends Node {
 
 
     enable() {
-        document.addEventListener('mousemove', this.mousemoveHandler);
+        //document.addEventListener('mousemove', this.mousemoveHandler);
         document.addEventListener('keydown', this.keydownHandler);
         document.addEventListener('keyup', this.keyupHandler);
         document.addEventListener('wheel', this.zoomHandler);
     }
 
     disable() {
-        document.removeEventListener('mousemove', this.mousemoveHandler);
+        //document.removeEventListener('mousemove', this.mousemoveHandler);
         document.removeEventListener('keydown', this.keydownHandler);
         document.removeEventListener('keyup', this.keyupHandler);
 
