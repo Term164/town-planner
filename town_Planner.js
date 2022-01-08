@@ -1,5 +1,3 @@
-import { GUI } from '../lib/dat.gui.module.js';
-
 import { Application } from './engine/Application.js';
 import { Renderer } from './engine/Renderer.js';
 import { Physics } from './engine/Physics.js';
@@ -18,9 +16,6 @@ export class App extends Application {
     async start() {
         this.time = Date.now();
         this.startTime = this.time;
-        this.delta = 0;
-        this.pointerlockchangeHandler = this.pointerlockchangeHandler.bind(this);
-        document.addEventListener('pointerlockchange', this.pointerlockchangeHandler);
 
         // ==================== Loading Blender models =====================
         this.loader = new GLTFLoader();
@@ -55,6 +50,7 @@ export class App extends Application {
         // Game logic speed (when do updates occur)
         this.setNormalGameSpeed();
         this.setSunUpdateNormalSpeed();
+        this.camera.enable();
     }
 
     setNormalGameSpeed(){
@@ -116,23 +112,6 @@ export class App extends Application {
         if (this.camera) {
             this.camera.aspect = aspectRatio;
             this.camera.updateProjection();
-        }
-    }
-
-    enablecamera() {
-        this.canvas.requestPointerLock();
-        this.soundManager.playBackground();
-    }
-
-    pointerlockchangeHandler() {
-        if (!this.camera) {
-            return;
-        }
-
-        if (document.pointerLockElement === this.canvas) {
-            this.camera.enable();
-        } else {
-            this.camera.disable();
         }
     }
 
