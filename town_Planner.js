@@ -11,8 +11,9 @@ import { Car } from './Animators/Car.js';
 import { PeopleManager } from './Animators/PeopleManager.js';
 import { Light } from './Geometry/Light.js';
 import { SoundManager } from './engine/SoundManager.js';
+import { MainMenuManager } from './engine/MainMenuManager.js';
 
-class App extends Application {
+export class App extends Application {
 
     async start() {
         this.time = Date.now();
@@ -139,7 +140,10 @@ class App extends Application {
 
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.querySelector('canvas');
-    const app = new App(canvas);
-    const gui = new GUI();
-    gui.add(app, 'enablecamera');
+    const mainMenu = new MainMenuManager(canvas);
+
+    
+    // const app = new App(canvas);
+    // const gui = new GUI(); // To gre stran probably
+    // gui.add(app, 'enablecamera'); // To gre stran probably
 });

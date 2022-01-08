@@ -35,8 +35,8 @@ export class GameManager{
         this.townHall;
 
         // Game variables
-        this.time = 8;
-        this.sunState = "sunrise"; // nightTime = false means it's day...
+        this.time = 7;
+        this.sunState = "sunrise"; // sunrise, sun, sunset, moon
         this.dan = "MON";
         this.nday = 0;
 
@@ -74,17 +74,10 @@ export class GameManager{
         this.waitingCars = [];
         this.connectedRoadsForCars = [new Car()];
 
-        /*
-        let carModels = ["car1_red","car1_green","car1_blue","car2_red","car2_green","car2_blue"];
-        for (let model of carModels){
-            let c = this.modelManager.getModel(model);
-            this.cars.push(c);
-            this.townPlanner.scene.addNode(c);    
-        }
-
-        */
+        
         // People
         this.people = [];
+        this.sleepingPeople = 0;
 
         // Trees
         this.trees = [];
@@ -122,8 +115,8 @@ export class GameManager{
 
         sun.translation = [150,20,150];
 
-        sun.ambientColor = [200, 200, 200];
-        sun.diffuseColor = [200, 200, 200];
+        sun.ambientColor = [240, 240, 240];
+        sun.diffuseColor = [240, 240, 240];
         sun.specularColor = [50, 50, 50];
 
         /*    
@@ -135,19 +128,19 @@ export class GameManager{
         sun.attenuatuion = [1.0,0.0001,0.000005];
         //sun.attenuatuion = [1.0,0.0001,0.00005];
 
-        light2.ambientColor = [50, 50, 50];
-        light2.diffuseColor = [50, 50, 50];
-        light2.specularColor = [50, 50, 50];
+        light2.ambientColor = [30, 30, 30];
+        light2.diffuseColor = [30, 30, 30];
+        light2.specularColor = [30, 30, 30];
         light2.translation = [151, 5, 155];
 
-        light3.ambientColor = [50, 50, 50];
-        light3.diffuseColor = [50, 50, 50];
-        light3.specularColor = [50, 50, 50];
+        light3.ambientColor = [30, 30, 30];
+        light3.diffuseColor = [30, 30, 30];
+        light3.specularColor = [30, 30, 30];
         light3.translation = [159, 5, 155];
 
-        light4.ambientColor = [50, 50, 50];
-        light4.diffuseColor = [50, 50, 50];
-        light4.specularColor = [50, 50, 50];
+        light4.ambientColor = [30, 30, 30];
+        light4.diffuseColor = [30, 30, 30];
+        light4.specularColor = [30, 30, 30];
         light4.translation = [155, 5, 152];
 
         this.townPlanner.lights = [sun, light2, light3, light4];
@@ -258,20 +251,29 @@ export class GameManager{
         if (this.time >= 21 || this.time <= 5) this.sunState = "moon";
         
         if (this.time == 20){
-            for (let i = 0; i < this.people.length; i++){
-                if (Math.random()<0.6) this.people[i].sleeping = true;
+            for (let person of this.people){
+                if (Math.random()<0.6) this.sleepingPeople++;
+
+            }
+            
+            for (let i=0; i<this.sleepingPeople; i++){
+                let p = this.people.pop();
+                this.townPlanner.scene.deleteNode(p);
             }
         }
+
         if (this.time == 8){
-            for (let i = 0; i < this.people.length; i++){
-                this.people[i].sleeping = false;
+            for(let i=0;i<this.sleepingPeople; i++){
+                this.createPerson();
             }
+            this.sleepingPeople=0;
+
         }
 
 
         this.guiManager.update();
         this.calculateCrowdPoint();
-        this.soundManager.updateCrowd(this.townPlanner.camera.translation, this.crowdPoint, this.houses.size>0);
+        this.soundManager.updateCrowd(this.townPlanner.camera.translation, this.crowdPoint, this.houses.size>0, this.sunState);
     }
 
     updateMapActivity(){
@@ -638,8 +640,8 @@ export class GameManager{
                             this.houses.add(selectedTile);
                             
                             this.createCar();
-                            //this.createPerson();
-                            //this.createPerson();
+                            this.createPerson();
+                            this.createPerson();
                             //this.createTree(selectedTile.direction, x, y);
                             this.soundManager.playConstructSound();
                             break;
@@ -1012,7 +1014,7 @@ export class GameManager{
                 this.townPlanner.renderer.gl.clearColor(...this.skyColor);
                 this.townPlanner.lights[0].ambientColor = [this.townPlanner.lights[0].ambientColor[0]-2, this.townPlanner.lights[0].ambientColor[1]-2, this.townPlanner.lights[0].ambientColor[2]-1];
                 this.townPlanner.lights[0].diffuseColor = [this.townPlanner.lights[0].diffuseColor[0]-2, this.townPlanner.lights[0].diffuseColor[1]-2, this.townPlanner.lights[0].diffuseColor[2]-1];
-                this.townPlanner.lights[0].specularColor = [this.townPlanner.lights[0].specularColor[0]-1.5, this.townPlanner.lights[0].specularColor[1]-1.5, this.townPlanner.lights[0].specularColor[2]-1];
+                this.townPlanner.lights[0].specularColor = [this.townPlanner.lights[0].specularColor[0]-1, this.townPlanner.lights[0].specularColor[1]-1, this.townPlanner.lights[0].specularColor[2]-1];
                 }
                 break;
                 
@@ -1136,9 +1138,14 @@ export class GameManager{
     }
 
     deletePerson(){
-        if (this.people.length<=0)return;
-        let p = this.people.pop();
-        this.townPlanner.scene.deleteNode(p);
+        if (this.people.length>0){
+            let p = this.people.pop();
+            this.townPlanner.scene.deleteNode(p);
+        }else if (this.sleepingPeople>0){
+            this.sleepingPeople--;
+        }
+
+        
     }
 
     releaseWaitingQ(){

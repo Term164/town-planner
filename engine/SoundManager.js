@@ -45,7 +45,11 @@ export class SoundManager{
         this.crowd_element.pause();
     }
 
-    updateCrowd(camera, crowdPoint, anyHouses){
+    updateCrowd(camera, crowdPoint, anyHouses, sunState){
+        if (sunState="moon"){
+            this.crowd_element.volume = 0;
+            return;
+        }
         if (anyHouses){
         let distance = Math.sqrt( (camera[0]-crowdPoint[0])**2 + (camera[1]-crowdPoint[1])**2 + (camera[2]-crowdPoint[2])**2 );
         let value=0;
@@ -77,11 +81,10 @@ export class SoundManager{
     /**
      * 
      *  TO DO
-     *  - Put lights on town hall
-     *  - Connect souns to something other than play button/enable camera button
-     *  - Camera movement, limit the camera's boundaries, friction,...
-     *  - Main Menu (Start game, help, exit), maybe add Volume sliders to GUI
-     *  - Tweaks and balance details
+     *  - Setup camera controls, probably main menu would help here
+     *  - Connect sounds to something other than play button/enable camera button !
+     *  * Main Menu (Start game, help, exit), maybe add Volume sliders to GUI or options in the menu *
+     *  - Tweaks and balance details *
      *  
      *  
      *  

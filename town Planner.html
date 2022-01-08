@@ -24,6 +24,22 @@
     <audio id="construct_fx" src="assets/sounds/construct.mp3"></audio>
     <audio id="demolish_fx" src="assets/sounds/demolish.mp3"></audio>
 
+    <div id="main_menu_div">
+        <div id="main_menu_title">
+            <p id="main_menu_title_text">TOWN PLANNER</p>
+        </div>
+        <div id="main_menu_play">
+            <p id="main_menu_play_text">PLAY</p>
+        </div>
+        <div id="main_menu_howto">
+            <p id="main_menu_howto_text">HOW TO PLAY</p>
+        </div>
+        <div id="main_menu_options">
+            <p id="main_menu_options_text">OPTIONS</p>
+        </div>
+    </div>
+
+
 
     <div id="loading_screen">
         <p id="loading_loading">Loading...</p>
@@ -47,12 +63,18 @@
             <p id="money_data">2500</p>
         </div>
     </div>
+    <div id="money_tooltip"><img id="money_tooltip_icon" src="assets/images/GUI/i.png">
+        <span id="money_tooltext">Money can be used for buying different things. If you don't have enough money for something, be patient. If you built your city strategically, you'll be gaining lots of money.</span>
+    </div>
 
     <div id="income_div">
         <p id="income_text">Income:</p>
         <div id="income_data_div">
             <p id="income_data">+130</p>
         </div>
+    </div>
+    <div id="income_tooltip"><img id="money_tooltip_icon" src="assets/images/GUI/i.png">
+        <span id="income_tooltext">Income tells you how much money you gain per hour. Main source of income are shops, if they are active, of course. If you have unused goods, they are exported, resulting in income.</span>
     </div>
 
     <div id="population_div">
@@ -63,6 +85,9 @@
             <p id="population_all_data">8</p>
         </div>
     </div>
+    <div id="population_tooltip"><img id="money_tooltip_icon" src="assets/images/GUI/i.png">
+        <span id="population_tooltext">This tells you the ratio of working people. The left number is your working population, the right number is your total population. People can work in shops or factories. Keep in mind that shops/factories won't be active if there aren't enough workers.</span>
+    </div>
 
     <div id="happiness_div">
         <p id="happiness_text">Happiness:</p>
@@ -70,6 +95,9 @@
             <p id="happiness_data">100</p>
             <p id="happiness_percentage">%</p>
         </div>
+    </div>
+    <div id="happiness_tooltip"><img id="money_tooltip_icon" src="assets/images/GUI/i.png">
+        <span id="happiness_tooltext">How happy your people are. Giving people some neighbors and shops will surelly make them happy, while building factories near them is not a good idea. Take care of your people, if happiness gets too low, you'll lose the game.</span>
     </div>
 
     <div id="production_div">
@@ -80,6 +108,9 @@
             <p id="production_all_data">1500</p>
         </div>
     </div>
+    <div id="goods_tooltip"><img id="money_tooltip_icon" src="assets/images/GUI/i.png">
+        <span id="goods_tooltext">Goods is the ration of used goods and total goods. Factories produce goods, while shops use them up. 1 factory produces enough to keep 2 shops active.</span>
+    </div>
 
     <div id="energy_div">
         <p id="energy_text">Energy:</p>
@@ -89,6 +120,9 @@
             <p id="energy_all_data">100</p>
         </div>
     </div>
+    <div id="energy_tooltip"><img id="money_tooltip_icon" src="assets/images/GUI/i.png">
+        <span id="energy_tooltext">Ratio of used energy and total energy. Wind turbines produce energy, while factories and shops use it. Keep in mind that houses require little energy, so don't worry about them. Factories require more energy than shops.<span>
+    </div>
 
     <div id="score_div">
         <p id="score_text">Score:</p>
@@ -96,7 +130,9 @@
             <p id="score_data"></p>
         </div>
     </div>
-
+    <div id="score_tooltip"><img id="money_tooltip_icon" src="assets/images/GUI/i.png">
+        <span id="score_tooltext">Score is the evaluation of your city. Get it as big as possible and brag to your friends. It's calculated using all data (too complex to explain).<span>
+    </div>
 
 
     <div id="datetime_div">

@@ -403,12 +403,266 @@ noranjost (skoraj bela, pomemben opacity)
 }
 
 
+/* ===== TOOL TIPS ======== */
+
+#money_tooltip{
+    position: absolute;
+    top: 1rem;
+    left: 16.5rem;
+    height: 1.3rem;
+    width: 1.3rem;
+    
+    background-color: rgba(204, 204, 255, 0.6); 
+    border-radius: 1rem; 
+    
+}
+
+#money_tooltip_icon {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+
+}
+
+#money_tooltext {
+    visibility: hidden;
+    position: absolute;
+    left: 1.5rem;
+    width: 13rem;
+    height: 11rem;
+    background-color: rgba(204, 204, 255, 0.6); 
+    padding: 0.3rem 0.3rem;
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+    font-size: 120%;
+    color: black;
+    text-align: center;
+    vertical-align: text-top;
+
+}
+
+#money_tooltip:hover #money_tooltext {
+    visibility: visible;
+  }
+
+
+#income_tooltip{
+    position: absolute;
+    top: 3.5rem;
+    left: 16.5rem;
+    height: 1.3rem;
+    width: 1.3rem;
+    
+    background-color: rgba(204, 204, 255, 0.6); 
+    border-radius: 1rem; 
+    
+}
+
+  #income_tooltext {
+    visibility: hidden;
+    position: absolute;
+    left: 1.5rem;
+    width: 13rem;
+    height: 12.5rem;
+    background-color: rgba(204, 204, 255, 0.6); 
+    padding: 0.3rem 0.3rem;
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+    font-size: 120%;
+    color: black;
+    text-align: center;
+    vertical-align: text-top;
+
+}
+
+#income_tooltip:hover #income_tooltext {
+    visibility: visible;
+  }
+
+
+#population_tooltip{
+    position: absolute;
+    top: 6rem;
+    left: 16.5rem;
+    height: 1.3rem;
+    width: 1.3rem;
+    
+    background-color: rgba(204, 204, 255, 0.6); 
+    border-radius: 1rem; 
+    
+}
+
+  #population_tooltext {
+    visibility: hidden;
+    position: absolute;
+    left: 1.5rem;
+    width: 13rem;
+    height: 15rem;
+    background-color: rgba(204, 204, 255, 0.6); 
+    padding: 0.3rem 0.3rem;
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+    font-size: 120%;
+    color: black;
+    text-align: center;
+    vertical-align: text-top;
+
+}
+
+#population_tooltip:hover #population_tooltext {
+    visibility: visible;
+  }
+
+
+#happiness_tooltip{
+    position: absolute;
+    top: 8.5rem;
+    left: 16.5rem;
+    height: 1.3rem;
+    width: 1.3rem;
+    
+    background-color: rgba(204, 204, 255, 0.6); 
+    border-radius: 1rem; 
+    
+}
+
+  #happiness_tooltext {
+    visibility: hidden;
+    position: absolute;
+    left: 1.5rem;
+    width: 13rem;
+    height: 14rem;
+    background-color: rgba(204, 204, 255, 0.6); 
+    padding: 0.3rem 0.3rem;
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+    font-size: 120%;
+    color: black;
+    text-align: center;
+    vertical-align: text-top;
+
+}
+
+#happiness_tooltip:hover #happiness_tooltext {
+    visibility: visible;
+  }
+
+
+#goods_tooltip{
+    position: absolute;
+    top: 11rem;
+    left: 16.5rem;
+    height: 1.3rem;
+    width: 1.3rem;
+    
+    background-color: rgba(204, 204, 255, 0.6); 
+    border-radius: 1rem; 
+    
+}
+
+#goods_tooltext {
+    visibility: hidden;
+    position: absolute;
+    left: 1.5rem;
+    width: 13rem;
+    height: 11rem;
+    background-color: rgba(204, 204, 255, 0.6); 
+    padding: 0.3rem 0.3rem;
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+    font-size: 120%;
+    color: black;
+    text-align: center;
+    vertical-align: text-top;
+
+}
+
+#goods_tooltip:hover #goods_tooltext {
+    visibility: visible;
+  }
+
+
+#energy_tooltip{
+    position: absolute;
+    top: 13.5rem;
+    left: 16.5rem;
+    height: 1.3rem;
+    width: 1.3rem;
+    
+    background-color: rgba(204, 204, 255, 0.6); 
+    border-radius: 1rem; 
+    
+}
+
+#energy_tooltext {
+    visibility: hidden;
+    position: absolute;
+    left: 1.5rem;
+    width: 13rem;
+    height: 14rem;
+    background-color: rgba(204, 204, 255, 0.6); 
+    padding: 0.3rem 0.3rem;
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+    font-size: 120%;
+    color: black;
+    text-align: center;
+    vertical-align: text-top;
+
+}
+
+#energy_tooltip:hover #energy_tooltext {
+    visibility: visible;
+  }
+
+
+#score_tooltip{
+    position: absolute;
+    top: 16rem;
+    left: 16.5rem;
+    height: 1.3rem;
+    width: 1.3rem;
+    
+    background-color: rgba(204, 204, 255, 0.6); 
+    border-radius: 1rem; 
+    
+}
+
+#score_tooltext {
+    visibility: hidden;
+    position: absolute;
+    left: 1.5rem;
+    width: 13rem;
+    height: 8.5rem;
+    background-color: rgba(204, 204, 255, 0.6); 
+    padding: 0.3rem 0.3rem;
+    border-style: solid;
+    border-radius: 1rem;
+    border-color:  #0047AB;
+    font-size: 120%;
+    color: black;
+    text-align: center;
+    vertical-align: text-top;
+
+}
+
+#score_tooltip:hover #score_tooltext {
+    visibility: visible;
+}
 
 /* --- DATETIME --- */
 
 #datetime_div {
     position: absolute;
-    top: 4rem;
+    top: 0.5rem;
     right: 1rem;
     height: 3rem;
     width: 12rem;
@@ -456,8 +710,8 @@ noranjost (skoraj bela, pomemben opacity)
 
 #controls_div {
     position: absolute;
-    top: 8rem;
-    right: 2.3rem;
+    top: 4.3rem;
+    right: 2.2rem;
     width: 9.5rem;
     height: 2.5rem;
    
@@ -902,6 +1156,126 @@ noranjost (skoraj bela, pomemben opacity)
     text-align: center; 
     color: white;
 }
+
+
+/* ======= MAIN MENU ======== */
+
+#main_menu_div{
+    position: absolute;
+    background: black;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    left:0px;
+    display: block;
+    z-index: 2;
+    color: white;
+
+}
+
+#main_menu_title{
+    position: absolute;
+    top: 5rem;
+    left: 30%;
+    width: 40%;
+    height: 4.5rem;
+        
+    text-align: center;
+    line-height: 0;
+
+    font-size: 500%;
+}
+
+#main_menu_play{
+    position: absolute;
+    top: 22rem;
+    left: 35%;
+    width: 30%;
+    height: 4.5rem;
+        
+    text-align: center;
+
+    border-style: solid;
+    border-radius: 0.8rem;
+    border-color:  white;
+    font-size: 400%;
+
+}
+
+#main_menu_play_text{
+    position: relative;
+    top: -90%;
+}
+
+#main_menu_play:hover{
+    background-color: #ccc;
+    color: black;
+
+    border-color: rgba(172, 172, 218, 0.8);
+    background-color:  #44b4e0;
+}
+
+#main_menu_howto{
+    position: absolute;
+    top: 31rem;
+    left: 35%;
+    width: 30%;
+    height: 4.5rem;
+        
+    text-align: center;
+
+    border-style: solid;
+    border-radius: 0.8rem;
+    border-color:  white;
+    font-size: 350%;
+
+}
+
+#main_menu_howto_text{
+    position: relative;
+    top: -70%;
+}
+
+#main_menu_howto:hover{
+    background-color: #ccc;
+    color: black;
+    border-color: rgba(172, 172, 218, 0.8);
+    background-color:  #44b4e0;
+}
+
+#main_menu_options{
+    position: absolute;
+    top: 40rem;
+    left: 35%;
+    width: 30%;
+    height: 4.5rem;
+        
+    text-align: center;
+
+    border-style: solid;
+    border-radius: 0.8rem;
+    border-color:  white;
+    font-size: 400%;
+
+}
+
+#main_menu_options_text{
+    position: relative;
+    top: -90%;
+}
+
+#main_menu_options:hover{
+    background-color: #ccc;
+    color: black;
+    border-color: rgba(172, 172, 218, 0.8);
+    background-color:  #44b4e0;
+}
+
+
+
+
+
+
 
 
 

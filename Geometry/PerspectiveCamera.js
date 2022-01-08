@@ -190,7 +190,7 @@ PerspectiveCamera.defaults = {
     velocity         : [0, 0, 0],
     mouseSensitivity : 0.002,
     maxSpeed         : 100,
-    friction         : 0.2,
+    friction         : 0.1,
     acceleration     : 100,
     translation      : [150,20,150],
     rotation         : [-Math.PI/4,0,0]

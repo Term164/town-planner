@@ -12,7 +12,7 @@ export class WindTurbine extends Node {
         this.node = this;
 
         this.phi = Math.random();
-        this.rotationSpeed = Math.random()*0.05+0.005;
+        this.rotationSpeed = Math.random()*0.04+0.01;
         this.animated = true;
         this.blades = this.children[0];
         this.blades.translation = [this.blades.translation[0], this.blades.translation[1]-0.1, this.blades.translation[2]];

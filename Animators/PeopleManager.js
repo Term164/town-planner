@@ -22,8 +22,6 @@ export class PeopleManager extends Node{
         this.randomDir = Math.random()*2*Math.PI;
         this.waiting = Math.random()*150 + 250;
 
-        this.sleeping = false;
-
         this.x;
         this.y;
         
@@ -131,18 +129,7 @@ export class PeopleManager extends Node{
         if (!PeopleManager.gameManager.animationRunning) return;
 
 
-
-        // If this person is sleeping, keep him "hidden" inside the town hall.
-        // Once the night starts, every person has a 60% change of sleeping, meaning there will still be some night life
-        if (this.sleeping){
-            this.translation = [155, 0, 155];
-            this.updateTransformMovement();
-            return;
-        }
-
-
-
-        if (this.x < 0 || this.y < 0)this.placePerson();
+        if (this.x < 0 || this.y < 0 || this.x >= 30 || this.y >= 30)this.placePerson();
         if ( PeopleManager.gameManager.map[Math.round(this.x)][Math.round(this.y)] instanceof Road ){
             // Pavement walking
             this.person.translation = [0, 1.53, 0];
