@@ -1,6 +1,7 @@
 body, html {
     margin: 0;
     padding: 0;
+    /* filter: blur(4px); */
 }
 
 * {
@@ -1162,24 +1163,35 @@ noranjost (skoraj bela, pomemben opacity)
 
 #main_menu_div{
     position: absolute;
-    background: black;
     top:0px;
     right:0px;
     bottom:0px;
     left:0px;
     display: block;
-    z-index: 2;
+    z-index: 3;
     color: white;
 
 }
 
+#main_menu_background{
+    position: absolute;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    left:0px;
+    background-image: url(/assets/images/Backgrounds/Screenshot_1.png);
+    background-color: #000;
+    filter: blur(4px);
+    z-index: 2;    
+}
+
 #main_menu_title{
     position: absolute;
-    top: 5rem;
+    top: 10rem;
     left: 30%;
     width: 40%;
     height: 4.5rem;
-        
+    backdrop-filter: blur(4px);
     text-align: center;
     line-height: 0;
 
@@ -1188,7 +1200,7 @@ noranjost (skoraj bela, pomemben opacity)
 
 #main_menu_play{
     position: absolute;
-    top: 22rem;
+    top: 30rem;
     left: 35%;
     width: 30%;
     height: 4.5rem;
@@ -1217,7 +1229,7 @@ noranjost (skoraj bela, pomemben opacity)
 
 #main_menu_howto{
     position: absolute;
-    top: 31rem;
+    top: 40rem;
     left: 35%;
     width: 30%;
     height: 4.5rem;
@@ -1243,33 +1255,106 @@ noranjost (skoraj bela, pomemben opacity)
     background-color:  #44b4e0;
 }
 
-#main_menu_options{
-    position: absolute;
-    top: 40rem;
-    left: 35%;
-    width: 30%;
-    height: 4.5rem;
-        
-    text-align: center;
 
+#howto_div {
+    position: absolute;
+    background: black;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    left:0px;
+    display: block;
+    z-index: 2;
+    display: none;
+}
+
+#howto_title{
+    position: absolute;
+    text-align: center;
+    top: 1rem;
+    font-size: 300%;
+    color: white;
+    left: 40%;
+    
+}
+
+#howto_data{
+    position: absolute;
+    top: 5.5rem;
+    left: 15%;
+    width: 70%;
+    height: 60%;
+    color: white;
+    font-size: 150%;
+    text-align: center;
+    white-space: pre-line;
+  
+}
+
+#howto_back{
+    position: absolute;
+    bottom: 5.5rem;
+    left: 30%;
+    width: 40%;
+    height: 4rem;
+    color: white;
+    text-align: center;
+    white-space: pre-line;
     border-style: solid;
     border-radius: 0.8rem;
     border-color:  white;
-    font-size: 400%;
-
+    font-size: 300%;
 }
 
-#main_menu_options_text{
+#howto_back_text{
     position: relative;
-    top: -90%;
+    text-align: center;
+    bottom: 65%;
 }
 
-#main_menu_options:hover{
+#howto_back:hover{
     background-color: #ccc;
     color: black;
     border-color: rgba(172, 172, 218, 0.8);
     background-color:  #44b4e0;
 }
+
+
+/* ======= GAME OVER ========= */
+
+#gameover_div{
+
+    position: absolute;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    left:0px;
+    display: block;
+    z-index: 2;
+    display: none;
+    text-align: center;
+} 
+
+#gameover_title{
+    position: absolute;
+    top: 25%;
+    left: 35%;
+    font-size: 500%;
+    color: black;
+    text-shadow: 2px 2px gray;
+}
+
+#gameover_text{
+    position: absolute;
+    bottom: 25%;
+    left: 0px;
+    right: 0px;
+    font-size: 200%;
+    text-align: center;
+    color:black;
+}
+
+
 
 
 

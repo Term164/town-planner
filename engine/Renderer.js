@@ -219,20 +219,22 @@ export class Renderer {
     loadLights(node, lights){
         const gl = this.gl;
         const program = this.programs.simple;
-        const closestLights = [lights[0]];
+
+        const lightIterator = lights.values();
+        const closestLights = [lightIterator.next().value];
         const lightDistance = [-999999999,999999999,999999999,999999999];
 
-        for(let i = 1; i < lights.length; i++){
+        for(let light of lightIterator){
             for(let j = 1; j < lightDistance.length; j++){
-                let distance = vec3.distance(node.translation, lights[i].translation);
+                let distance = vec3.distance(node.translation, light.translation);
                 if (closestLights.length < 4){
                     if(closestLights[j] == null){
-                        closestLights[j] = lights[i];
+                        closestLights[j] = light;
                         lightDistance[j] = distance;
                         break;
                     }
                 }else if (distance < lightDistance[j]){
-                    closestLights[j] = lights[i];
+                    closestLights[j] = light;
                     lightDistance[j] = distance;
                     break;
                 }

@@ -10,6 +10,7 @@ export class WindTurbine extends Node {
         this.y = 0;
         this.energyProduction = 100;
         this.node = this;
+        this.lights;
 
         this.phi = Math.random();
         this.rotationSpeed = Math.random()*0.04+0.01;
@@ -20,10 +21,11 @@ export class WindTurbine extends Node {
     }
 
 
-    placeWindTurbine(x, y){
+    placeWindTurbine(x, y, light){
         this.x = x;
         this.y = y;
         this.updateTranslation([x*10+5,0,y*10+5]);
+        this.lights = light;
     }
 
     animate(){

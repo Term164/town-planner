@@ -11,5 +11,6 @@ export class Light{
             attenuatuion     : [1.0, 0, 0.002]
         });
         this.isOn = true;
+        this.type = "CONFIDENTIAL";
     }
 }

@@ -27,8 +27,7 @@ export class GameManager{
         this.soundManager.setManagers(this);
 
 
-        this.setHoverSelector("selectedTile")
-
+        this.setHoverSelector("selectedTile");
         this.mouseController = new MouseController(townPlanner.canvas, townPlanner.camera, this);
         this.map = this.generateMap(30);
         this.generateTrees();
@@ -37,11 +36,12 @@ export class GameManager{
         // Game variables
         this.time = 7;
         this.sunState = "sunrise"; // sunrise, sun, sunset, moon
+        this.nightTime = false;
         this.dan = "MON";
         this.nday = 0;
 
         this.pop = 0;
-        this.money = 5000000;
+        this.money = 20000;
         this.goods = 0;
         this.energyProduction = 0;
 
@@ -143,7 +143,10 @@ export class GameManager{
         light4.specularColor = [30, 30, 30];
         light4.translation = [155, 5, 152];
 
-        this.townPlanner.lights = [sun, light2, light3, light4];
+        this.townPlanner.lights.add(sun);
+        this.townPlanner.lights.add(light2);
+        this.townPlanner.lights.add(light3);
+        this.townPlanner.lights.add(light4);
 
 
     }
@@ -272,8 +275,6 @@ export class GameManager{
 
 
         this.guiManager.update();
-        this.calculateCrowdPoint();
-        this.soundManager.updateCrowd(this.townPlanner.camera.translation, this.crowdPoint, this.houses.size>0, this.sunState);
     }
 
     updateMapActivity(){
@@ -295,6 +296,7 @@ export class GameManager{
         for (let house of this.houses) this.overalHappiness += house.happiness;
         this.overalHappiness = this.overalHappiness / this.houses.size;
         this.overalHappiness -= (this.unemployedPopulation/this.pop) * 0.25;
+        if (isNaN(this.overalHappiness)) this.overalHappiness = 0;
     }
 
     checkRoadNetwork(){
@@ -635,7 +637,7 @@ export class GameManager{
                     let selectedTile;
                     switch(this.type){
                         case "house":
-                            selectedTile = new House(x,y, model, this.createLight(x, y));
+                            selectedTile = new House(x,y, model, this.createLight(x, y, "house"));
                             selectedTile.direction = this.selectorDirection;
                             this.houses.add(selectedTile);
                             
@@ -646,14 +648,14 @@ export class GameManager{
                             this.soundManager.playConstructSound();
                             break;
                         case "shop":
-                            selectedTile = new Shop(x,y, model, this.createLight(x, y));
+                            selectedTile = new Shop(x,y, model, this.createLight(x, y, "shop"));
                             selectedTile.direction = this.selectorDirection;
                             this.shops.add(selectedTile);
                             this.inactiveShops.add(selectedTile);
                             this.soundManager.playConstructSound();
                             break;
                         case "factory":
-                            selectedTile = new Factory(x,y, model);
+                            selectedTile = new Factory(x,y, model, this.createLight(x,y,"factory"));
                             selectedTile.direction = this.selectorDirection;
                             this.factories.add(selectedTile);
                             this.inactiveFactories.add(selectedTile);
@@ -670,7 +672,8 @@ export class GameManager{
                             break;
                         case "wind_turbine":
                             selectedTile = model;
-                            selectedTile.placeWindTurbine(x, y);
+                            selectedTile.placeWindTurbine(x, y, this.createLight(x,y,"wind_turbine") );
+                            
                             this.windTurbines.add(selectedTile);
                             this.updateMapActivity();
                             break;
@@ -688,6 +691,7 @@ export class GameManager{
                         for (let neighbour of neighbours) this.checkAndUpdateTile(neighbour);
                     }
                     this.updateOveralHappiness();
+                    if (this.houses.size>0 && this.overalHappiness<0.15) this.guiManager.gameOver("happiness");
                     this.townPlanner.scene.addNode(model);
                     this.townPlanner.renderer.prepareScene(this.townPlanner.scene);
                     //console.log("connected roads: " + this.connectedRoads, "active buildings: " + this.activeBuildings, "connected buildings: " + this.connectedBuildings);
@@ -716,6 +720,9 @@ export class GameManager{
                     }else{
                         // If a house is deleted update the income/population/production...
                         const selectedTile = this.map[x][y];
+                        if(selectedTile.lights != null){
+                            this.townPlanner.lights.delete(selectedTile.lights);
+                        }
                         if(this.houses.has(selectedTile)){
                             this.deleteCar();
                             this.deletePerson();
@@ -733,28 +740,49 @@ export class GameManager{
                     }
                     this.townPlanner.renderer.prepareScene(this.townPlanner.scene);
                     this.updateOveralHappiness();
-                    //console.log("connected roads: " + this.connectedRoads, "active buildings: " + this.activeBuildings, "connected buildings: " + this.connectedBuildings);
-                    //console.log("population: " + this.pop, "goods: " + this.goods, "income: " + this.income, "happines: " + this.overalHappiness);
+                    if (x == this.townHall.x && y == this.townHall.y) this.guiManager.gameOver("townHall");
                 }
             }
+            if (this.houses.size>0 && this.overalHappiness<0.15) this.guiManager.gameOver("happiness");
             this.guiManager.update();
         }
     }
 
-    createLight(x, y){
+    createLight(x, y, lightType){
         const light = new Light();
         light.translation = [x*10+5, 1, y*10+7.5];
-    
+        light.type = lightType;
     
         if (this.nightTime){
-            // Random color chooser
-            const R = Math.floor(Math.random()*56+200);
-            const G = Math.floor(Math.random()*56+200);
-            const B = Math.floor(Math.random()*56+200);
 
-            light.ambientColor = [Math.floor(R * 0.5), Math.floor(G * 0.5), Math.floor(B * 0.5)];
-            light.diffuseColor = [Math.floor(R * 0.8), Math.floor(G * 0.8), Math.floor(B * 0.8)];
-            light.specularColor = [R, G, B];
+            if (light.type=="house"){
+            // Random color chooser
+                const R = Math.floor(Math.random()*56+200);
+                const G = Math.floor(Math.random()*56+200);
+                const B = Math.floor(Math.random()*56+200);
+
+                light.ambientColor = [Math.floor(R * 0.5), Math.floor(G * 0.5), Math.floor(B * 0.5)];
+                light.diffuseColor = [Math.floor(R * 0.8), Math.floor(G * 0.8), Math.floor(B * 0.8)];
+                light.specularColor = [R, G, B];
+            }else if (light.type=="shop"){
+                light.ambientColor = [150, 150, 150];
+                light.diffuseColor = [150, 150, 150];
+                light.specularColor = [50, 50, 50];
+            }else if (light.type=="factory"){
+                light.ambientColor = [100, 20, 20];
+                light.diffuseColor = [100, 20, 20];
+                light.specularColor = [50, 0, 0];
+                light.attenuatuion = [1, 0, 0.002];
+            }else if (light.type=="wind_turbine"){
+                light.ambientColor = [250, 20, 20];
+                light.diffuseColor = [250, 20, 20];
+                light.specularColor = [250, 0, 0];
+                light.attenuatuion = [1, 0, 0.1]; // HERE
+                light.translation = [x*10+5, 10, y*10+5];
+            }
+
+
+
         }else{
             light.ambientColor = [0, 0, 0];
             light.diffuseColor = [0, 0, 0];           
@@ -763,7 +791,7 @@ export class GameManager{
 
         light.shininess = 10;
 
-        this.townPlanner.lights.push(light);
+        this.townPlanner.lights.add(light);
 
         return light;
     }
@@ -930,14 +958,16 @@ export class GameManager{
 
 
     turnOffLights(){
-        if (this.townPlanner.lights.length <= 4) return;
-        for (let i = 4; i < this.townPlanner.lights.length; i++){
-            if (this.townPlanner.lights[i].isOn){
+        if (this.townPlanner.lights.size <= 4) return;
+        const lightIterator = this.townPlanner.lights.values();
+        for (let i = 0; i < 4; i++) lightIterator.next();
+        for (let light of lightIterator){
+            if (light.isOn){
                 if (Math.random()<0.75){
-                    this.townPlanner.lights[i].isOn = false;
-                    this.townPlanner.lights[i].ambientColor = [0, 0, 0];
-                    this.townPlanner.lights[i].diffuseColor = [0, 0, 0];           
-                    this.townPlanner.lights[i].specularColor = [0, 0, 0];
+                    light.isOn = false;
+                    light.ambientColor = [0, 0, 0];
+                    light.diffuseColor = [0, 0, 0];           
+                    light.specularColor = [0, 0, 0];
                 }
             }
         }
@@ -945,65 +975,90 @@ export class GameManager{
     }
 
     turnOnLights(){
-        if (this.townPlanner.lights.length <= 4) return;
-        for (let i = 4; i < this.townPlanner.lights.length; i++){
-            if (!this.townPlanner.lights[i].isOn){
-                if (Math.random()<0.75){
-                    this.townPlanner.lights[i].isOn = true;
-                    const R = Math.floor(Math.random()*100+100);
-                    const G = Math.floor(Math.random()*100+100);
-                    const B = Math.floor(Math.random()*100+100);
+        if (this.townPlanner.lights.size <= 4) return;
+        console.log("test");
+        const lightIterator = this.townPlanner.lights.values();
+        for (let i = 0; i < 4; i++) lightIterator.next();
 
-                    this.townPlanner.lights[i].ambientColor = [Math.floor(R * 0.3), Math.floor(G * 0.3), Math.floor(B * 0.3)];
-                    this.townPlanner.lights[i].diffuseColor = [Math.floor(R * 0.8), Math.floor(G * 0.8), Math.floor(B * 0.8)];
-                    this.townPlanner.lights[i].specularColor = [0,0,0];
+        for (let light of lightIterator){
+            if (!light.isOn){
+                if (Math.random()<0.75){
+                    light.isOn = true;
+                    if (light.type=="house"){
+                        const R = Math.floor(Math.random()*100+100);
+                        const G = Math.floor(Math.random()*100+100);
+                        const B = Math.floor(Math.random()*100+100);
+
+                        light.ambientColor = [Math.floor(R * 0.3), Math.floor(G * 0.3), Math.floor(B * 0.3)];
+                        light.diffuseColor = [Math.floor(R * 0.8), Math.floor(G * 0.8), Math.floor(B * 0.8)];
+                        light.specularColor = [0,0,0];
+                    }else if (light.type=="shop"){
+                        light.ambientColor = [150, 150, 150];
+                        light.diffuseColor = [150, 150, 150];
+                        light.specularColor = [50, 50, 50];
+
+                    }else if (light.type=="factory"){
+                        light.ambientColor = [100, 20, 20];
+                        light.diffuseColor = [100, 20, 20];
+                        light.specularColor = [50, 0, 0];
+                        light.attenuatuion = [1, 0, 0.002];
+
+                    }else if (light.type=="wind_turbine"){
+                        light.ambientColor = [250, 20, 20];
+                        light.diffuseColor = [250, 20, 20];
+                        light.specularColor = [250, 0, 0];
+                        light.attenuatuion = [1, 0, 0.1];
+
+                    }
+
                 }
             }else{
-                let x = (this.townPlanner.lights[i].translation[0]-5)/10;
-                let y = (this.townPlanner.lights[i].translation[2]-5)/10;
+                if ( !(light.type=="house") ) {return;}
+                let x = Math.round((light.translation[0]-5)/10);
+                let y = Math.round((light.translation[2]-5)/10);
                 if ( this.map[x][y] instanceof House ){
-                    if (Math.random()<0.05){
-                        this.townPlanner.lights[i].isOn = false;
-                        this.townPlanner.lights[i].ambientColor = [0, 0, 0];
-                        this.townPlanner.lights[i].diffuseColor = [0, 0, 0];           
-                        this.townPlanner.lights[i].specularColor = [0, 0, 0];
-                    }
+                    if (Math.random()<0.1){
+                        light.isOn = false;
+                        light.ambientColor = [0, 0, 0];
+                        light.diffuseColor = [0, 0, 0];           
+                        light.specularColor = [0, 0, 0];
+     
                 }
 
             }
 
         }
-        
+    }
     }
 
     updateSun(){
-        
+        const sun = this.townPlanner.lights.values().next().value;
         //console.log(this.sunState);
         switch(this.sunState){
             case "sun":              
                 this.townPlanner.renderer.gl.clearColor((0/255), (204/255), (255/255), 1);   
                 this.skyColor = [0/255,204/255, 255/255, 1];
                 //console.log(this.skyColor);
-                this.townPlanner.lights[0].ambientColor = [240, 240, 240];
-                this.townPlanner.lights[0].diffuseColor = [240, 240, 240];
-                this.townPlanner.lights[0].specularColor = [100, 100, 100];
+                sun.ambientColor = [240, 240, 240];
+                sun.diffuseColor = [240, 240, 240];
+                sun.specularColor = [100, 100, 100];
                 break;  
             case "moon":
                 this.townPlanner.renderer.gl.clearColor(0, 0.10, 0.25, 1); // night sky
                 this.skyColor = [0/255,0.1, 0.25, 1];
                 //console.log(this.skyColor);
-                this.townPlanner.lights[0].ambientColor = [50, 50, 150];
-                this.townPlanner.lights[0].diffuseColor = [50, 50, 150];
-                this.townPlanner.lights[0].specularColor = [50, 50, 150];
+                sun.ambientColor = [50, 50, 150];
+                sun.diffuseColor = [50, 50, 150];
+                sun.specularColor = [50, 50, 150];
                 break;
             case "sunrise":
                 if (this.skyColor[1]<0.8){
                 this.skyColor = [this.skyColor[0], this.skyColor[1]+2/255, this.skyColor[2]+2.15/255, 1];
                 //console.log(this.skyColor);
                 this.townPlanner.renderer.gl.clearColor(...this.skyColor);
-                this.townPlanner.lights[0].ambientColor = [this.townPlanner.lights[0].ambientColor[0]+2, this.townPlanner.lights[0].ambientColor[1]+2, this.townPlanner.lights[0].ambientColor[2]+1];
-                this.townPlanner.lights[0].diffuseColor = [this.townPlanner.lights[0].diffuseColor[0]+2, this.townPlanner.lights[0].diffuseColor[1]+2, this.townPlanner.lights[0].diffuseColor[2]+1];
-                this.townPlanner.lights[0].specularColor = [this.townPlanner.lights[0].specularColor[0]+2, this.townPlanner.lights[0].specularColor[1]+2, this.townPlanner.lights[0].specularColor[2]+1];
+                sun.ambientColor = [sun.ambientColor[0]+2, sun.ambientColor[1]+2, sun.ambientColor[2]+1];
+                sun.diffuseColor = [sun.diffuseColor[0]+2, sun.diffuseColor[1]+2, sun.diffuseColor[2]+1];
+                sun.specularColor = [sun.specularColor[0]+2, sun.specularColor[1]+2, sun.specularColor[2]+1];
                 }
                 break;
                 
@@ -1012,9 +1067,9 @@ export class GameManager{
                 this.skyColor = [this.skyColor[0], this.skyColor[1]-2/255, this.skyColor[2]-2.15/255, 1];
                 //console.log(this.skyColor);
                 this.townPlanner.renderer.gl.clearColor(...this.skyColor);
-                this.townPlanner.lights[0].ambientColor = [this.townPlanner.lights[0].ambientColor[0]-2, this.townPlanner.lights[0].ambientColor[1]-2, this.townPlanner.lights[0].ambientColor[2]-1];
-                this.townPlanner.lights[0].diffuseColor = [this.townPlanner.lights[0].diffuseColor[0]-2, this.townPlanner.lights[0].diffuseColor[1]-2, this.townPlanner.lights[0].diffuseColor[2]-1];
-                this.townPlanner.lights[0].specularColor = [this.townPlanner.lights[0].specularColor[0]-1, this.townPlanner.lights[0].specularColor[1]-1, this.townPlanner.lights[0].specularColor[2]-1];
+                sun.ambientColor = [sun.ambientColor[0]-2, sun.ambientColor[1]-2, sun.ambientColor[2]-1];
+                sun.diffuseColor = [sun.diffuseColor[0]-2, sun.diffuseColor[1]-2, sun.diffuseColor[2]-1];
+                sun.specularColor = [sun.specularColor[0]-1, sun.specularColor[1]-1, sun.specularColor[2]-1];
                 }
                 break;
                 
@@ -1025,8 +1080,7 @@ export class GameManager{
 
         // Calculates and sets the volume accodringly to the average point of all houses, simulating sound SPATIALIZATION
         this.calculateCrowdPoint();
-        this.soundManager.updateCrowd(this.townPlanner.camera.translation, this.crowdPoint, this.houses.size>0);
-
+        this.soundManager.updateCrowd(this.townPlanner.camera.translation, this.crowdPoint, this.houses.size>0, this.sunState);
     }
 
     calculateCrowdPoint(){

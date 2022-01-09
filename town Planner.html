@@ -24,6 +24,7 @@
     <audio id="construct_fx" src="assets/sounds/construct.mp3"></audio>
     <audio id="demolish_fx" src="assets/sounds/demolish.mp3"></audio>
 
+    <div id="main_menu_background"></div>
     <div id="main_menu_div">
         <div id="main_menu_title">
             <p id="main_menu_title_text">TOWN PLANNER</p>
@@ -34,11 +35,35 @@
         <div id="main_menu_howto">
             <p id="main_menu_howto_text">HOW TO PLAY</p>
         </div>
-        <div id="main_menu_options">
-            <p id="main_menu_options_text">OPTIONS</p>
-        </div>
     </div>
 
+    <div id="howto_div">
+        <p id="howto_title">HOW TO PLAY</p>
+        <div id="howto_data">
+        
+            There's a Town Hall in the centre. The most important building.
+            All buildings must be connected to the Town Hall via Roads. Except Wind Turbines, they use 5G to transmit.
+
+            Houses together give you more happiness, just make sure all houses are active (connected to the Town Hall).
+            Shops near Houses also give some happiness, while placing Factories near Houses decreases that.
+
+            In order for Shops to make money for you, they need to meet certain conditions:
+            -Have enough Goods (produced by Factories), Have enough Energy (produced by Wind Turbines), Have enough workers (availabile people), Be Connected.
+            Factories make Goods for shops to use up, and they follow similar conditions:
+            -Have enough Energy, Have enough workers, Be Connected (duh).
+
+            You can work around the map using WASD keys and a Scroll Wheel to ZoomIn/ZoomOut.
+            Choose a building type by clicking in the toolbar below. 
+            Control the speed of your game (pause, normal speed, fast speed) by using top-right corner.
+            Hit R to rotate buildings before you place them down. Hit H to show/hide all tools.
+
+            Knowing that, you can start making your own little town.  
+            Keep in mind, that if Happiness drops too low, it's Game Over.
+            Good luck!            
+
+        </div>
+        <div id="howto_back"><p id="howto_back_text">BACK TO MAIN MENU</p></div>
+    </div>
 
 
     <div id="loading_screen">
@@ -52,8 +77,9 @@
         </div>
     </div>
 
+
     <div class="fullscreen">
-        <canvas></canvas>
+        <canvas id="myCanvas"></canvas>
     </div>
 
 
@@ -86,7 +112,7 @@
         </div>
     </div>
     <div id="population_tooltip"><img id="money_tooltip_icon" src="assets/images/GUI/i.png">
-        <span id="population_tooltext">This tells you the ratio of working people. The left number is your working population, the right number is your total population. People can work in shops or factories. Keep in mind that shops/factories won't be active if there aren't enough workers.</span>
+        <span id="population_tooltext">This tells you the ratio of working people. The left number is your working population, the right number is your total population. Keep in mind that 2 people are needed for a shop/factory to become active.</span>
     </div>
 
     <div id="happiness_div">
@@ -196,6 +222,13 @@
     <div id="toolbar_show_div">
         <img id="arrow_up_icon" src="/assets/images/GUI/arrow_up.png">
     </div>
+
+    <div id="gameover_div">
+        <p id="gameover_title">GAME OVER</p>
+        <p id="gameover_text"></p>
+    </div>
+
+
 
 
 </body>

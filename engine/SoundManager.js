@@ -23,7 +23,7 @@ export class SoundManager{
         this.background_element.volume = 0.05;
 
         this.crowd_element = document.getElementById("crowd_audio");
-        this.crowd_element.volume = 0.2;
+        this.crowd_element.volume = 0;
 
         this.construct_element = document.getElementById("construct_fx");
         this.construct_element.volume = 0.7;
@@ -37,6 +37,10 @@ export class SoundManager{
         this.background_element.play();
     }
 
+    pauseBackground(){
+        this.background_element.pause();
+    }
+
     playCrowd(){
         this.crowd_element.play();
     }
@@ -46,7 +50,7 @@ export class SoundManager{
     }
 
     updateCrowd(camera, crowdPoint, anyHouses, sunState){
-        if (sunState="moon"){
+        if (sunState=="moon"){
             this.crowd_element.volume = 0;
             return;
         }
@@ -75,24 +79,6 @@ export class SoundManager{
         this.demolish_element.currentTime = 0;
         this.demolish_element.play();
     }
-
-
-
-    /**
-     * 
-     *  TO DO
-     *  - Setup camera controls, probably main menu would help here
-     *  - Connect sounds to something other than play button/enable camera button !
-     *  * Main Menu (Start game, help, exit), maybe add Volume sliders to GUI or options in the menu *
-     *  - Tweaks and balance details *
-     *  
-     *  
-     *  
-     * 
-     * 
-     * 
-     * 
-     */
 
 
 

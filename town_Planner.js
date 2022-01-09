@@ -16,7 +16,7 @@ export class App extends Application {
     async start() {
         this.time = Date.now();
         this.startTime = this.time;
-
+        this.delta = 0;
         // ==================== Loading Blender models =====================
         this.loader = new GLTFLoader();
         await this.loader.load('./assets/models/land/land.gltf');
@@ -24,7 +24,7 @@ export class App extends Application {
         this.camera = new PerspectiveCamera();
         this.scene.nodes[1] = this.camera;
         
-        this.lights = [];
+        this.lights = new Set();
     
         this.modelManager = new ModelManager();
         await this.modelManager.loadAllModels();
@@ -35,7 +35,9 @@ export class App extends Application {
         this.soundManager = new SoundManager();
         this.gameManager = new GameManager(this);
 
-        
+        this.soundManager.playBackground();
+        this.soundManager.playCrowd();
+
         Car.gameManager = this.gameManager;
         PeopleManager.gameManager = this.gameManager;
         
@@ -120,9 +122,4 @@ export class App extends Application {
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.querySelector('canvas');
     const mainMenu = new MainMenuManager(canvas);
-
-    
-    // const app = new App(canvas);
-    // const gui = new GUI(); // To gre stran probably
-    // gui.add(app, 'enablecamera'); // To gre stran probably
 });

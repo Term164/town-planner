@@ -11,9 +11,10 @@ export class MainMenuManager{
         this.menu_element = document.getElementById("main_menu_div");
         this.play_element = document.getElementById("main_menu_play");
         this.howto_element = document.getElementById("main_menu_howto");
-        this.options_element = document.getElementById("main_menu_options");
+        this.howto_back_element = document.getElementById("howto_back");
+        this.howto_page_element = document.getElementById("howto_div");
+        this.background_element = document.getElementById("main_menu_background");
 
-       
         this.setUpEventListeners();
 
         this.canvas = canvas;
@@ -27,8 +28,8 @@ export class MainMenuManager{
         this.openHowToPlay = this.openHowToPlay.bind(this);
         this.howto_element.addEventListener("click", this.openHowToPlay);
 
-        this.openOptions = this.openOptions.bind(this);
-        this.options_element.addEventListener("click", this.openOptions);
+        this.closeHowToPlay = this.closeHowToPlay.bind(this);
+        this.howto_back_element.addEventListener("click", this.closeHowToPlay);
 
     }
 
@@ -36,19 +37,17 @@ export class MainMenuManager{
         // MASTER FUNCTION, closes the main menu and starts the game
         // real shit!!
         this.menu_element.style.display = "none";
+        this.background_element.style.display = "none";
         const app = new App(this.canvas);
     }
 
     openHowToPlay(){
+        this.howto_page_element.style.display = "block";
+    } 
 
+    closeHowToPlay(){
+        this.howto_page_element.style.display = "none";
     }
-
-    openOptions(){
-        
-    }
-    
-
-
 
 
 

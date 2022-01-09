@@ -2,7 +2,7 @@ import { Tile } from "./Tile.js";
 
 export class Road extends Tile{
 
-    static cost = 50;
+    static cost = 25;
 
     constructor(x, y, node, type){
         super(x,y, node);

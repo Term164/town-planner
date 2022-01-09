@@ -52,8 +52,10 @@ export class PerspectiveCamera extends Node {
 
         // ZoomIn and ZoomOut keybindings
         if(this.zoomIn){
-            vec3.add(acc, acc, vec3.scale(cameraDirection, cameraDirection, this.zoomSpeed));
+            if(this.translation[1]>=20)
+                vec3.add(acc, acc, vec3.scale(cameraDirection, cameraDirection, this.zoomSpeed));
             this.zoomIn = false;
+            
         }
         if(this.zoomOut){
             vec3.sub(acc, acc, vec3.scale(cameraDirection, cameraDirection, this.zoomSpeed));
@@ -136,6 +138,7 @@ export class PerspectiveCamera extends Node {
         //document.removeEventListener('mousemove', this.mousemoveHandler);
         document.removeEventListener('keydown', this.keydownHandler);
         document.removeEventListener('keyup', this.keyupHandler);
+        document.removeEventListener('wheel', this.zoomHandler);
 
         for (let key in this.keys) {
             this.keys[key] = false;
@@ -192,6 +195,6 @@ PerspectiveCamera.defaults = {
     maxSpeed         : 100,
     friction         : 0.1,
     acceleration     : 100,
-    translation      : [150,20,150],
+    translation      : [155,20,185],
     rotation         : [-Math.PI/4,0,0]
 };
