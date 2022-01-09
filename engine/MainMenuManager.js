@@ -43,10 +43,12 @@ export class MainMenuManager{
 
     openHowToPlay(){
         this.howto_page_element.style.display = "block";
+        this.menu_element.style.display = "none";
     } 
 
     closeHowToPlay(){
         this.howto_page_element.style.display = "none";
+        this.menu_element.style.display = "block";
     }
 
 

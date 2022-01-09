@@ -1,7 +1,6 @@
 body, html {
     margin: 0;
     padding: 0;
-    /* filter: blur(4px); */
 }
 
 * {
@@ -502,7 +501,7 @@ noranjost (skoraj bela, pomemben opacity)
     position: absolute;
     left: 1.5rem;
     width: 13rem;
-    height: 15rem;
+    height: 14rem;
     background-color: rgba(204, 204, 255, 0.6); 
     padding: 0.3rem 0.3rem;
     border-style: solid;
@@ -537,7 +536,7 @@ noranjost (skoraj bela, pomemben opacity)
     position: absolute;
     left: 1.5rem;
     width: 13rem;
-    height: 14rem;
+    height: 15rem;
     background-color: rgba(204, 204, 255, 0.6); 
     padding: 0.3rem 0.3rem;
     border-style: solid;
@@ -642,7 +641,7 @@ noranjost (skoraj bela, pomemben opacity)
     position: absolute;
     left: 1.5rem;
     width: 13rem;
-    height: 8.5rem;
+    height: 9.5rem;
     background-color: rgba(204, 204, 255, 0.6); 
     padding: 0.3rem 0.3rem;
     border-style: solid;
@@ -1085,7 +1084,7 @@ noranjost (skoraj bela, pomemben opacity)
 /* ==== LOADING SCREEN ===== */
 
 #loading_screen {
-    background: black;
+   
     position:absolute;
     top:0px;
     right:0px;
@@ -1093,6 +1092,18 @@ noranjost (skoraj bela, pomemben opacity)
     left:0px;
     display: block;
     z-index: 1;
+}
+
+#loading_background{
+    position: absolute;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    left:0px;
+    background-image: url(/assets/images/Backgrounds/Screenshot_1.png);
+    background-color: #000;
+    filter: blur(4px);
+    z-index: 1;    
 }
 
 #loading_percentage {

@@ -49,6 +49,9 @@ export class PerspectiveCamera extends Node {
         if(this.keys['Space']){
             vec3.add(acc,acc,vec3.set((vec3.create()),0,1,0));
         }
+        if(this.keys['ShiftLeft']){
+            vec3.add(acc,acc,vec3.set((vec3.create()),0,-1,0));
+        }
 
         // ZoomIn and ZoomOut keybindings
         if(this.zoomIn){
@@ -80,6 +83,7 @@ export class PerspectiveCamera extends Node {
             !this.keys['KeyD'] &&
             !this.keys['KeyA'] &&
             !this.keys['Space'] &&
+            !this.keys['ShiftLeft'] &&
             !this.zoomIn &&
             !this.zoomOut)
         {

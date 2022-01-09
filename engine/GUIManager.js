@@ -77,6 +77,7 @@ export class GUIManager{
         this.loading_percentage = document.getElementById("loading_percentage_data");
         this.hint_element = document.getElementById("hint_data");
         this.loading_progress = document.getElementById("loading_progress");
+        this.loading_background = document.getElementById("loading_background");
 
         this.house_cost_element.innerHTML = this.house_cost;
         this.shop_cost_element.innerHTML = this.shop_cost;
@@ -194,6 +195,7 @@ export class GUIManager{
 
     closeLoadingScreen(){
         this.loading_screen.style.display = "none";
+        this.loading_background.style.display = "none";
     }
     
     loadPercentage(num, total){
@@ -336,7 +338,7 @@ export class GUIManager{
         this.energy_used.innerHTML = this.gameManager.criticalEnergy;
         this.income_data.innerHTML = this.gameManager.income;
         this.happiness.innerHTML = Math.floor(this.gameManager.overalHappiness * 100);
-        this.score_element.innerHTML = Math.floor(this.gameManager.pop * this.gameManager.overalHappiness);
+        this.score_element.innerHTML = Math.floor(this.gameManager.pop * this.gameManager.income * this.gameManager.overalHappiness);
         
         this.time_element.innerHTML = this.gameManager.time;
         this.day_element.innerHTML = this.gameManager.dan;
