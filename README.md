@@ -3,6 +3,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+### Contributors
 * [Term164](https://github.com/Term164)
 * [tadejSivic](https://github.com/tadejsivic)
 
