@@ -3,8 +3,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Contributors][contributors-shield]][https://github.com/Term164]
-[![Contributors][contributors-shield]][https://github.com/tadejsivic]
+* [Term164](https://github.com/Term164)
+* [tadejSivic](https://github.com/tadejsivic)
 
 Town planner is a city building/resource managment web game built with Javascript and WEBGL,
 made for a university course in computer graphics at FRI.
